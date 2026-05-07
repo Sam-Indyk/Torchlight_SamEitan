@@ -95,7 +95,7 @@ Mirroring the deck's arc.
 
 - **Null-result clause.** If we find no correlation between capsule taxa and barrier-gene downregulation, or none between microbial shifts and cytokine response, we report that and explain why (small n, inter-individual variability, modality mismatch). A negative result is a result.
 - **Causal language.** Causal phrasing is avoided where evidence is correlational. The flow diagram is a summary of correlated transitions with temporal ordering, not a causal model.
-- **AI usage.** AI tools are used for code scaffolding, literature surfacing, and prose editing. Every clinical-sounding claim is verified against the source data or published literature. No clinical recommendations are made — this is a research artifact, not medical advice.
+- **AI usage.** AI tools are used for code scaffolding, reading existing literature, and editing the prose. Every clinical-sounding claim is verified against the source data or published literature. No clinical recommendations are made, as this is a research artifact, not medical advice.
 
 ## Reproducibility
 
