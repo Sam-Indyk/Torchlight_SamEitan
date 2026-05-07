@@ -1,0 +1,101 @@
+feature,direction,phase_compared,pooled
+LysoPC(15:0),down,post_vs_pre_pooled,-2.34156092256856
+LysoPC(14:0),down,post_vs_pre_pooled,-2.10805669567388
+LysoPC(17:0),down,post_vs_pre_pooled,-2.04656423017228
+Inosine,up,post_vs_pre_pooled,2.16016237644412
+Sphingosine 1-phosphate,down,post_vs_pre_pooled,-1.90702272598213
+LysoPC(16:1),down,post_vs_pre_pooled,-1.88412608362027
+PC(P38:3),up,post_vs_pre_pooled,1.80644278540504
+FA (26:0) [M-H]-,up,post_vs_pre_pooled,1.90200586344407
+LysoPC(18:0),down,post_vs_pre_pooled,-1.70887331193255
+LysoPC(16:0),down,post_vs_pre_pooled,-1.84115577362452
+PC (38:3) [M+H]+,down,post_vs_pre_pooled,-1.60007029540714
+SM (d36:1) [M+H]+,up,post_vs_pre_pooled,1.66222879844102
+SM (d36:0) [M+H]+,up,post_vs_pre_pooled,1.60634924779098
+LysoPC(18:3),down,post_vs_pre_pooled,-1.63643262187465
+PC(42:6),down,post_vs_pre_pooled,-1.4213687853488
+LysoPC(20:1),down,post_vs_pre_pooled,-1.57919073462199
+PC(36:6),down,post_vs_pre_pooled,-1.55321265713498
+UDP,up,post_vs_pre_pooled,1.67984789828844
+LysoPC(20:0),down,post_vs_pre_pooled,-1.48411894560862
+2-Ketoisovaleric acid,down,post_vs_pre_pooled,-1.75774384679995
+C-PAF/methylCarbamyl-PAF C-16,down,post_vs_pre_pooled,-1.71497126532819
+LysoPC(18:1),down,post_vs_pre_pooled,-1.67671682167208
+Dehydroascorbic Acid,down,post_vs_pre_pooled,-1.70529113429889
+SM (d36:3) [M+H]+,up,post_vs_pre_pooled,1.43928636755034
+N-Acetylphenylalanine,down,post_vs_pre_pooled,-1.75788323966551
+PC(40:7),down,post_vs_pre_pooled,-1.48343548412117
+PC(34:5),down,post_vs_pre_pooled,-1.46989300395738
+Lyso-PAF C16,down,post_vs_pre_pooled,-1.55409226174191
+LysoPC(20:2),down,post_vs_pre_pooled,-1.43069008175091
+PC(P-40:3),up,post_vs_pre_pooled,1.45038165552713
+Hydroquinone,down,post_vs_pre_pooled,-1.4946226249756
+PC(30:0)),down,post_vs_pre_pooled,-1.54289045714835
+Proline Betaine,down,post_vs_pre_pooled,-1.72401729334166
+LysoPC(20:3),down,post_vs_pre_pooled,-1.37219249997751
+PC(34:4),down,post_vs_pre_pooled,-1.42587625986876
+2-Hydroxyisocaproic acid,up,post_vs_pre_pooled,1.66485913909614
+Pyruvate,down,post_vs_pre_pooled,-1.57646666531405
+6-Phosphogluconic Acid,up,post_vs_pre_pooled,1.37561600523377
+LysoPC(P-16:0),down,post_vs_pre_pooled,-1.44111187389759
+PA(34:1)[M-H]-,up,post_vs_pre_pooled,1.62052926971963
+Thiamine (Vit B1),up,post_vs_pre_pooled,1.47047960252901
+LysoPC(P-18:1),up,post_vs_pre_pooled,1.38939555157181
+SM(d30:1),down,post_vs_pre_pooled,-1.29017850960223
+Dihydroorotic Acid,down,post_vs_pre_pooled,-1.41741915651455
+PC(36:5),down,post_vs_pre_pooled,-1.37187377102093
+SM (d34:1) [M+H]+,up,post_vs_pre_pooled,1.2218181373163
+Cholesterol [M-H2O+H]+,up,post_vs_pre_pooled,1.40213213265888
+PC (35:3) [M+H]+,down,post_vs_pre_pooled,-1.32450830655176
+4-Pyridoxic Acid,down,post_vs_pre_pooled,-1.37190033508858
+Xanthine,up,post_vs_pre_pooled,1.45292758893889
+LysoPC(20:5),down,post_vs_pre_pooled,-1.24856278975623
+"PS(16:0/20:3(8Z,11Z,14Z))",up,post_vs_pre_pooled,1.28158747728416
+Hydroxybutyrylcarnitine,up,post_vs_pre_pooled,1.36114950656954
+Taurine,up,post_vs_pre_pooled,1.30908877758833
+4-Aminobutanoate (GABA),up,post_vs_pre_pooled,1.31789885175897
+LysoPE(18:0),down,post_vs_pre_pooled,-1.400912630909
+Pimelic Acid,down,post_vs_pre_pooled,-1.36275334231397
+SM (d38:2) [M+H]+,up,post_vs_pre_pooled,1.22575802191517
+Proline,up,post_vs_pre_pooled,1.21761772846117
+LysoPC(P-18:0),down,post_vs_pre_pooled,-1.33321365128926
+2-Arachidonoylglycerol,up,post_vs_pre_pooled,1.33592843612671
+Caffeine,down,post_vs_pre_pooled,-1.1244819282651
+Arginine,up,post_vs_pre_pooled,1.25392944528073
+Tyramine,down,post_vs_pre_pooled,-1.22674113403858
+PC(31:0),down,post_vs_pre_pooled,-1.30619177503743
+PC(34:0),up,post_vs_pre_pooled,1.0800026828661
+Trigonelline/N-Methylnicotinate,down,post_vs_pre_pooled,-1.14176592459965
+115.027@1.04_ANPNEG,down,post_vs_pre_pooled,-1.37414725632184
+Malonic Acid,up,post_vs_pre_pooled,1.46736342722365
+PC(38:8),down,post_vs_pre_pooled,-1.20656379278014
+GlcCer (d42:1) [M+Na]+,up,post_vs_pre_pooled,1.09666417942163
+"PS(16:0/18:2(9Z,12Z))",down,post_vs_pre_pooled,-1.21945940567241
+PI(36:5),down,post_vs_pre_pooled,-1.0904562231268
+GlcCer (d42:1) [M+H]+,up,post_vs_pre_pooled,1.08878006898278
+Tartaric Acid,up,post_vs_pre_pooled,1.32076619585626
+Argininosuccinic Acid,up,post_vs_pre_pooled,1.18894466340038
+Meso-Tartaric Acid,up,post_vs_pre_pooled,1.31635255071605
+PC(42:8),down,post_vs_pre_pooled,-1.16893939986831
+PC(34:3),down,post_vs_pre_pooled,-1.15644518158578
+PC(32:3),down,post_vs_pre_pooled,-1.15882019373516
+Serine,up,post_vs_pre_pooled,1.12768820715553
+Hypoxanthine,up,post_vs_pre_pooled,1.336732694489
+GlcCer (d41:1) [M+HAc-H]-,up,post_vs_pre_pooled,1.08981211937317
+Methionine  Lactamide,down,post_vs_pre_pooled,-1.29453084172279
+LPA(18:1)[M-H]-,down,post_vs_pre_pooled,-1.26733226896377
+1-Methylguanine,down,post_vs_pre_pooled,-1.00036719839161
+"PS(14:1(9Z)/22:6(4Z,7Z,10Z,13Z,16Z,19Z))",up,post_vs_pre_pooled,1.25568613553165
+Protoporphyrin,up,post_vs_pre_pooled,1.04747552022199
+Citraconic Acid,down,post_vs_pre_pooled,-1.24262009416974
+PC (o-32:0) [M+H]+,up,post_vs_pre_pooled,1.12716476277017
+GlcCer (d42:2) [M+H]+,up,post_vs_pre_pooled,1.06027112142893
+Creatine,up,post_vs_pre_pooled,1.24773478803441
+Purine,up,post_vs_pre_pooled,1.08899822111988
+PC(29:0)),down,post_vs_pre_pooled,-1.14328239584816
+Methionine,up,post_vs_pre_pooled,1.15754697946599
+SM(d36:2),up,post_vs_pre_pooled,1.17752083186416
+PC(32:2),down,post_vs_pre_pooled,-1.08283013313544
+PC(38:7),down,post_vs_pre_pooled,-1.10574449950307
+FA (20:4) [M-H]-,up,post_vs_pre_pooled,1.17659898022026
+PC(38:3),down,post_vs_pre_pooled,-1.03457832307682

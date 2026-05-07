@@ -1,0 +1,341 @@
+dataset,table,body_site,phase,feature,direction,mode
+OSD-574,spatial,,post_vs_pre,DES,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,TAGLN,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,GSN,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ACTG2,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,MYLK,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ACTA2,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,TLN1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,IGF2R,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,CNN1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,MYH11,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,LIMD1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,FLNC,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,FLNA,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,VIM,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,LMNA,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,CRKL,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,TPM2,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,PPP1R12C,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,TPM1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,DCN,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,KANK2,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,P2RX1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,NCS1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ACTC1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,SKP1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ACTN1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,DNAAF5,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,CKB,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,MYL6,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,C11orf96,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,GAS6,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,CLIC4,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,PTMS,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,SELENOM,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,RPL8,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,GYPC,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,TPM4,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ACTA1,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,PSMC2,down,pooled_DE
+OSD-574,spatial,,post_vs_pre,ZNF480,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,SCN1A,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,LMLN2,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,KIAA0895,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,H4C13,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,PRMT3,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,C11orf21,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,SERPINA10,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,CABYR,up,pooled_DE
+OSD-574,spatial,,post_vs_pre,NAV2,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(15:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(14:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(17:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Inosine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Sphingosine 1-phosphate,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(16:1),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(P38:3),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,FA (26:0) [M-H]-,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(18:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(16:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC (38:3) [M+H]+,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM (d36:1) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM (d36:0) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(18:3),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(42:6),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(20:1),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(36:6),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,UDP,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(20:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,2-Ketoisovaleric acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,C-PAF/methylCarbamyl-PAF C-16,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(18:1),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Dehydroascorbic Acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM (d36:3) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,N-Acetylphenylalanine,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(40:7),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(34:5),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Lyso-PAF C16,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(20:2),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(P-40:3),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Hydroquinone,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(30:0)),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Proline Betaine,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(20:3),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(34:4),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,2-Hydroxyisocaproic acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Pyruvate,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,6-Phosphogluconic Acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(P-16:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PA(34:1)[M-H]-,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Thiamine (Vit B1),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(P-18:1),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM(d30:1),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Dihydroorotic Acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(36:5),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM (d34:1) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Cholesterol [M-H2O+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC (35:3) [M+H]+,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,4-Pyridoxic Acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Xanthine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(20:5),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,"PS(16:0/20:3(8Z,11Z,14Z))",up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Hydroxybutyrylcarnitine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Taurine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,4-Aminobutanoate (GABA),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPE(18:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Pimelic Acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM (d38:2) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Proline,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LysoPC(P-18:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,2-Arachidonoylglycerol,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Caffeine,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Arginine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Tyramine,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(31:0),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(34:0),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Trigonelline/N-Methylnicotinate,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,115.027@1.04_ANPNEG,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Malonic Acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(38:8),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,GlcCer (d42:1) [M+Na]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,"PS(16:0/18:2(9Z,12Z))",down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PI(36:5),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,GlcCer (d42:1) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Tartaric Acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Argininosuccinic Acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Meso-Tartaric Acid,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(42:8),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(34:3),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(32:3),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Serine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Hypoxanthine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,GlcCer (d41:1) [M+HAc-H]-,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Methionine  Lactamide,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,LPA(18:1)[M-H]-,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,1-Methylguanine,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,"PS(14:1(9Z)/22:6(4Z,7Z,10Z,13Z,16Z,19Z))",up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Protoporphyrin,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Citraconic Acid,down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC (o-32:0) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,GlcCer (d42:2) [M+H]+,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Creatine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Purine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(29:0)),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,Methionine,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,SM(d36:2),up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(32:2),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(38:7),down,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,FA (20:4) [M-H]-,up,pooled_DE
+OSD-571,metabolomics,,post_vs_pre,PC(38:3),down,pooled_DE
+OSD-571,evp,,post_vs_pre,CD58,up,pooled_DE
+OSD-571,evp,,post_vs_pre,TFRC,down,pooled_DE
+OSD-571,evp,,post_vs_pre,ART4,up,pooled_DE
+OSD-571,evp,,post_vs_pre,AHCY,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FN1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,IGLV7-46,down,pooled_DE
+OSD-571,evp,,post_vs_pre,PRKACA,up,pooled_DE
+OSD-571,evp,,post_vs_pre,AK1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FCN3,up,pooled_DE
+OSD-571,evp,,post_vs_pre,IGLV7-43,down,pooled_DE
+OSD-571,evp,,post_vs_pre,FGB.1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,PSMF1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PCMT1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,EPB42,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CYBRD1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,STX7,down,pooled_DE
+OSD-571,evp,,post_vs_pre,LGALS3BP,down,pooled_DE
+OSD-571,evp,,post_vs_pre,THBS1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,FGB,down,pooled_DE
+OSD-571,evp,,post_vs_pre,CNP,up,pooled_DE
+OSD-571,evp,,post_vs_pre,TBC1D24,up,pooled_DE
+OSD-571,evp,,post_vs_pre,C1R,down,pooled_DE
+OSD-571,evp,,post_vs_pre,EPB41L2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SELENBP1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ESD,up,pooled_DE
+OSD-571,evp,,post_vs_pre,APEH,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FGG.1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,IGHV2-5,down,pooled_DE
+OSD-571,evp,,post_vs_pre,FGA,down,pooled_DE
+OSD-571,evp,,post_vs_pre,STOM,up,pooled_DE
+OSD-571,evp,,post_vs_pre,MPP1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,E9PNW4,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GDI2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SVIP,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FGG,down,pooled_DE
+OSD-571,evp,,post_vs_pre,RP2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SLC4A1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SLC2A1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAN,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GYPC,up,pooled_DE
+OSD-571,evp,,post_vs_pre,C4BPA,down,pooled_DE
+OSD-571,evp,,post_vs_pre,ARF1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CD55,up,pooled_DE
+OSD-571,evp,,post_vs_pre,USP14,up,pooled_DE
+OSD-571,evp,,post_vs_pre,AIDA,up,pooled_DE
+OSD-571,evp,,post_vs_pre,BLVRB,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ECM1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,BPGM,up,pooled_DE
+OSD-571,evp,,post_vs_pre,LTN1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PF4V1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,ANK1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GDI1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GNG5,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CA1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CAT,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PF4,down,pooled_DE
+OSD-571,evp,,post_vs_pre,RAP2B,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FTH1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,C8A,down,pooled_DE
+OSD-571,evp,,post_vs_pre,MMRN1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,UBE2V1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,LTBP1.1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,GSTO1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RHCE,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CA2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PRDX1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ALDH1A1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,LTBP1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,APOC1,down,pooled_DE
+OSD-571,evp,,post_vs_pre,RANBP1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,C4BPB,down,pooled_DE
+OSD-571,evp,,post_vs_pre,GPX1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HPRT1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SEMA7A,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PRDX6,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PEBP1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,NRGN,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CLEC3B,down,pooled_DE
+OSD-571,evp,,post_vs_pre,SUMO2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,DDI2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SELENOP,down,pooled_DE
+OSD-571,evp,,post_vs_pre,DDT,up,pooled_DE
+OSD-571,evp,,post_vs_pre,F13B,down,pooled_DE
+OSD-571,evp,,post_vs_pre,ILK,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PRDX2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,OLA1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FKBP1A,up,pooled_DE
+OSD-571,evp,,post_vs_pre,APOA4,down,pooled_DE
+OSD-571,evp,,post_vs_pre,HBA2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,S100A6,up,pooled_DE
+OSD-571,evp,,post_vs_pre,MDH1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBA1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PNP,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBG1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBG2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,MTPN,up,pooled_DE
+OSD-571,evp,,post_vs_pre,EPB41,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB14,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CAPZB.1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,SDCBP,down,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB8A,up,pooled_DE
+OSD-571,evp,,post_vs_pre,TALDO1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,VCP,up,pooled_DE
+OSD-571,evp,,post_vs_pre,FCGR3B,down,pooled_DE
+OSD-571,evp,,post_vs_pre,YWHAQ,up,pooled_DE
+OSD-571,evp,,post_vs_pre,IGKV1D-16,down,pooled_DE
+OSD-571,evp,,post_vs_pre,CAPZA2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAP2A,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GNAZ,up,pooled_DE
+OSD-571,evp,,post_vs_pre,KATNAL2,up,pooled_DE
+OSD-571,evp,,post_vs_pre,YWHAG,up,pooled_DE
+OSD-571,evp,,post_vs_pre,YWHAH,up,pooled_DE
+OSD-571,evp,,post_vs_pre,LDHB,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HLA-B.4,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RNH1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HLA-C,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ICAM3,down,pooled_DE
+OSD-571,evp,,post_vs_pre,S100A9,down,pooled_DE
+OSD-571,evp,,post_vs_pre,ACP1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,C8B,down,pooled_DE
+OSD-571,evp,,post_vs_pre,PGD,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBB,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB10,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBD,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GNG11,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB1B,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PSMA4,up,pooled_DE
+OSD-571,evp,,post_vs_pre,IGHV1-2,down,pooled_DE
+OSD-571,evp,,post_vs_pre,SNCA,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ARPC4,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GCLC,up,pooled_DE
+OSD-571,evp,,post_vs_pre,CFHR3,down,pooled_DE
+OSD-571,evp,,post_vs_pre,YWHAE,up,pooled_DE
+OSD-571,evp,,post_vs_pre,YWHAB,up,pooled_DE
+OSD-571,evp,,post_vs_pre,PRKAR1A,up,pooled_DE
+OSD-571,evp,,post_vs_pre,APOC3,down,pooled_DE
+OSD-571,evp,,post_vs_pre,CDC42,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB8B,up,pooled_DE
+OSD-571,evp,,post_vs_pre,TAOK3,up,pooled_DE
+OSD-571,evp,,post_vs_pre,MIF,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GP1BA,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HBD.1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,ABRACL,up,pooled_DE
+OSD-571,evp,,post_vs_pre,HLA-C.1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RAB13,up,pooled_DE
+OSD-571,evp,,post_vs_pre,TPI1,up,pooled_DE
+OSD-571,evp,,post_vs_pre,DBNL,up,pooled_DE
+OSD-571,evp,,post_vs_pre,KRAS,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RHOC,up,pooled_DE
+OSD-571,evp,,post_vs_pre,RHOA,up,pooled_DE
+OSD-571,evp,,post_vs_pre,GLIPR2,up,pooled_DE
+OSD-571,protein,,post_vs_pre,PF4,up,pooled_DE
+OSD-571,protein,,post_vs_pre,QPCT,down,pooled_DE
+OSD-571,protein,,post_vs_pre,TGFB1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,APP,up,pooled_DE
+OSD-571,protein,,post_vs_pre,CCN2,up,pooled_DE
+OSD-571,protein,,post_vs_pre,A2M,up,pooled_DE
+OSD-571,protein,,post_vs_pre,LTBP1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,PF4V1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,SNCA,up,pooled_DE
+OSD-571,protein,,post_vs_pre,LPL,down,pooled_DE
+OSD-571,protein,,post_vs_pre,COL4A2,down,pooled_DE
+OSD-571,protein,,post_vs_pre,PRDX2,up,pooled_DE
+OSD-571,protein,,post_vs_pre,FN1,down,pooled_DE
+OSD-571,protein,,post_vs_pre,AIDA,up,pooled_DE
+OSD-571,protein,,post_vs_pre,SPARC,up,pooled_DE
+OSD-571,protein,,post_vs_pre,FBLN5,down,pooled_DE
+OSD-571,protein,,post_vs_pre,PDGFA,up,pooled_DE
+OSD-571,protein,,post_vs_pre,FN1.1,down,pooled_DE
+OSD-571,protein,,post_vs_pre,SRGN,up,pooled_DE
+OSD-571,protein,,post_vs_pre,MMRN1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,ICAM3,down,pooled_DE
+OSD-571,protein,,post_vs_pre,CARHSP1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,AQR,down,pooled_DE
+OSD-571,protein,,post_vs_pre,AHSP,up,pooled_DE
+OSD-571,protein,,post_vs_pre,FN3K,up,pooled_DE
+OSD-571,protein,,post_vs_pre,NCF1,down,pooled_DE
+OSD-571,protein,,post_vs_pre,ABCF2,down,pooled_DE
+OSD-571,protein,,post_vs_pre,BDNF,up,pooled_DE
+OSD-571,protein,,post_vs_pre,NDST1,down,pooled_DE
+OSD-571,protein,,post_vs_pre,FBXO7,up,pooled_DE
+OSD-571,protein,,post_vs_pre,MNDA,down,pooled_DE
+OSD-571,protein,,post_vs_pre,SKP1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,CSE1L,down,pooled_DE
+OSD-571,protein,,post_vs_pre,CXCL2,up,pooled_DE
+OSD-571,protein,,post_vs_pre,RPL27,up,pooled_DE
+OSD-571,protein,,post_vs_pre,TARS1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,EIF2S1,up,pooled_DE
+OSD-571,protein,,post_vs_pre,CALU,up,pooled_DE
+OSD-571,protein,,post_vs_pre,LEAP2,down,pooled_DE
+OSD-571,protein,,post_vs_pre,FGA.1,down,pooled_DE

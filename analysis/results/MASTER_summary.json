@@ -1,0 +1,610 @@
+{
+  "generated_at": "2026-05-06T21:57:37",
+  "criteria": {
+    "per_subject_log2fc_threshold": 1.0,
+    "per_subject_concordance": "all 4 crew, same direction",
+    "pooled_DE_padj_threshold": 0.05,
+    "pooled_DE_log2fc_threshold": 1.0
+  },
+  "datasets": {
+    "OSD-572 crew skin/oral/nasal swabs": {
+      "dataset": "OSD-572",
+      "tables": {
+        "kegg": {
+          "n_features": 10537,
+          "per_site": {}
+        },
+        "taxonomy": {
+          "n_features": 18850,
+          "per_site": {}
+        },
+        "pathway": {
+          "n_features": 567,
+          "per_site": {}
+        },
+        "genefam": {
+          "n_features": 908967,
+          "per_site": {}
+        }
+      }
+    },
+    "OSD-573 dragon-capsule swabs": {
+      "dataset": "OSD-573",
+      "note": "environmental capsule swabs - not subject-stratified; excluded from per-subject 'all four crew' test",
+      "tables": {
+        "kegg": {
+          "n_features": 8364,
+          "n_introduced_during_flight": 7128,
+          "n_not_persisted_post_flight": 7128,
+          "introduced": [
+            "K00001",
+            "K00003",
+            "K00004",
+            "K00005",
+            "K00006",
+            "K00009",
+            "K00010",
+            "K00012",
+            "K00013",
+            "K00014",
+            "K00015",
+            "K00016",
+            "K00019",
+            "K00020",
+            "K00021",
+            "K00022",
+            "K00023",
+            "K00024",
+            "K00026",
+            "K00027",
+            "K00029",
+            "K00030",
+            "K00031",
+            "K00033",
+            "K00034",
+            "K00035",
+            "K00036",
+            "K00039",
+            "K00040",
+            "K00042",
+            "K00045",
+            "K00046",
+            "K00052",
+            "K00053",
+            "K00054",
+            "K00055",
+            "K00057",
+            "K00058",
+            "K00059",
+            "K00060",
+            "K00062",
+            "K00064",
+            "K00066",
+            "K00067",
+            "K00074",
+            "K00075",
+            "K00076",
+            "K00077",
+            "K00078",
+            "K00088"
+          ],
+          "not_persisted": [
+            "K00001",
+            "K00003",
+            "K00004",
+            "K00005",
+            "K00006",
+            "K00009",
+            "K00010",
+            "K00012",
+            "K00013",
+            "K00014",
+            "K00015",
+            "K00016",
+            "K00019",
+            "K00020",
+            "K00021",
+            "K00022",
+            "K00023",
+            "K00024",
+            "K00026",
+            "K00027",
+            "K00029",
+            "K00030",
+            "K00031",
+            "K00033",
+            "K00034",
+            "K00035",
+            "K00036",
+            "K00039",
+            "K00040",
+            "K00042",
+            "K00045",
+            "K00046",
+            "K00052",
+            "K00053",
+            "K00054",
+            "K00055",
+            "K00057",
+            "K00058",
+            "K00059",
+            "K00060",
+            "K00062",
+            "K00064",
+            "K00066",
+            "K00067",
+            "K00074",
+            "K00075",
+            "K00076",
+            "K00077",
+            "K00078",
+            "K00088"
+          ]
+        },
+        "taxonomy": {
+          "n_features": 8106,
+          "n_introduced_during_flight": 3585,
+          "n_not_persisted_post_flight": 3585,
+          "introduced": [
+            "100",
+            "1000566",
+            "1002691",
+            "1003181",
+            "1003195",
+            "1003237",
+            "1004279",
+            "1005039",
+            "1005048",
+            "1005703",
+            "1005742",
+            "1007104",
+            "100787",
+            "1008454",
+            "100861",
+            "1010610",
+            "101571",
+            "1016",
+            "1028384",
+            "102897",
+            "1029756",
+            "1031709",
+            "1031711",
+            "1032476",
+            "1033",
+            "1033736",
+            "1035",
+            "1035187",
+            "1035191",
+            "1036182",
+            "103733",
+            "1037362",
+            "1037409",
+            "1037660",
+            "103796",
+            "103836",
+            "1038866",
+            "1038867",
+            "1040979",
+            "1040986",
+            "1040989",
+            "104102",
+            "1042316",
+            "104259",
+            "1043206",
+            "104605",
+            "1046981",
+            "1046990",
+            "1047088",
+            "1049336"
+          ],
+          "not_persisted": [
+            "100",
+            "1000566",
+            "1002691",
+            "1003181",
+            "1003195",
+            "1003237",
+            "1004279",
+            "1005039",
+            "1005048",
+            "1005703",
+            "1005742",
+            "1007104",
+            "100787",
+            "1008454",
+            "100861",
+            "1010610",
+            "101571",
+            "1016",
+            "1028384",
+            "102897",
+            "1029756",
+            "1031709",
+            "1031711",
+            "1032476",
+            "1033",
+            "1033736",
+            "1035",
+            "1035187",
+            "1035191",
+            "1036182",
+            "103733",
+            "1037362",
+            "1037409",
+            "1037660",
+            "103796",
+            "103836",
+            "1038866",
+            "1038867",
+            "1040979",
+            "1040986",
+            "1040989",
+            "104102",
+            "1042316",
+            "104259",
+            "1043206",
+            "104605",
+            "1046981",
+            "1046990",
+            "1047088",
+            "1049336"
+          ]
+        },
+        "pathway": {
+          "n_features": 494,
+          "n_introduced_during_flight": 377,
+          "n_not_persisted_post_flight": 377,
+          "introduced": [
+            "UNMAPPED",
+            "UNINTEGRATED",
+            "12DICHLORETHDEG-PWY: 1,2-dichloroethane degradation",
+            "14DICHLORBENZDEG-PWY: 1,4-dichlorobenzene degradation",
+            "1CMET2-PWY: folate transformations III (E. coli)",
+            "ALLANTOINDEG-PWY: superpathway of allantoin degradation in yeast",
+            "ANAEROFRUCAT-PWY: homolactic fermentation",
+            "ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)",
+            "ARG+POLYAMINE-SYN: superpathway of arginine and polyamine biosynthesis",
+            "ARGININE-SYN4-PWY: L-ornithine biosynthesis II",
+            "ARGSYN-PWY: L-arginine biosynthesis I (via L-ornithine)",
+            "ARGSYNBSUB-PWY: L-arginine biosynthesis II (acetyl cycle)",
+            "ARO-PWY: chorismate biosynthesis I",
+            "ASPASN-PWY: superpathway of L-aspartate and L-asparagine biosynthesis",
+            "BIOTIN-BIOSYNTHESIS-PWY: biotin biosynthesis I",
+            "BRANCHED-CHAIN-AA-SYN-PWY: superpathway of branched chain amino acid biosynthesis",
+            "CALVIN-PWY: Calvin-Benson-Bassham cycle",
+            "CATECHOL-ORTHO-CLEAVAGE-PWY: catechol degradation to &beta;-ketoadipate",
+            "CHLOROPHYLL-SYN: 3,8-divinyl-chlorophyllide a biosynthesis I (aerobic, light-dependent)",
+            "CITRULBIO-PWY: L-citrulline biosynthesis",
+            "COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)",
+            "COA-PWY: coenzyme A biosynthesis I (prokaryotic)",
+            "COBALSYN-PWY: superpathway of adenosylcobalamin salvage from cobinamide I",
+            "COLANSYN-PWY: colanic acid building blocks biosynthesis",
+            "COMPLETE-ARO-PWY: superpathway of aromatic amino acid biosynthesis",
+            "CRNFORCAT-PWY: creatinine degradation I",
+            "DAPLYSINESYN-PWY: L-lysine biosynthesis I",
+            "DENITRIFICATION-PWY: nitrate reduction I (denitrification)",
+            "DENOVOPURINE2-PWY: superpathway of purine nucleotides de novo biosynthesis II",
+            "DTDPRHAMSYN-PWY: dTDP-&beta;-L-rhamnose biosynthesis",
+            "FAO-PWY: fatty acid &beta;-oxidation I (generic)",
+            "FASYN-ELONG-PWY: fatty acid elongation -- saturated",
+            "FERMENTATION-PWY: mixed acid fermentation",
+            "FOLSYN-PWY: superpathway of tetrahydrofolate biosynthesis and salvage",
+            "GALACTARDEG-PWY: D-galactarate degradation I",
+            "GALACTUROCAT-PWY: D-galacturonate degradation I",
+            "GLCMANNANAUT-PWY: superpathway of N-acetylglucosamine, N-acetylmannosamine and N-acetylneuraminate degradation",
+            "GLUCARDEG-PWY: D-glucarate degradation I",
+            "GLUCARGALACTSUPER-PWY: superpathway of D-glucarate and D-galactarate degradation",
+            "GLUCONEO-PWY: gluconeogenesis I",
+            "GLUCOSE1PMETAB-PWY: glucose and glucose-1-phosphate degradation",
+            "GLUCUROCAT-PWY: superpathway of &beta;-D-glucuronosides degradation",
+            "GLUDEG-I-PWY: GABA shunt",
+            "GLUTORN-PWY: L-ornithine biosynthesis I",
+            "GLYCOCAT-PWY: glycogen degradation I",
+            "GLYCOGENSYNTH-PWY: glycogen biosynthesis I (from ADP-D-Glucose)",
+            "GLYCOLYSIS-E-D: superpathway of glycolysis and the Entner-Doudoroff pathway",
+            "GLYCOLYSIS: glycolysis I (from glucose 6-phosphate)",
+            "GLYOXYLATE-BYPASS: glyoxylate cycle",
+            "GOLPDLCAT-PWY: superpathway of glycerol degradation to 1,3-propanediol"
+          ],
+          "not_persisted": [
+            "UNMAPPED",
+            "UNINTEGRATED",
+            "12DICHLORETHDEG-PWY: 1,2-dichloroethane degradation",
+            "14DICHLORBENZDEG-PWY: 1,4-dichlorobenzene degradation",
+            "1CMET2-PWY: folate transformations III (E. coli)",
+            "ALLANTOINDEG-PWY: superpathway of allantoin degradation in yeast",
+            "ANAEROFRUCAT-PWY: homolactic fermentation",
+            "ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)",
+            "ARG+POLYAMINE-SYN: superpathway of arginine and polyamine biosynthesis",
+            "ARGININE-SYN4-PWY: L-ornithine biosynthesis II",
+            "ARGSYN-PWY: L-arginine biosynthesis I (via L-ornithine)",
+            "ARGSYNBSUB-PWY: L-arginine biosynthesis II (acetyl cycle)",
+            "ARO-PWY: chorismate biosynthesis I",
+            "ASPASN-PWY: superpathway of L-aspartate and L-asparagine biosynthesis",
+            "BIOTIN-BIOSYNTHESIS-PWY: biotin biosynthesis I",
+            "BRANCHED-CHAIN-AA-SYN-PWY: superpathway of branched chain amino acid biosynthesis",
+            "CALVIN-PWY: Calvin-Benson-Bassham cycle",
+            "CATECHOL-ORTHO-CLEAVAGE-PWY: catechol degradation to &beta;-ketoadipate",
+            "CHLOROPHYLL-SYN: 3,8-divinyl-chlorophyllide a biosynthesis I (aerobic, light-dependent)",
+            "CITRULBIO-PWY: L-citrulline biosynthesis",
+            "COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)",
+            "COA-PWY: coenzyme A biosynthesis I (prokaryotic)",
+            "COBALSYN-PWY: superpathway of adenosylcobalamin salvage from cobinamide I",
+            "COLANSYN-PWY: colanic acid building blocks biosynthesis",
+            "COMPLETE-ARO-PWY: superpathway of aromatic amino acid biosynthesis",
+            "CRNFORCAT-PWY: creatinine degradation I",
+            "DAPLYSINESYN-PWY: L-lysine biosynthesis I",
+            "DENITRIFICATION-PWY: nitrate reduction I (denitrification)",
+            "DENOVOPURINE2-PWY: superpathway of purine nucleotides de novo biosynthesis II",
+            "DTDPRHAMSYN-PWY: dTDP-&beta;-L-rhamnose biosynthesis",
+            "FAO-PWY: fatty acid &beta;-oxidation I (generic)",
+            "FASYN-ELONG-PWY: fatty acid elongation -- saturated",
+            "FERMENTATION-PWY: mixed acid fermentation",
+            "FOLSYN-PWY: superpathway of tetrahydrofolate biosynthesis and salvage",
+            "GALACTARDEG-PWY: D-galactarate degradation I",
+            "GALACTUROCAT-PWY: D-galacturonate degradation I",
+            "GLCMANNANAUT-PWY: superpathway of N-acetylglucosamine, N-acetylmannosamine and N-acetylneuraminate degradation",
+            "GLUCARDEG-PWY: D-glucarate degradation I",
+            "GLUCARGALACTSUPER-PWY: superpathway of D-glucarate and D-galactarate degradation",
+            "GLUCONEO-PWY: gluconeogenesis I",
+            "GLUCOSE1PMETAB-PWY: glucose and glucose-1-phosphate degradation",
+            "GLUCUROCAT-PWY: superpathway of &beta;-D-glucuronosides degradation",
+            "GLUDEG-I-PWY: GABA shunt",
+            "GLUTORN-PWY: L-ornithine biosynthesis I",
+            "GLYCOCAT-PWY: glycogen degradation I",
+            "GLYCOGENSYNTH-PWY: glycogen biosynthesis I (from ADP-D-Glucose)",
+            "GLYCOLYSIS-E-D: superpathway of glycolysis and the Entner-Doudoroff pathway",
+            "GLYCOLYSIS: glycolysis I (from glucose 6-phosphate)",
+            "GLYOXYLATE-BYPASS: glyoxylate cycle",
+            "GOLPDLCAT-PWY: superpathway of glycerol degradation to 1,3-propanediol"
+          ]
+        },
+        "genefam": {
+          "n_features": 285821,
+          "n_introduced_during_flight": 87970,
+          "n_not_persisted_post_flight": 87970,
+          "introduced": [
+            "UNMAPPED",
+            "UniRef90_A0A010J0Y1",
+            "UniRef90_A0A010NN51",
+            "UniRef90_A0A010NN78",
+            "UniRef90_A0A010NNI4",
+            "UniRef90_A0A010NNR3",
+            "UniRef90_A0A010NVN6",
+            "UniRef90_A0A010NVR9",
+            "UniRef90_A0A010NWV9",
+            "UniRef90_A0A010Q9V8",
+            "UniRef90_A0A011NFF4",
+            "UniRef90_A0A011THE1",
+            "UniRef90_A0A011TK93",
+            "UniRef90_A0A011U6K4",
+            "UniRef90_A0A011UUN7",
+            "UniRef90_A0A011UVI2",
+            "UniRef90_A0A011UVR2",
+            "UniRef90_A0A011V117",
+            "UniRef90_A0A011VK30",
+            "UniRef90_A0A014NGK9",
+            "UniRef90_A0A017HBT6",
+            "UniRef90_A0A017HI66",
+            "UniRef90_A0A017HNE5",
+            "UniRef90_A0A017HPI6",
+            "UniRef90_A0A017HVE4",
+            "UniRef90_A0A021WWF0",
+            "UniRef90_A0A021WXK5",
+            "UniRef90_A0A021WYF6",
+            "UniRef90_A0A021WZ75",
+            "UniRef90_A0A021WZI9",
+            "UniRef90_A0A021X218",
+            "UniRef90_A0A021X2C9",
+            "UniRef90_A0A021X4J0",
+            "UniRef90_A0A021X8G3",
+            "UniRef90_A0A021X932",
+            "UniRef90_A0A021XBH5",
+            "UniRef90_A0A021XCU6",
+            "UniRef90_A0A021XDH0",
+            "UniRef90_A0A021XE29",
+            "UniRef90_A0A021XE48",
+            "UniRef90_A0A023I4S7",
+            "UniRef90_A0A023NS12",
+            "UniRef90_A0A023PSJ5",
+            "UniRef90_A0A023UE97",
+            "UniRef90_A0A023UFG9",
+            "UniRef90_A0A023W410",
+            "UniRef90_A0A023XB36",
+            "UniRef90_A0A023XFA0",
+            "UniRef90_A0A023XFA1",
+            "UniRef90_A0A023XGN4"
+          ],
+          "not_persisted": [
+            "UNMAPPED",
+            "UniRef90_A0A010J0Y1",
+            "UniRef90_A0A010NN51",
+            "UniRef90_A0A010NN78",
+            "UniRef90_A0A010NNI4",
+            "UniRef90_A0A010NNR3",
+            "UniRef90_A0A010NVN6",
+            "UniRef90_A0A010NVR9",
+            "UniRef90_A0A010NWV9",
+            "UniRef90_A0A010Q9V8",
+            "UniRef90_A0A011NFF4",
+            "UniRef90_A0A011THE1",
+            "UniRef90_A0A011TK93",
+            "UniRef90_A0A011U6K4",
+            "UniRef90_A0A011UUN7",
+            "UniRef90_A0A011UVI2",
+            "UniRef90_A0A011UVR2",
+            "UniRef90_A0A011V117",
+            "UniRef90_A0A011VK30",
+            "UniRef90_A0A014NGK9",
+            "UniRef90_A0A017HBT6",
+            "UniRef90_A0A017HI66",
+            "UniRef90_A0A017HNE5",
+            "UniRef90_A0A017HPI6",
+            "UniRef90_A0A017HVE4",
+            "UniRef90_A0A021WWF0",
+            "UniRef90_A0A021WXK5",
+            "UniRef90_A0A021WYF6",
+            "UniRef90_A0A021WZ75",
+            "UniRef90_A0A021WZI9",
+            "UniRef90_A0A021X218",
+            "UniRef90_A0A021X2C9",
+            "UniRef90_A0A021X4J0",
+            "UniRef90_A0A021X8G3",
+            "UniRef90_A0A021X932",
+            "UniRef90_A0A021XBH5",
+            "UniRef90_A0A021XCU6",
+            "UniRef90_A0A021XDH0",
+            "UniRef90_A0A021XE29",
+            "UniRef90_A0A021XE48",
+            "UniRef90_A0A023I4S7",
+            "UniRef90_A0A023NS12",
+            "UniRef90_A0A023PSJ5",
+            "UniRef90_A0A023UE97",
+            "UniRef90_A0A023UFG9",
+            "UniRef90_A0A023W410",
+            "UniRef90_A0A023XB36",
+            "UniRef90_A0A023XFA0",
+            "UniRef90_A0A023XFA1",
+            "UniRef90_A0A023XGN4"
+          ]
+        }
+      }
+    },
+    "OSD-574 spatial skin + skin metagenomics": {
+      "dataset": "OSD-574",
+      "tables": {
+        "spatial": {
+          "mode": "pre_aggregated_DE",
+          "n_features": 2469,
+          "n_significant_pooled": 49
+        },
+        "skin_kegg": {
+          "n_features": 4452,
+          "per_site": {}
+        },
+        "skin_taxonomy": {
+          "n_features": 1497,
+          "per_site": {}
+        },
+        "skin_pathway": {
+          "n_features": 340,
+          "per_site": {}
+        },
+        "skin_genefam": {
+          "n_features": 82493,
+          "per_site": {}
+        }
+      }
+    },
+    "OSD-575 serum panels (CMP, immune Eve, immune Alamar, cardio)": {
+      "dataset": "OSD-575",
+      "tables": {
+        "metabolic": {
+          "n_features": 21,
+          "n_significant_all_4": 0
+        },
+        "immune_eve": {
+          "n_features": 71,
+          "n_significant_all_4": 0
+        },
+        "immune_alamar": {
+          "n_features": 203,
+          "n_significant_all_4": 0
+        },
+        "cardio_eve": {
+          "n_features": 9,
+          "n_significant_all_4": 0
+        }
+      }
+    },
+    "OSD-630 stool metagenomics": {
+      "dataset": "OSD-630",
+      "tables": {
+        "kegg": {
+          "n_features": 5429,
+          "during_vs_pre_significant_all_4": 0,
+          "post_vs_pre_significant_all_4": 0
+        },
+        "taxonomy": {
+          "n_features": 5049,
+          "during_vs_pre_significant_all_4": 0,
+          "post_vs_pre_significant_all_4": 0
+        },
+        "pathway": {
+          "n_features": 363,
+          "during_vs_pre_significant_all_4": 0,
+          "post_vs_pre_significant_all_4": 0
+        },
+        "genefam": {
+          "n_features": 307665,
+          "during_vs_pre_significant_all_4": 0,
+          "post_vs_pre_significant_all_4": 0
+        }
+      }
+    },
+    "OSD-656 urine multiplex": {
+      "dataset": "OSD-656",
+      "tables": {
+        "urine": {
+          "n_features": 202,
+          "n_significant_all_4": 0
+        }
+      }
+    },
+    "OSD-569 blood RNA-seq, m6A, CBC": {
+      "dataset": "OSD-569",
+      "tables": {
+        "rna_blood": {
+          "n_features": 61852,
+          "n_significant_all_4": 0
+        },
+        "m6A": {
+          "n_features": 2036780,
+          "n_significant_all_4": 0
+        },
+        "cbc": {
+          "n_features": 23,
+          "n_significant_all_4": 0
+        }
+      }
+    },
+    "OSD-570 PBMC snRNA-seq, snATAC-seq, VDJ": {
+      "dataset": "OSD-570",
+      "tables": {
+        "snrnaseq": {
+          "error": "float() argument must be a string or a real number, not 'Series'"
+        },
+        "snatacseq": {
+          "mode": "pre_aggregated_DE",
+          "n_features": 20297,
+          "n_significant_pooled": 0
+        },
+        "vdj": {
+          "mode": "per_subject_clonotype_grouping",
+          "n_features": 16,
+          "n_significant_all_4": 0
+        }
+      }
+    },
+    "OSD-571 plasma metabolomics, EVP, protein": {
+      "dataset": "OSD-571",
+      "tables": {
+        "metabolomics": {
+          "mode": "pre_aggregated_DE",
+          "n_features": 656,
+          "n_significant_pooled": 100
+        },
+        "evp": {
+          "mode": "pre_aggregated_DE",
+          "n_features": 527,
+          "n_significant_pooled": 151
+        },
+        "protein": {
+          "mode": "pre_aggregated_DE",
+          "n_features": 1765,
+          "n_significant_pooled": 40
+        }
+      }
+    }
+  }
+}
