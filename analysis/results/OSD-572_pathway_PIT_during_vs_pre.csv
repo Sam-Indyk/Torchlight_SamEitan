@@ -1,0 +1,5 @@
+feature,direction,phase_compared,C001,C002,C003,C004
+PWY-5920: superpathway of heme b biosynthesis from glycine,up,during_vs_pre,1.4027357740431678,1.2738001963039016,2.5217606812903477,26.320644894975878
+PWY-6353: purine nucleotides degradation II (aerobic),up,during_vs_pre,3.713999664817634,2.634042036621308,25.827876775720032,26.39118052996368
+PWY-6607: guanosine nucleotides degradation I,up,during_vs_pre,3.533762087932981,2.8634901657219762,25.414932962286606,23.73297569116526
+SALVADEHYPOX-PWY: adenosine nucleotides degradation II,up,during_vs_pre,4.268216904935848,2.6606782343659265,25.330216540079963,26.281172713349456

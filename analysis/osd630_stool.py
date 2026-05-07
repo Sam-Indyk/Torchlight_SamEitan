@@ -32,7 +32,7 @@ def _is_crew_column(col: str) -> bool:
 
 
 def _load(url: str) -> pd.DataFrame:
-    df = pd.read_csv(url, index_col=0, sep="\t")
+    df = pd.read_csv(url, index_col=0, sep="\t", low_memory=False)
     df = df[[c for c in df.columns if _is_crew_column(c)]]
     df = drop_uninformative(df, axis="index")
     return df
@@ -42,11 +42,15 @@ def run() -> dict:
     out = {"dataset": "OSD-630", "tables": {}}
     results_dir = ensure_results_dir()
     for name, url in URLS.items():
+        print(f"  [OSD-630] {name}: downloading...", flush=True)
         try:
             df = _load(url)
         except Exception as e:
+            print(f"  [OSD-630] {name}: ERROR {e}", flush=True)
             out["tables"][name] = {"error": str(e)}
             continue
+        print(f"  [OSD-630] {name}: {df.shape[0]} features x "
+              f"{df.shape[1]} crew samples - running tests...", flush=True)
         during_hits = find_concordant_changes(df, phase_a="during",
                                               phase_b="pre")
         post_hits   = find_concordant_changes(df, phase_a="post",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-06T21:57:37",
+  "generated_at": "2026-05-06T22:30:19",
   "criteria": {
     "per_subject_log2fc_threshold": 1.0,
     "per_subject_concordance": "all 4 crew, same direction",
@@ -12,19 +12,183 @@
       "tables": {
         "kegg": {
           "n_features": 10537,
-          "per_site": {}
+          "per_site": {
+            "ARM": {
+              "during_vs_pre": 782,
+              "post_vs_pre": 117
+            },
+            "EAR": {
+              "during_vs_pre": 31,
+              "post_vs_pre": 1
+            },
+            "GLU": {
+              "during_vs_pre": 46,
+              "post_vs_pre": 108
+            },
+            "NAC": {
+              "during_vs_pre": 0,
+              "post_vs_pre": 1
+            },
+            "NAP": {
+              "during_vs_pre": 441,
+              "post_vs_pre": 13
+            },
+            "ORC": {
+              "during_vs_pre": 13,
+              "post_vs_pre": 25
+            },
+            "PIT": {
+              "during_vs_pre": 22,
+              "post_vs_pre": 10
+            },
+            "TZO": {
+              "during_vs_pre": 23,
+              "post_vs_pre": 110
+            },
+            "UMB": {
+              "during_vs_pre": 83,
+              "post_vs_pre": 46
+            },
+            "WEB": {
+              "during_vs_pre": 255,
+              "post_vs_pre": 36
+            }
+          }
         },
         "taxonomy": {
           "n_features": 18850,
-          "per_site": {}
+          "per_site": {
+            "ARM": {
+              "during_vs_pre": 408,
+              "post_vs_pre": 158
+            },
+            "EAR": {
+              "during_vs_pre": 82,
+              "post_vs_pre": 2
+            },
+            "GLU": {
+              "during_vs_pre": 45,
+              "post_vs_pre": 42
+            },
+            "NAC": {
+              "during_vs_pre": 14,
+              "post_vs_pre": 4
+            },
+            "NAP": {
+              "during_vs_pre": 347,
+              "post_vs_pre": 11
+            },
+            "ORC": {
+              "during_vs_pre": 29,
+              "post_vs_pre": 11
+            },
+            "PIT": {
+              "during_vs_pre": 30,
+              "post_vs_pre": 7
+            },
+            "TZO": {
+              "during_vs_pre": 71,
+              "post_vs_pre": 10
+            },
+            "UMB": {
+              "during_vs_pre": 30,
+              "post_vs_pre": 23
+            },
+            "WEB": {
+              "during_vs_pre": 257,
+              "post_vs_pre": 32
+            }
+          }
         },
         "pathway": {
           "n_features": 567,
-          "per_site": {}
+          "per_site": {
+            "ARM": {
+              "during_vs_pre": 26,
+              "post_vs_pre": 30
+            },
+            "EAR": {
+              "during_vs_pre": 11,
+              "post_vs_pre": 0
+            },
+            "GLU": {
+              "during_vs_pre": 5,
+              "post_vs_pre": 3
+            },
+            "NAC": {
+              "during_vs_pre": 0,
+              "post_vs_pre": 0
+            },
+            "NAP": {
+              "during_vs_pre": 26,
+              "post_vs_pre": 5
+            },
+            "ORC": {
+              "during_vs_pre": 2,
+              "post_vs_pre": 3
+            },
+            "PIT": {
+              "during_vs_pre": 4,
+              "post_vs_pre": 1
+            },
+            "TZO": {
+              "during_vs_pre": 10,
+              "post_vs_pre": 2
+            },
+            "UMB": {
+              "during_vs_pre": 2,
+              "post_vs_pre": 0
+            },
+            "WEB": {
+              "during_vs_pre": 13,
+              "post_vs_pre": 0
+            }
+          }
         },
         "genefam": {
           "n_features": 908967,
-          "per_site": {}
+          "per_site": {
+            "ARM": {
+              "during_vs_pre": 16383,
+              "post_vs_pre": 3813
+            },
+            "EAR": {
+              "during_vs_pre": 1712,
+              "post_vs_pre": 58
+            },
+            "GLU": {
+              "during_vs_pre": 2190,
+              "post_vs_pre": 493
+            },
+            "NAC": {
+              "during_vs_pre": 19,
+              "post_vs_pre": 39
+            },
+            "NAP": {
+              "during_vs_pre": 12631,
+              "post_vs_pre": 107
+            },
+            "ORC": {
+              "during_vs_pre": 1730,
+              "post_vs_pre": 612
+            },
+            "PIT": {
+              "during_vs_pre": 1197,
+              "post_vs_pre": 208
+            },
+            "TZO": {
+              "during_vs_pre": 2800,
+              "post_vs_pre": 66
+            },
+            "UMB": {
+              "during_vs_pre": 1018,
+              "post_vs_pre": 33
+            },
+            "WEB": {
+              "during_vs_pre": 10708,
+              "post_vs_pre": 191
+            }
+          }
         }
       }
     },
@@ -34,439 +198,135 @@
       "tables": {
         "kegg": {
           "n_features": 8364,
-          "n_introduced_during_flight": 7128,
-          "n_not_persisted_post_flight": 7128,
-          "introduced": [
-            "K00001",
-            "K00003",
-            "K00004",
-            "K00005",
-            "K00006",
-            "K00009",
-            "K00010",
-            "K00012",
-            "K00013",
-            "K00014",
-            "K00015",
-            "K00016",
-            "K00019",
-            "K00020",
-            "K00021",
-            "K00022",
-            "K00023",
-            "K00024",
-            "K00026",
-            "K00027",
-            "K00029",
-            "K00030",
-            "K00031",
-            "K00033",
-            "K00034",
-            "K00035",
-            "K00036",
-            "K00039",
-            "K00040",
-            "K00042",
-            "K00045",
-            "K00046",
-            "K00052",
-            "K00053",
-            "K00054",
-            "K00055",
-            "K00057",
-            "K00058",
-            "K00059",
-            "K00060",
-            "K00062",
-            "K00064",
-            "K00066",
-            "K00067",
-            "K00074",
-            "K00075",
-            "K00076",
-            "K00077",
-            "K00078",
-            "K00088"
+          "samples_per_phase": {
+            "pre": 0,
+            "during": 20,
+            "post": 0
+          },
+          "n_unclassified_columns": 20,
+          "first_5_unclassified_columns": [
+            "KO_function",
+            "I4_Capsule_LM44_0",
+            "I4_Capsule_LM44_1",
+            "I4_Capsule_LM44_2",
+            "I4_Capsule_LM44_3"
           ],
-          "not_persisted": [
-            "K00001",
-            "K00003",
-            "K00004",
-            "K00005",
-            "K00006",
-            "K00009",
-            "K00010",
-            "K00012",
-            "K00013",
-            "K00014",
-            "K00015",
-            "K00016",
-            "K00019",
-            "K00020",
-            "K00021",
-            "K00022",
-            "K00023",
-            "K00024",
-            "K00026",
-            "K00027",
-            "K00029",
-            "K00030",
-            "K00031",
-            "K00033",
-            "K00034",
-            "K00035",
-            "K00036",
-            "K00039",
-            "K00040",
-            "K00042",
-            "K00045",
-            "K00046",
-            "K00052",
-            "K00053",
-            "K00054",
-            "K00055",
-            "K00057",
-            "K00058",
-            "K00059",
-            "K00060",
-            "K00062",
-            "K00064",
-            "K00066",
-            "K00067",
-            "K00074",
-            "K00075",
-            "K00076",
-            "K00077",
-            "K00078",
-            "K00088"
-          ]
+          "first_10_columns_seen": [
+            "KO_function",
+            "I4_Capsule_FD2_0",
+            "I4_Capsule_FD2_1",
+            "I4_Capsule_FD2_2",
+            "I4_Capsule_FD2_3",
+            "I4_Capsule_FD2_4",
+            "I4_Capsule_FD2_5",
+            "I4_Capsule_FD2_6",
+            "I4_Capsule_FD2_7",
+            "I4_Capsule_FD2_8"
+          ],
+          "n_introduced_during_flight": null,
+          "introduced_skipped_reason": "missing phase columns - have ['during']",
+          "n_not_persisted_post_flight": null,
+          "not_persisted_skipped_reason": "missing phase columns - have ['during']",
+          "n_detected_during_flight": 7128
         },
         "taxonomy": {
           "n_features": 8106,
-          "n_introduced_during_flight": 3585,
-          "n_not_persisted_post_flight": 3585,
-          "introduced": [
-            "100",
-            "1000566",
-            "1002691",
-            "1003181",
-            "1003195",
-            "1003237",
-            "1004279",
-            "1005039",
-            "1005048",
-            "1005703",
-            "1005742",
-            "1007104",
-            "100787",
-            "1008454",
-            "100861",
-            "1010610",
-            "101571",
-            "1016",
-            "1028384",
-            "102897",
-            "1029756",
-            "1031709",
-            "1031711",
-            "1032476",
-            "1033",
-            "1033736",
-            "1035",
-            "1035187",
-            "1035191",
-            "1036182",
-            "103733",
-            "1037362",
-            "1037409",
-            "1037660",
-            "103796",
-            "103836",
-            "1038866",
-            "1038867",
-            "1040979",
-            "1040986",
-            "1040989",
-            "104102",
-            "1042316",
-            "104259",
-            "1043206",
-            "104605",
-            "1046981",
-            "1046990",
-            "1047088",
-            "1049336"
+          "samples_per_phase": {
+            "pre": 0,
+            "during": 20,
+            "post": 0
+          },
+          "n_unclassified_columns": 26,
+          "first_5_unclassified_columns": [
+            "domain",
+            "phylum",
+            "class",
+            "order",
+            "family"
           ],
-          "not_persisted": [
-            "100",
-            "1000566",
-            "1002691",
-            "1003181",
-            "1003195",
-            "1003237",
-            "1004279",
-            "1005039",
-            "1005048",
-            "1005703",
-            "1005742",
-            "1007104",
-            "100787",
-            "1008454",
-            "100861",
-            "1010610",
-            "101571",
-            "1016",
-            "1028384",
-            "102897",
-            "1029756",
-            "1031709",
-            "1031711",
-            "1032476",
-            "1033",
-            "1033736",
-            "1035",
-            "1035187",
-            "1035191",
-            "1036182",
-            "103733",
-            "1037362",
-            "1037409",
-            "1037660",
-            "103796",
-            "103836",
-            "1038866",
-            "1038867",
-            "1040979",
-            "1040986",
-            "1040989",
-            "104102",
-            "1042316",
-            "104259",
-            "1043206",
-            "104605",
-            "1046981",
-            "1046990",
-            "1047088",
-            "1049336"
-          ]
+          "first_10_columns_seen": [
+            "domain",
+            "phylum",
+            "class",
+            "order",
+            "family",
+            "genus",
+            "species",
+            "I4_Capsule_FD2_0",
+            "I4_Capsule_FD2_1",
+            "I4_Capsule_FD2_2"
+          ],
+          "n_introduced_during_flight": null,
+          "introduced_skipped_reason": "missing phase columns - have ['during']",
+          "n_not_persisted_post_flight": null,
+          "not_persisted_skipped_reason": "missing phase columns - have ['during']",
+          "n_detected_during_flight": 3585
         },
         "pathway": {
           "n_features": 494,
-          "n_introduced_during_flight": 377,
-          "n_not_persisted_post_flight": 377,
-          "introduced": [
-            "UNMAPPED",
-            "UNINTEGRATED",
-            "12DICHLORETHDEG-PWY: 1,2-dichloroethane degradation",
-            "14DICHLORBENZDEG-PWY: 1,4-dichlorobenzene degradation",
-            "1CMET2-PWY: folate transformations III (E. coli)",
-            "ALLANTOINDEG-PWY: superpathway of allantoin degradation in yeast",
-            "ANAEROFRUCAT-PWY: homolactic fermentation",
-            "ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)",
-            "ARG+POLYAMINE-SYN: superpathway of arginine and polyamine biosynthesis",
-            "ARGININE-SYN4-PWY: L-ornithine biosynthesis II",
-            "ARGSYN-PWY: L-arginine biosynthesis I (via L-ornithine)",
-            "ARGSYNBSUB-PWY: L-arginine biosynthesis II (acetyl cycle)",
-            "ARO-PWY: chorismate biosynthesis I",
-            "ASPASN-PWY: superpathway of L-aspartate and L-asparagine biosynthesis",
-            "BIOTIN-BIOSYNTHESIS-PWY: biotin biosynthesis I",
-            "BRANCHED-CHAIN-AA-SYN-PWY: superpathway of branched chain amino acid biosynthesis",
-            "CALVIN-PWY: Calvin-Benson-Bassham cycle",
-            "CATECHOL-ORTHO-CLEAVAGE-PWY: catechol degradation to &beta;-ketoadipate",
-            "CHLOROPHYLL-SYN: 3,8-divinyl-chlorophyllide a biosynthesis I (aerobic, light-dependent)",
-            "CITRULBIO-PWY: L-citrulline biosynthesis",
-            "COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)",
-            "COA-PWY: coenzyme A biosynthesis I (prokaryotic)",
-            "COBALSYN-PWY: superpathway of adenosylcobalamin salvage from cobinamide I",
-            "COLANSYN-PWY: colanic acid building blocks biosynthesis",
-            "COMPLETE-ARO-PWY: superpathway of aromatic amino acid biosynthesis",
-            "CRNFORCAT-PWY: creatinine degradation I",
-            "DAPLYSINESYN-PWY: L-lysine biosynthesis I",
-            "DENITRIFICATION-PWY: nitrate reduction I (denitrification)",
-            "DENOVOPURINE2-PWY: superpathway of purine nucleotides de novo biosynthesis II",
-            "DTDPRHAMSYN-PWY: dTDP-&beta;-L-rhamnose biosynthesis",
-            "FAO-PWY: fatty acid &beta;-oxidation I (generic)",
-            "FASYN-ELONG-PWY: fatty acid elongation -- saturated",
-            "FERMENTATION-PWY: mixed acid fermentation",
-            "FOLSYN-PWY: superpathway of tetrahydrofolate biosynthesis and salvage",
-            "GALACTARDEG-PWY: D-galactarate degradation I",
-            "GALACTUROCAT-PWY: D-galacturonate degradation I",
-            "GLCMANNANAUT-PWY: superpathway of N-acetylglucosamine, N-acetylmannosamine and N-acetylneuraminate degradation",
-            "GLUCARDEG-PWY: D-glucarate degradation I",
-            "GLUCARGALACTSUPER-PWY: superpathway of D-glucarate and D-galactarate degradation",
-            "GLUCONEO-PWY: gluconeogenesis I",
-            "GLUCOSE1PMETAB-PWY: glucose and glucose-1-phosphate degradation",
-            "GLUCUROCAT-PWY: superpathway of &beta;-D-glucuronosides degradation",
-            "GLUDEG-I-PWY: GABA shunt",
-            "GLUTORN-PWY: L-ornithine biosynthesis I",
-            "GLYCOCAT-PWY: glycogen degradation I",
-            "GLYCOGENSYNTH-PWY: glycogen biosynthesis I (from ADP-D-Glucose)",
-            "GLYCOLYSIS-E-D: superpathway of glycolysis and the Entner-Doudoroff pathway",
-            "GLYCOLYSIS: glycolysis I (from glucose 6-phosphate)",
-            "GLYOXYLATE-BYPASS: glyoxylate cycle",
-            "GOLPDLCAT-PWY: superpathway of glycerol degradation to 1,3-propanediol"
+          "samples_per_phase": {
+            "pre": 0,
+            "during": 20,
+            "post": 0
+          },
+          "n_unclassified_columns": 19,
+          "first_5_unclassified_columns": [
+            "I4_Capsule_LM44_0_Abundance-CPM",
+            "I4_Capsule_LM44_1_Abundance-CPM",
+            "I4_Capsule_LM44_2_Abundance-CPM",
+            "I4_Capsule_LM44_3_Abundance-CPM",
+            "I4_Capsule_LM44_4_Abundance-CPM"
           ],
-          "not_persisted": [
-            "UNMAPPED",
-            "UNINTEGRATED",
-            "12DICHLORETHDEG-PWY: 1,2-dichloroethane degradation",
-            "14DICHLORBENZDEG-PWY: 1,4-dichlorobenzene degradation",
-            "1CMET2-PWY: folate transformations III (E. coli)",
-            "ALLANTOINDEG-PWY: superpathway of allantoin degradation in yeast",
-            "ANAEROFRUCAT-PWY: homolactic fermentation",
-            "ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)",
-            "ARG+POLYAMINE-SYN: superpathway of arginine and polyamine biosynthesis",
-            "ARGININE-SYN4-PWY: L-ornithine biosynthesis II",
-            "ARGSYN-PWY: L-arginine biosynthesis I (via L-ornithine)",
-            "ARGSYNBSUB-PWY: L-arginine biosynthesis II (acetyl cycle)",
-            "ARO-PWY: chorismate biosynthesis I",
-            "ASPASN-PWY: superpathway of L-aspartate and L-asparagine biosynthesis",
-            "BIOTIN-BIOSYNTHESIS-PWY: biotin biosynthesis I",
-            "BRANCHED-CHAIN-AA-SYN-PWY: superpathway of branched chain amino acid biosynthesis",
-            "CALVIN-PWY: Calvin-Benson-Bassham cycle",
-            "CATECHOL-ORTHO-CLEAVAGE-PWY: catechol degradation to &beta;-ketoadipate",
-            "CHLOROPHYLL-SYN: 3,8-divinyl-chlorophyllide a biosynthesis I (aerobic, light-dependent)",
-            "CITRULBIO-PWY: L-citrulline biosynthesis",
-            "COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)",
-            "COA-PWY: coenzyme A biosynthesis I (prokaryotic)",
-            "COBALSYN-PWY: superpathway of adenosylcobalamin salvage from cobinamide I",
-            "COLANSYN-PWY: colanic acid building blocks biosynthesis",
-            "COMPLETE-ARO-PWY: superpathway of aromatic amino acid biosynthesis",
-            "CRNFORCAT-PWY: creatinine degradation I",
-            "DAPLYSINESYN-PWY: L-lysine biosynthesis I",
-            "DENITRIFICATION-PWY: nitrate reduction I (denitrification)",
-            "DENOVOPURINE2-PWY: superpathway of purine nucleotides de novo biosynthesis II",
-            "DTDPRHAMSYN-PWY: dTDP-&beta;-L-rhamnose biosynthesis",
-            "FAO-PWY: fatty acid &beta;-oxidation I (generic)",
-            "FASYN-ELONG-PWY: fatty acid elongation -- saturated",
-            "FERMENTATION-PWY: mixed acid fermentation",
-            "FOLSYN-PWY: superpathway of tetrahydrofolate biosynthesis and salvage",
-            "GALACTARDEG-PWY: D-galactarate degradation I",
-            "GALACTUROCAT-PWY: D-galacturonate degradation I",
-            "GLCMANNANAUT-PWY: superpathway of N-acetylglucosamine, N-acetylmannosamine and N-acetylneuraminate degradation",
-            "GLUCARDEG-PWY: D-glucarate degradation I",
-            "GLUCARGALACTSUPER-PWY: superpathway of D-glucarate and D-galactarate degradation",
-            "GLUCONEO-PWY: gluconeogenesis I",
-            "GLUCOSE1PMETAB-PWY: glucose and glucose-1-phosphate degradation",
-            "GLUCUROCAT-PWY: superpathway of &beta;-D-glucuronosides degradation",
-            "GLUDEG-I-PWY: GABA shunt",
-            "GLUTORN-PWY: L-ornithine biosynthesis I",
-            "GLYCOCAT-PWY: glycogen degradation I",
-            "GLYCOGENSYNTH-PWY: glycogen biosynthesis I (from ADP-D-Glucose)",
-            "GLYCOLYSIS-E-D: superpathway of glycolysis and the Entner-Doudoroff pathway",
-            "GLYCOLYSIS: glycolysis I (from glucose 6-phosphate)",
-            "GLYOXYLATE-BYPASS: glyoxylate cycle",
-            "GOLPDLCAT-PWY: superpathway of glycerol degradation to 1,3-propanediol"
-          ]
+          "first_10_columns_seen": [
+            "I4_Capsule_FD2_0_Abundance-CPM",
+            "I4_Capsule_FD2_1_Abundance-CPM",
+            "I4_Capsule_FD2_2_Abundance-CPM",
+            "I4_Capsule_FD2_3_Abundance-CPM",
+            "I4_Capsule_FD2_4_Abundance-CPM",
+            "I4_Capsule_FD2_5_Abundance-CPM",
+            "I4_Capsule_FD2_6_Abundance-CPM",
+            "I4_Capsule_FD2_7_Abundance-CPM",
+            "I4_Capsule_FD2_8_Abundance-CPM",
+            "I4_Capsule_FD2_9_Abundance-CPM"
+          ],
+          "n_introduced_during_flight": null,
+          "introduced_skipped_reason": "missing phase columns - have ['during']",
+          "n_not_persisted_post_flight": null,
+          "not_persisted_skipped_reason": "missing phase columns - have ['during']",
+          "n_detected_during_flight": 377
         },
         "genefam": {
           "n_features": 285821,
-          "n_introduced_during_flight": 87970,
-          "n_not_persisted_post_flight": 87970,
-          "introduced": [
-            "UNMAPPED",
-            "UniRef90_A0A010J0Y1",
-            "UniRef90_A0A010NN51",
-            "UniRef90_A0A010NN78",
-            "UniRef90_A0A010NNI4",
-            "UniRef90_A0A010NNR3",
-            "UniRef90_A0A010NVN6",
-            "UniRef90_A0A010NVR9",
-            "UniRef90_A0A010NWV9",
-            "UniRef90_A0A010Q9V8",
-            "UniRef90_A0A011NFF4",
-            "UniRef90_A0A011THE1",
-            "UniRef90_A0A011TK93",
-            "UniRef90_A0A011U6K4",
-            "UniRef90_A0A011UUN7",
-            "UniRef90_A0A011UVI2",
-            "UniRef90_A0A011UVR2",
-            "UniRef90_A0A011V117",
-            "UniRef90_A0A011VK30",
-            "UniRef90_A0A014NGK9",
-            "UniRef90_A0A017HBT6",
-            "UniRef90_A0A017HI66",
-            "UniRef90_A0A017HNE5",
-            "UniRef90_A0A017HPI6",
-            "UniRef90_A0A017HVE4",
-            "UniRef90_A0A021WWF0",
-            "UniRef90_A0A021WXK5",
-            "UniRef90_A0A021WYF6",
-            "UniRef90_A0A021WZ75",
-            "UniRef90_A0A021WZI9",
-            "UniRef90_A0A021X218",
-            "UniRef90_A0A021X2C9",
-            "UniRef90_A0A021X4J0",
-            "UniRef90_A0A021X8G3",
-            "UniRef90_A0A021X932",
-            "UniRef90_A0A021XBH5",
-            "UniRef90_A0A021XCU6",
-            "UniRef90_A0A021XDH0",
-            "UniRef90_A0A021XE29",
-            "UniRef90_A0A021XE48",
-            "UniRef90_A0A023I4S7",
-            "UniRef90_A0A023NS12",
-            "UniRef90_A0A023PSJ5",
-            "UniRef90_A0A023UE97",
-            "UniRef90_A0A023UFG9",
-            "UniRef90_A0A023W410",
-            "UniRef90_A0A023XB36",
-            "UniRef90_A0A023XFA0",
-            "UniRef90_A0A023XFA1",
-            "UniRef90_A0A023XGN4"
+          "samples_per_phase": {
+            "pre": 0,
+            "during": 20,
+            "post": 0
+          },
+          "n_unclassified_columns": 19,
+          "first_5_unclassified_columns": [
+            "I4_Capsule_LM44_0_Abundance-CPM",
+            "I4_Capsule_LM44_1_Abundance-CPM",
+            "I4_Capsule_LM44_2_Abundance-CPM",
+            "I4_Capsule_LM44_3_Abundance-CPM",
+            "I4_Capsule_LM44_4_Abundance-CPM"
           ],
-          "not_persisted": [
-            "UNMAPPED",
-            "UniRef90_A0A010J0Y1",
-            "UniRef90_A0A010NN51",
-            "UniRef90_A0A010NN78",
-            "UniRef90_A0A010NNI4",
-            "UniRef90_A0A010NNR3",
-            "UniRef90_A0A010NVN6",
-            "UniRef90_A0A010NVR9",
-            "UniRef90_A0A010NWV9",
-            "UniRef90_A0A010Q9V8",
-            "UniRef90_A0A011NFF4",
-            "UniRef90_A0A011THE1",
-            "UniRef90_A0A011TK93",
-            "UniRef90_A0A011U6K4",
-            "UniRef90_A0A011UUN7",
-            "UniRef90_A0A011UVI2",
-            "UniRef90_A0A011UVR2",
-            "UniRef90_A0A011V117",
-            "UniRef90_A0A011VK30",
-            "UniRef90_A0A014NGK9",
-            "UniRef90_A0A017HBT6",
-            "UniRef90_A0A017HI66",
-            "UniRef90_A0A017HNE5",
-            "UniRef90_A0A017HPI6",
-            "UniRef90_A0A017HVE4",
-            "UniRef90_A0A021WWF0",
-            "UniRef90_A0A021WXK5",
-            "UniRef90_A0A021WYF6",
-            "UniRef90_A0A021WZ75",
-            "UniRef90_A0A021WZI9",
-            "UniRef90_A0A021X218",
-            "UniRef90_A0A021X2C9",
-            "UniRef90_A0A021X4J0",
-            "UniRef90_A0A021X8G3",
-            "UniRef90_A0A021X932",
-            "UniRef90_A0A021XBH5",
-            "UniRef90_A0A021XCU6",
-            "UniRef90_A0A021XDH0",
-            "UniRef90_A0A021XE29",
-            "UniRef90_A0A021XE48",
-            "UniRef90_A0A023I4S7",
-            "UniRef90_A0A023NS12",
-            "UniRef90_A0A023PSJ5",
-            "UniRef90_A0A023UE97",
-            "UniRef90_A0A023UFG9",
-            "UniRef90_A0A023W410",
-            "UniRef90_A0A023XB36",
-            "UniRef90_A0A023XFA0",
-            "UniRef90_A0A023XFA1",
-            "UniRef90_A0A023XGN4"
-          ]
+          "first_10_columns_seen": [
+            "I4_Capsule_FD2_0_Abundance-CPM",
+            "I4_Capsule_FD2_1_Abundance-CPM",
+            "I4_Capsule_FD2_2_Abundance-CPM",
+            "I4_Capsule_FD2_3_Abundance-CPM",
+            "I4_Capsule_FD2_4_Abundance-CPM",
+            "I4_Capsule_FD2_5_Abundance-CPM",
+            "I4_Capsule_FD2_6_Abundance-CPM",
+            "I4_Capsule_FD2_7_Abundance-CPM",
+            "I4_Capsule_FD2_8_Abundance-CPM",
+            "I4_Capsule_FD2_9_Abundance-CPM"
+          ],
+          "n_introduced_during_flight": null,
+          "introduced_skipped_reason": "missing phase columns - have ['during']",
+          "n_not_persisted_post_flight": null,
+          "not_persisted_skipped_reason": "missing phase columns - have ['during']",
+          "n_detected_during_flight": 87970
         }
       }
     },
@@ -556,11 +416,11 @@
       "tables": {
         "rna_blood": {
           "n_features": 61852,
-          "n_significant_all_4": 0
+          "n_significant_all_4": 131
         },
         "m6A": {
           "n_features": 2036780,
-          "n_significant_all_4": 0
+          "n_significant_all_4": 5760
         },
         "cbc": {
           "n_features": 23,
@@ -572,7 +432,9 @@
       "dataset": "OSD-570",
       "tables": {
         "snrnaseq": {
-          "error": "float() argument must be a string or a real number, not 'Series'"
+          "mode": "pre_aggregated_DE",
+          "n_features": 8266,
+          "n_significant_pooled": 759
         },
         "snatacseq": {
           "mode": "pre_aggregated_DE",

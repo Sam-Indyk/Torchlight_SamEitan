@@ -42,7 +42,11 @@ URLS = {
 BODY_SITES = ("ARM", "EAR", "GLU", "NAC", "NAP",
               "ORC", "PIT", "TZO", "UMB", "WEB")
 
-_SITE_RE = re.compile(r"_(ARM|EAR|GLU|NAC|NAP|ORC|PIT|TZO|UMB|WEB)\b")
+# can't use \b after the body-site code because '_Abundance-CPM' suffix
+# would put a word char on both sides; lookahead for non-alphanumeric (or
+# end-of-string) instead.
+_SITE_RE = re.compile(
+    r"_(ARM|EAR|GLU|NAC|NAP|ORC|PIT|TZO|UMB|WEB)(?![A-Za-z0-9])")
 
 
 def _site_of(col: str) -> str | None:
@@ -60,11 +64,12 @@ def _is_crew_column(col: str) -> bool:
 
 
 def _load(name: str, url: str) -> pd.DataFrame:
-    df = pd.read_csv(url, index_col=0, sep="\t")
+    # low_memory=False avoids the "Columns (0: domain) have mixed types"
+    # DtypeWarning - the index column has both bacterial-domain strings
+    # and NaN, which is fine for our purposes.
+    df = pd.read_csv(url, index_col=0, sep="\t", low_memory=False)
     # keep only crew columns we can place on the timeline
     df = df[[c for c in df.columns if _is_crew_column(c)]]
-    # drop reference-range / unnamed style rows (none expected here, but
-    # paranoia is cheap)
     df = drop_uninformative(df, axis="index")
     return df
 
@@ -73,11 +78,16 @@ def run() -> dict:
     out: dict = {"dataset": "OSD-572", "tables": {}}
     results_dir = ensure_results_dir()
     for name, url in URLS.items():
+        print(f"  [OSD-572] {name}: downloading...", flush=True)
         try:
             df = _load(name, url)
         except Exception as e:
+            print(f"  [OSD-572] {name}: ERROR {e}", flush=True)
             out["tables"][name] = {"error": str(e)}
             continue
+        print(f"  [OSD-572] {name}: loaded {df.shape[0]} features x "
+              f"{df.shape[1]} crew samples - testing per body site...",
+              flush=True)
         per_site_hits: dict[str, dict] = {}
         for site in BODY_SITES:
             cols = _columns_for_site(df, site)

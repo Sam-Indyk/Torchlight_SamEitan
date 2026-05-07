@@ -44,7 +44,7 @@ def _bin(col: str) -> str:
 
 
 def _load(url: str) -> pd.DataFrame:
-    df = pd.read_csv(url, index_col=0, sep="\t")
+    df = pd.read_csv(url, index_col=0, sep="\t", low_memory=False)
     df = drop_uninformative(df, axis="index")
     return df
 
@@ -56,37 +56,80 @@ def run() -> dict:
            "tables": {}}
     results_dir = ensure_results_dir()
     for name, url in URLS.items():
+        print(f"  [OSD-573] {name}: downloading...", flush=True)
         try:
             df = _load(url)
         except Exception as e:
+            print(f"  [OSD-573] {name}: ERROR {e}", flush=True)
             out["tables"][name] = {"error": str(e)}
             continue
         bins = {phase: [c for c in df.columns if _bin(str(c)) == phase]
                 for phase in ("pre", "during", "post")}
-        means = {p: df[cols].apply(pd.to_numeric,
-                                   errors="coerce").mean(axis=1)
-                 if cols else pd.Series(0.0, index=df.index)
-                 for p, cols in bins.items()}
-        introduced = means["during"][(means["pre"] <= 0)
-                                     & (means["during"] > 0)].index.tolist()
-        not_persisted = means["post"][(means["during"] > 0)
-                                      & (means["post"] <= 0)].index.tolist()
-        # write CSVs for traceability
-        pd.Series(introduced, name="feature").to_csv(
-            os.path.join(results_dir,
-                         f"OSD-573_{name}_introduced_during_flight.csv"),
-            index=False)
-        pd.Series(not_persisted, name="feature").to_csv(
-            os.path.join(results_dir,
-                         f"OSD-573_{name}_not_persisted_post_flight.csv"),
-            index=False)
-        out["tables"][name] = {
+        unknown_cols = [str(c) for c in df.columns if _bin(str(c)) == "unknown"]
+        n_per_phase = {p: len(cols) for p, cols in bins.items()}
+
+        # only compute means for phases that actually have columns - the
+        # previous code defaulted missing phases to 0.0 across the board,
+        # which made "introduced" and "not persisted" collapse to the
+        # same 'during > 0' filter and produced byte-identical lists.
+        means: dict[str, pd.Series] = {}
+        for p, cols in bins.items():
+            if cols:
+                means[p] = (df[cols].apply(pd.to_numeric, errors="coerce")
+                                    .mean(axis=1))
+
+        result = {
             "n_features": int(df.shape[0]),
-            "n_introduced_during_flight": len(introduced),
-            "n_not_persisted_post_flight": len(not_persisted),
-            "introduced": introduced[:50],   # truncate for memory
-            "not_persisted": not_persisted[:50],
+            "samples_per_phase": n_per_phase,
+            "n_unclassified_columns": len(unknown_cols),
+            "first_5_unclassified_columns": unknown_cols[:5],
+            "first_10_columns_seen": [str(c) for c in df.columns[:10]],
         }
+
+        # introduced-during-flight: requires both pre and during columns
+        if "pre" in means and "during" in means:
+            introduced = means["during"][
+                (means["pre"] <= 0) & (means["during"] > 0)
+            ].index.tolist()
+            pd.Series(introduced, name="feature").to_csv(
+                os.path.join(results_dir,
+                             f"OSD-573_{name}_introduced_during_flight.csv"),
+                index=False)
+            result["n_introduced_during_flight"] = len(introduced)
+            result["introduced"] = introduced[:50]
+        else:
+            result["n_introduced_during_flight"] = None
+            result["introduced_skipped_reason"] = (
+                f"missing phase columns - have {sorted(means.keys())}")
+
+        # not-persisted-post-flight: requires both during and post columns
+        if "during" in means and "post" in means:
+            not_persisted = means["post"][
+                (means["during"] > 0) & (means["post"] <= 0)
+            ].index.tolist()
+            pd.Series(not_persisted, name="feature").to_csv(
+                os.path.join(results_dir,
+                             f"OSD-573_{name}_not_persisted_post_flight.csv"),
+                index=False)
+            result["n_not_persisted_post_flight"] = len(not_persisted)
+            result["not_persisted"] = not_persisted[:50]
+        else:
+            result["n_not_persisted_post_flight"] = None
+            result["not_persisted_skipped_reason"] = (
+                f"missing phase columns - have {sorted(means.keys())}")
+
+        # always emit a "during-flight detected" list when we have during
+        # columns - the most concrete capsule-only finding regardless of
+        # whether pre/post are available
+        if "during" in means:
+            during_only = means["during"][means["during"] > 0].index.tolist()
+            pd.Series(during_only, name="feature").to_csv(
+                os.path.join(results_dir,
+                             f"OSD-573_{name}_detected_during_flight.csv"),
+                index=False)
+            result["n_detected_during_flight"] = len(during_only)
+
+        out["tables"][name] = result
     return out
 
 

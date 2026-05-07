@@ -1,0 +1,6 @@
+feature,direction,phase_compared,C001,C002,C003,C004
+GLUCUROCAT-PWY: superpathway of &beta;-D-glucuronosides degradation,up,during_vs_pre,21.96379850852072,3.0408466802269527,21.00893532020119,1.5525952865465977
+P161-PWY: acetylene degradation (anaerobic),up,during_vs_pre,1.537507812700331,2.231197055242436,1.3329606464315342,2.7016608373033906
+"P461-PWY: hexitol fermentation to lactate, formate, ethanol and acetate",up,during_vs_pre,1.2246991827794957,2.951388892508022,2.6078243476128895,3.619363640346057
+PWY0-1477: ethanolamine utilization,up,during_vs_pre,1.8769187181029416,2.231197055242436,1.3329606464315342,4.476984096713021
+PWY4LZ-257: superpathway of fermentation (Chlamydomonas reinhardtii),up,during_vs_pre,20.950797928203635,2.660854980216218,1.1625542359221013,3.1796328159424445

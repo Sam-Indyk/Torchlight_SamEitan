@@ -33,7 +33,10 @@ METAGEN_URLS = {
     "genefam":  "https://osdr.nasa.gov/geode-py/ws/studies/OSD-574/download?source=datamanager&file=GLDS-566_GMetagenomics_Gene-families-cpm_GLmetagenomics.tsv",
 }
 
-_SITE_RE = re.compile(r"_(ARM|EAR|GLU|NAC|NAP|ORC|PIT|TZO|UMB|WEB)\b")
+# lookahead for non-alphanumeric (treats '_' as a separator) - the '\b'
+# form misses 'C001_FD2_ARM_Abundance-CPM'-style columns.
+_SITE_RE = re.compile(
+    r"_(ARM|EAR|GLU|NAC|NAP|ORC|PIT|TZO|UMB|WEB)(?![A-Za-z0-9])")
 
 
 def _load_spatial() -> pd.DataFrame:
@@ -42,7 +45,7 @@ def _load_spatial() -> pd.DataFrame:
 
 
 def _load_metagen(url: str) -> pd.DataFrame:
-    df = pd.read_csv(url, index_col=0, sep="\t")
+    df = pd.read_csv(url, index_col=0, sep="\t", low_memory=False)
     df = df[[c for c in df.columns
              if parse_sample(str(c))[0] is not None
              and phase_of(parse_sample(str(c))[1]) is not None]]
@@ -74,11 +77,15 @@ def run() -> dict:
 
     # skin metagenomics (per body site)
     for name, url in METAGEN_URLS.items():
+        print(f"  [OSD-574] skin_{name}: downloading...", flush=True)
         try:
             df = _load_metagen(url)
         except Exception as e:
+            print(f"  [OSD-574] skin_{name}: ERROR {e}", flush=True)
             out["tables"][f"skin_{name}"] = {"error": str(e)}
             continue
+        print(f"  [OSD-574] skin_{name}: {df.shape[0]} features x "
+              f"{df.shape[1]} crew samples", flush=True)
         site_of = {c: (m.group(1) if (m := _SITE_RE.search(str(c)))
                        else None) for c in df.columns}
         sites = sorted({s for s in site_of.values() if s})

@@ -32,6 +32,7 @@ Output:
 """
 
 from __future__ import annotations
+import glob
 import json
 import os
 import sys
@@ -136,8 +137,29 @@ def _summary_only(dataset_result: dict) -> dict:
     return out
 
 
+def _clear_previous_results(results_dir: str) -> int:
+    """Delete prior outputs so stale per-dataset CSVs from earlier runs
+    don't pile up alongside the current run's files. Only touches files
+    we own (OSD-* and MASTER_*) - anything else the user dropped in this
+    directory is left alone."""
+    patterns = ("OSD-*.csv", "MASTER_*.csv", "MASTER_*.json")
+    removed = 0
+    for pat in patterns:
+        for path in glob.glob(os.path.join(results_dir, pat)):
+            try:
+                os.remove(path)
+                removed += 1
+            except OSError:
+                pass
+    return removed
+
+
 def run_all() -> dict:
     results_dir = ensure_results_dir()
+    n_cleared = _clear_previous_results(results_dir)
+    if n_cleared:
+        print(f"[master] cleared {n_cleared} stale output file(s) from "
+              f"{results_dir}", flush=True)
     overall = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "criteria": {

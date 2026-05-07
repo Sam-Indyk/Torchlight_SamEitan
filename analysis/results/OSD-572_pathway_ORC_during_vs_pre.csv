@@ -1,0 +1,3 @@
+feature,direction,phase_compared,C001,C002,C003,C004
+COBALSYN-PWY: superpathway of adenosylcobalamin salvage from cobinamide I,down,during_vs_pre,-1.3448139980787746,-23.953471774542844,-23.578376492296112,-24.751558615691074
+PWY-5005: biotin biosynthesis II,down,during_vs_pre,-1.4591434588022956,-23.116007726034734,-1.9700955534382947,-1.175076307697335

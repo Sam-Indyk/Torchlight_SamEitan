@@ -77,9 +77,13 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 # sample-name parsing
 # --------------------------------------------------------------------------
 
-# matches e.g. C001, C002 anywhere in the sample name
-_CREW_RE = re.compile(r"\b(C00[1-4])\b")
-# matches a timepoint token; order matters - longest first
+# matches e.g. C001, C002 anywhere in the sample name. We can't use \b
+# because '_' is a regex word character, so '\bC001\b' fails against
+# 'C001_FD2_ARM' (no boundary between '1' and '_'). Use lookarounds for
+# non-alphanumerics, which treat '_' as a separator.
+_CREW_RE = re.compile(r"(?<![A-Za-z0-9])(C00[1-4])(?![A-Za-z0-9])")
+# matches a timepoint token; order matters - longest first so 'R+194'
+# wins over 'R+1'.
 _TP_RE   = re.compile(r"(L-92|L-44|L-3|FD2|FD3|R\+194|R\+82|R\+45|R\+1)")
 
 
@@ -195,38 +199,46 @@ def find_concordant_changes(df: pd.DataFrame,
     """Return features where ALL FOUR crew show |log2(phase_a/phase_b)|
     >= threshold AND in the SAME direction.
 
-    `df` must have wide-format columns indexed by sample names that
-    parse_sample() can decode into (crew, timepoint).
+    Vectorized across features - on 900k-row gene-family tables an
+    iterrows() loop here was taking many minutes per call; numpy
+    operations on the (n_features, 4) log2FC matrix run in seconds.
     """
     groups = group_columns_by_subject_phase(df.columns)
     means = phase_means(df, groups)
 
     # require all four crew present in both phases
-    needed = [(c, phase_a) for c in CREW] + [(c, phase_b) for c in CREW]
-    missing = [n for n in needed if n not in means.columns]
-    if missing:
+    needed_a = [(c, phase_a) for c in CREW]
+    needed_b = [(c, phase_b) for c in CREW]
+    if any(n not in means.columns for n in needed_a + needed_b):
         return []
 
+    a = means.loc[:, needed_a].to_numpy(dtype=float, copy=False)
+    b = means.loc[:, needed_b].to_numpy(dtype=float, copy=False)
+    # treat negatives / NaNs as zero abundance, then add the same
+    # pseudocount to numerator and denominator
+    a = np.where(np.isfinite(a) & (a > 0), a, 0.0) + PSEUDOCOUNT
+    b = np.where(np.isfinite(b) & (b > 0), b, 0.0) + PSEUDOCOUNT
+    log2fc = np.log2(a / b)  # shape (n_features, 4)
+
+    finite    = np.all(np.isfinite(log2fc), axis=1)
+    magnitude = np.all(np.abs(log2fc) >= log2fc_threshold, axis=1)
+    all_pos   = np.all(log2fc > 0, axis=1)
+    all_neg   = np.all(log2fc < 0, axis=1)
+    keep      = finite & magnitude & (all_pos | all_neg)
+
+    if not keep.any():
+        return []
+
+    feats   = means.index[keep]
+    sub_lfc = log2fc[keep]
+    sub_dir = np.where(all_pos[keep], "up", "down")
     hits: list[FeatureCall] = []
-    for feat, row in means.iterrows():
-        log2fcs = {}
-        for c in CREW:
-            log2fcs[c] = _safe_log2fc(row[(c, phase_a)], row[(c, phase_b)])
-        vals = list(log2fcs.values())
-        if any(not np.isfinite(v) for v in vals):
-            continue
-        # all four must clear the magnitude threshold
-        if not all(abs(v) >= log2fc_threshold for v in vals):
-            continue
-        # all four must move the same direction
-        signs = {np.sign(v) for v in vals}
-        if len(signs) != 1 or 0 in signs:
-            continue
-        direction = "up" if vals[0] > 0 else "down"
+    for i, feat in enumerate(feats):
+        row = sub_lfc[i]
         hits.append(FeatureCall(
             feature=str(feat),
-            direction=direction,
-            log2fc_per_crew=log2fcs,
+            direction=str(sub_dir[i]),
+            log2fc_per_crew={CREW[j]: float(row[j]) for j in range(4)},
             phase_compared=f"{phase_a}_vs_{phase_b}",
         ))
     return hits
@@ -242,26 +254,38 @@ def find_de_significant(df: pd.DataFrame,
     spatial transcriptomics, OSD-571 proteomics/EVP, etc.) - filter to rows
     with adjusted p-value below threshold and (optionally) a fold-change
     magnitude above threshold. Returns the list of features.
+
+    Iterates row-by-row so duplicate indices (e.g. snRNA-seq lists the same
+    gene under multiple cell types) don't collapse via .loc into a Series.
     """
-    sub = df[pd.to_numeric(df[padj_col], errors="coerce") < padj_threshold]
-    if lfc_col is not None and lfc_col in sub.columns:
-        lfc = pd.to_numeric(sub[lfc_col], errors="coerce")
-        sub = sub[lfc.abs() >= lfc_threshold]
-        directions = lfc.loc[sub.index].apply(
-            lambda v: "up" if v > 0 else ("down" if v < 0 else "flat"))
-    else:
-        directions = pd.Series("unknown", index=sub.index)
-    return [
-        FeatureCall(
+    padj = pd.to_numeric(df[padj_col], errors="coerce")
+    mask = padj < padj_threshold
+    if lfc_col is not None and lfc_col in df.columns:
+        lfc = pd.to_numeric(df[lfc_col], errors="coerce")
+        mask = mask & (lfc.abs() >= lfc_threshold)
+    sub = df[mask.fillna(False)]
+
+    hits: list[FeatureCall] = []
+    for idx, row in sub.iterrows():
+        if lfc_col is not None and lfc_col in sub.columns:
+            try:
+                lfc_val = float(pd.to_numeric(row[lfc_col], errors="coerce"))
+            except (TypeError, ValueError):
+                lfc_val = float("nan")
+            direction = ("up"   if np.isfinite(lfc_val) and lfc_val > 0
+                         else "down" if np.isfinite(lfc_val) and lfc_val < 0
+                         else "flat")
+            log2fc_per_crew = {"pooled": lfc_val}
+        else:
+            direction = "unknown"
+            log2fc_per_crew = {}
+        hits.append(FeatureCall(
             feature=str(idx),
-            direction=str(directions.loc[idx]) if idx in directions.index else "unknown",
-            log2fc_per_crew={"pooled": float(pd.to_numeric(sub.loc[idx, lfc_col],
-                                                            errors="coerce"))}
-                              if lfc_col else {},
+            direction=direction,
+            log2fc_per_crew=log2fc_per_crew,
             phase_compared="post_vs_pre_pooled",
-        )
-        for idx in sub.index
-    ]
+        ))
+    return hits
 
 
 # --------------------------------------------------------------------------

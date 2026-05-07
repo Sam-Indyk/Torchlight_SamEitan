@@ -1,0 +1,6 @@
+feature,direction,phase_compared,C001,C002,C003,C004
+PWY-6185: 4-methylcatechol degradation (ortho cleavage),down,post_vs_pre,-18.59510629421824,-3.0180677307990593,-17.629045873609407,-1.4126829856983905
+PWY-7323: superpathway of GDP-mannose-derived O-antigen building blocks biosynthesis,down,post_vs_pre,-2.067802220012409,-2.204094346011539,-17.932378174932406,-21.781394801728013
+"PWY-7340: 9-cis, 11-trans-octadecadienoyl-CoA degradation (isomerase-dependent, yeast)",down,post_vs_pre,-18.243462240733862,-23.028235406553815,-19.518849700674075,-19.55840202771164
+PWY0-1337: oleate &beta;-oxidation,down,post_vs_pre,-19.460331901376904,-21.664586314148067,-19.551881584666422,-20.700531439305845
+URSIN-PWY: ureide biosynthesis,down,post_vs_pre,-18.056362526963092,-3.1607918083402917,-18.66218736918117,-19.456937905106102
