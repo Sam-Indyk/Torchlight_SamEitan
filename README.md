@@ -85,7 +85,7 @@ The signature visual is a per-crew-member microbiome → barrier → immune flow
 
 Mirroring the deck's arc.
 
-- **Hours 0–6 — Orient.** Save Colab copy. Inventory all nine datasets. Read Tierney/Park supplementary tables. Confirm dataset shapes (abundance matrix vs pre-computed differential).
+- **Hours 0–6 — Orient.** Save Colab copy. Make the README. Inventory all nine datasets. Read Tierney/Park supplementary tables. Confirm dataset shapes (abundance matrix vs pre-computed differential).
 - **Hours 6–24 — Explore.** Distributions, missingness, batch checks per dataset. No scoring yet. End with a one-page note on what's actually trustworthy in each dataset.
 - **Hours 24–48 — Build.** MVP first: one astronaut, immune + inflammation panels only, end-to-end. Then extend to all four crew members and the two secondary axes. ≥ 2 GitHub commits in this window.
 - **Hours 48–66 — Stress-test.** Recompute one score from scratch by hand. Try to break our own findings — swap astronaut labels and check whether the scoring still produces a "signal" it shouldn't. Write methods note.
