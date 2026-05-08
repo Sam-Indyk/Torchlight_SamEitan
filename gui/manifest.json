@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "mission": "Inspiration4",
+    "crew": [
+      {"id": "C001", "name": "Crew Member 1", "role": "Mission Commander"},
+      {"id": "C002", "name": "Crew Member 2", "role": "Medical Officer"},
+      {"id": "C003", "name": "Crew Member 3", "role": "Pilot"},
+      {"id": "C004", "name": "Crew Member 4", "role": "Mission Specialist"}
+    ],
+    "filter_criteria": {
+      "per_subject_log2fc_threshold": 1.0,
+      "per_subject_concordance": "all 4 crew, same direction",
+      "pooled_DE_padj_threshold": 0.05,
+      "pooled_DE_log2fc_threshold": 1.0
+    },
+    "honesty_notes": [
+      "Strict 4-of-4 concordance plus |log2FC| ≥ 1 found no concordant signal in serum cytokines (OSD-575), urine inflammation (OSD-656), stool microbiome (OSD-630), CBC clinical labs (OSD-569), snATAC-seq, or V(D)J. This is a high-bar filter; absence here likely reflects inter-individual variability rather than absence of biological effect.",
+      "Pooled DE results (OSD-570 snRNA-seq, OSD-571 plasma panels, OSD-574 spatial transcriptomics) report cohort-level changes only — no per-subject test was possible because the upstream data are pre-aggregated."
+    ]
+  },
+  "panels": [
+    {
+      "id": "microbiome",
+      "label": "Microbiome shifts: capsule → crew → barrier",
+      "intro_md": "The strongest concordant signal in the Inspiration4 data lives in the microbiome. Skin and oral swabs (OSD-572) shifted in the same direction across all four crew members at multiple body sites. Capsule-surface taxa (OSD-573) detected during flight overlap meaningfully with the crew shifts. Skin barrier transcriptomics (OSD-574) shows a downstream pooled response.",
+      "views": [
+        {
+          "id": "osd572-axillary-during",
+          "type": "per_subject_table",
+          "title": "Axillary skin (during vs pre)",
+          "csv": "analysis/results/OSD-572_taxonomy_ARM_during_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd572-toeweb-during",
+          "type": "per_subject_table",
+          "title": "Toe web space (during vs pre)",
+          "csv": "analysis/results/OSD-572_taxonomy_TZO_during_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd574-skin-barrier",
+          "type": "pooled_table",
+          "title": "Skin barrier transcriptomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-574_spatial_pooled_DE.csv",
+          "top_n": 25
+        }
+      ]
+    },
+    {
+      "id": "systemic",
+      "label": "Systemic molecular changes",
+      "intro_md": "Where the per-subject filter found cohort-concordant signal in blood and where pooled DE captured systemic changes that single-subject testing could not.",
+      "views": [
+        {
+          "id": "osd569-rna",
+          "type": "per_subject_table",
+          "title": "Whole blood RNA-seq (post vs pre)",
+          "csv": "analysis/results/OSD-569_rna_blood_post_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd570-snrna",
+          "type": "pooled_table",
+          "title": "PBMC snRNA-seq (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-570_snrnaseq_pooled_DE.csv",
+          "top_n": 25
+        },
+        {
+          "id": "osd571-metabolomics",
+          "type": "pooled_table",
+          "title": "Plasma metabolomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-571_metabolomics_pooled_DE.csv",
+          "top_n": 25
+        },
+        {
+          "id": "osd571-proteomics",
+          "type": "pooled_table",
+          "title": "Plasma proteomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-571_protein_pooled_DE.csv",
+          "top_n": 25
+        }
+      ]
+    }
+  ]
+}

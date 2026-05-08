@@ -1,0 +1,2 @@
+/* Custom Streamlit overrides. Keep this file small. */
+.stTabs [data-baseweb="tab"] { font-size: 1rem; }
