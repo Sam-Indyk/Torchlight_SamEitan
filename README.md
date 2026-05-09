@@ -2,7 +2,11 @@
 
 **Track 2 — Individualized Risk Profile.** Inspiration4 (n = 4), Torchlight Summit Biosovereignty Hackathon, May 6–9 2026.
 
-> **For judges:** the dashboard is the deliverable. Run it in three commands (next section), then open `http://localhost:8501/` and follow the tab order — Mission Overview → Individualized Risk Profile → AI · grounded in the data → Capsule → Barrier → Systemic Flow → Molecular Perturbations → Data Sources & Provenance.
+> **For judges:** the dashboard is the deliverable.
+>
+> **🚀 Easiest path:** open the live deployment (Sam, paste the URL here once Streamlit Cloud finishes the first deploy — instructions in the [Deploy](#deploy-to-streamlit-cloud) section below).
+>
+> **Local path:** three commands (next section). Open `http://localhost:8501/` and follow the tab order — Mission Overview → Individualized Risk Profile → AI · grounded in the data → Upstream Causes → Capsule → Barrier → Systemic Flow → Molecular Perturbations → Data Sources & Provenance.
 
 ---
 
@@ -34,6 +38,27 @@ Streamlit prints the URL when it starts — usually **http://localhost:8501/**.
 It also auto-opens the browser. To stop the server, press `Ctrl+C` in the terminal.
 
 > **Heads up:** `python guiv2/app.py` will *not* work — Streamlit apps must be launched through the `streamlit` CLI. If `streamlit` isn't on your PATH, use `python -m streamlit run guiv2/app.py`.
+
+### Deploy to Streamlit Cloud
+
+The repo is configured to deploy to [share.streamlit.io](https://share.streamlit.io)
+in three clicks. Streamlit Cloud auto-detects [`streamlit_app.py`](streamlit_app.py)
+at the repo root and reads dependencies from [`requirements.txt`](requirements.txt).
+
+1. Go to **[share.streamlit.io](https://share.streamlit.io)** and sign in with GitHub.
+2. Click **"New app"** → pick this repo (`Sam-Indyk/Torchlight_SamEitan`),
+   branch `main`, main file `streamlit_app.py`. Hit **Deploy**.
+3. Once the build finishes, open the deployed app's settings → **Secrets** and paste:
+   ```toml
+   [anthropic]
+   api_key = "sk-ant-..."
+   ```
+   (See [`.streamlit/secrets.example.toml`](.streamlit/secrets.example.toml).)
+   The dashboard works without this — the AI tab will simply prompt
+   visitors to paste their own key — but pasting yours once means
+   judges can use the AI features end-to-end without bringing their own key.
+4. Pin the deployed URL to the top of this README so judges land on
+   the live app, not the source.
 
 ### What if I just want to look at the data?
 

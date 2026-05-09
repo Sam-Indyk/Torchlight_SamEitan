@@ -1,0 +1,17 @@
+# Streamlit theme + behavior. Picked up automatically by both local
+# `streamlit run` and Streamlit Cloud deployments.
+
+[theme]
+primaryColor       = "#5fb1c4"
+backgroundColor    = "#ffffff"
+secondaryBackgroundColor = "#f3f7fa"
+textColor          = "#0a1f44"
+font               = "sans serif"
+
+[server]
+# Don't show the "rerun on save" + "always rerun" toolbar — keeps the
+# page chrome clean for judges.
+runOnSave = false
+
+[browser]
+gatherUsageStats = false

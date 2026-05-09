@@ -66,6 +66,12 @@
           "json": "data/dashboard_data.json"
         },
         {
+          "id": "astronaut_compare",
+          "type": "astronaut_compare",
+          "title": "Side-by-side astronaut comparison",
+          "json": "data/dashboard_data.json"
+        },
+        {
           "id": "risk_immune",
           "type": "risk_axis_panel",
           "title": "Immune Regulation",
@@ -120,9 +126,15 @@
       "intro_md": "Trace observed perturbations back toward likely root causes — proteins or molecules that microgravity, radiation, or fluid shifts most directly act on. Each cascade below is a literature-defined chain (stressor → root-cause node → intermediates → observable molecules) scored against the actual analysis output. **Hypothesis-generating, not causal proof** — n=4 cannot prove a chain; we are flagging that the observed pattern is consistent with a known upstream cause, with the cited literature doing the causal lifting.",
       "views": [
         {
+          "id": "cascade_network",
+          "type": "cascade_network",
+          "title": "Network view: stressors → root causes → match",
+          "json": "data/dashboard_data.json"
+        },
+        {
           "id": "cascades",
           "type": "cascade_panel",
-          "title": "Inferred upstream root causes",
+          "title": "Inferred upstream root causes (per-cascade detail)",
           "json": "data/dashboard_data.json"
         }
       ]

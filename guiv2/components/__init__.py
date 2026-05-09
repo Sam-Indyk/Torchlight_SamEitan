@@ -21,6 +21,8 @@ from .data_provenance   import render_data_provenance
 from .ai_narrative_panel import render_ai_narrative_panel
 from .ai_qa_box          import render_ai_qa_box
 from .cascade_panel      import render_cascade_panel
+from .cascade_network    import render_cascade_network
+from .astronaut_compare  import render_astronaut_compare
 
 RENDERERS = {
     "per_subject_table": render_per_subject_table,
@@ -36,4 +38,6 @@ RENDERERS = {
     "ai_narrative":         render_ai_narrative_panel,
     "ai_qa":                render_ai_qa_box,
     "cascade_panel":        render_cascade_panel,
+    "cascade_network":      render_cascade_network,
+    "astronaut_compare":    render_astronaut_compare,
 }

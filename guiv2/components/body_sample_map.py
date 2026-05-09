@@ -85,13 +85,29 @@ def render_body_sample_map(view: dict, manifest: dict) -> None:
     st.subheader(view["title"])
     st.markdown(view.get("intro_md") or
         "Where each sample was collected. Marker color encodes the direction "
-        "of the during-vs-pre microbiome shift; size scales with the number "
-        "of features that all four crew moved together at that body site. "
-        "Hover any dot for the per-site numbers."
+        "of the microbiome shift relative to preflight; size scales with the "
+        "number of features that all four crew moved together. **Drag the "
+        "time-machine selector below** to flip between in-flight and post-"
+        "flight phases — that switch is where the GLU and TZO body sites "
+        "get *worse* (the delayed-dysbiosis story)."
     )
 
-    site_effects = _load_site_effects()
-    svg = _build_svg(site_effects)
+    # ---- TIME-MACHINE PHASE SELECTOR -----------------------------------
+    phase = st.radio(
+        "Mission phase shown on the body map",
+        options=["preflight", "in_flight", "post_flight"],
+        index=1,  # default to in-flight (the headline shifts)
+        horizontal=True,
+        format_func=lambda p: {
+            "preflight":   "L−92 → L−3 · Preflight (baseline)",
+            "in_flight":   "FD2 → FD3 · In flight (during vs pre)",
+            "post_flight": "R+1 onward · Post flight (post vs pre)",
+        }[p],
+        key="_body_map_phase",
+    )
+
+    site_effects = _load_site_effects(phase)
+    svg = _build_svg(site_effects, phase=phase)
     # Streamlit's markdown sanitizer strips <svg> while keeping the inner
     # <text> nodes, which would render as a wall of mashed-together labels.
     # Use components.html so the SVG is iframed and rendered intact.
@@ -110,15 +126,29 @@ def render_body_sample_map(view: dict, manifest: dict) -> None:
             "% trending UP":           f"{100*eff.get('frac_up', 0):.0f}%" if n else "—",
         })
     rows.sort(key=lambda r: r["Concordant features (n)"], reverse=True)
-    st.markdown("**OSD-572 microbiome swab body sites** (sorted by signal "
-                "strength)")
+    phase_word = {"preflight": "preflight (baseline)",
+                  "in_flight": "in-flight (FD2/FD3 vs pre)",
+                  "post_flight": "post-flight (R+1+ vs pre)"}[phase]
+    st.markdown(f"**OSD-572 swab sites at {phase_word}** (sorted by signal strength)")
     st.dataframe(rows, hide_index=True, use_container_width=True)
 
-    st.caption(
-        "Axillary (PIT), forearm (ARM), and nasopharynx (NAP) carry the "
-        "strongest concordant signal during flight. The nasal cavity (NAC) "
-        "is unusually conserved — Tierney et al. note the same."
-    )
+    if phase == "in_flight":
+        caption = ("Axillary (PIT), forearm (ARM), and nasopharynx (NAP) "
+                   "carry the strongest concordant signal during flight. "
+                   "The nasal cavity (NAC) is unusually conserved — "
+                   "Tierney et al. note the same.")
+    elif phase == "post_flight":
+        caption = ("Switch from in-flight to post-flight: the gluteal "
+                   "(GLU) and toe-web zone (TZO) sites are notably "
+                   "*worse* now than during flight — the delayed-"
+                   "dysbiosis pattern in FINDINGS.md. ARM and NAP "
+                   "have largely recovered.")
+    else:
+        caption = ("Preflight is the reference state. Every "
+                   "during-vs-pre and post-vs-pre log2FC is computed "
+                   "against this phase, so all markers are gray here "
+                   "by construction.")
+    st.caption(caption)
 
     about_chart(
         chart_type="Annotated anatomical illustration (inline SVG)",
@@ -147,12 +177,25 @@ def render_body_sample_map(view: dict, manifest: dict) -> None:
 # data
 # ---------------------------------------------------------------------------
 
-def _load_site_effects() -> dict[str, dict]:
+def _load_site_effects(phase: str = "in_flight") -> dict[str, dict]:
+    """Load per-body-site effect sizes for the chosen mission phase.
+
+    phase ∈ {"preflight", "in_flight", "post_flight"}:
+      preflight   → no shifts (baseline) — every site reports n=0.
+      in_flight   → reads OSD-572_taxonomy_{site}_during_vs_pre.csv
+      post_flight → reads OSD-572_taxonomy_{site}_post_vs_pre.csv
+    """
+    if phase == "preflight":
+        return {code: {"n": 0, "mean_abs": 0.0, "frac_up": 0.0}
+                for code in SITE_LAYOUT}
+
+    suffix = ("_during_vs_pre" if phase == "in_flight"
+              else "_post_vs_pre")
     repo_root = Path(__file__).resolve().parent.parent.parent
     results = repo_root / "analysis" / "results"
     out: dict[str, dict] = {}
     for code in SITE_LAYOUT:
-        path = results / f"OSD-572_taxonomy_{code}_during_vs_pre.csv"
+        path = results / f"OSD-572_taxonomy_{code}{suffix}.csv"
         if not path.exists():
             continue
         try:
@@ -195,8 +238,11 @@ def _site_radius(eff: dict) -> float:
     return 6 + min(11, n / 32)   # cap at 17px
 
 
-def _build_svg(site_effects: dict[str, dict]) -> str:
-    """Return a complete <div><svg>...</svg></div> markdown-safe string."""
+def _build_svg(site_effects: dict[str, dict], *,
+               phase: str = "in_flight") -> str:
+    """Return a complete <div><svg>...</svg></div> markdown-safe string.
+    `phase` shows up as a banner inside the SVG so the user always knows
+    which timepoint range the markers are reporting."""
     body_paths = _body_silhouette_paths()
     site_markers, site_labels = [], []
     for code, layout in SITE_LAYOUT.items():
@@ -213,6 +259,27 @@ def _build_svg(site_effects: dict[str, dict]) -> str:
 
     # legend — placed at bottom of SVG
     legend = _build_legend()
+
+    # phase banner pinned at top-right of SVG
+    phase_label = {
+        "preflight":   "PREFLIGHT (baseline)",
+        "in_flight":   "IN FLIGHT (during vs pre)",
+        "post_flight": "POST-FLIGHT (post vs pre)",
+    }.get(phase, phase.upper())
+    phase_color = {
+        "preflight":   config.COLOR_PRIMARY,
+        "in_flight":   config.COLOR_GOLD,
+        "post_flight": config.COLOR_ICE,
+    }.get(phase, config.COLOR_PRIMARY)
+    phase_banner = (
+        f'<g transform="translate(540, 30)">'
+        f'<rect x="0" y="0" width="200" height="32" rx="6" '
+        f'fill="{phase_color}" opacity="0.94"/>'
+        f'<text x="100" y="20" text-anchor="middle" '
+        f'font-size="12" font-weight="700" letter-spacing="2" '
+        f'fill="white">{phase_label}</text>'
+        f'</g>'
+    )
 
     return f"""
 <div style="display:flex; justify-content:center; padding:6px 0 14px 0;">
@@ -288,6 +355,9 @@ def _build_svg(site_effects: dict[str, dict]) -> str:
   <!-- OSD-572 site markers + labels -->
   {''.join(site_markers)}
   {''.join(site_labels)}
+
+  <!-- phase banner -->
+  {phase_banner}
 
   <!-- legend -->
   {legend}
