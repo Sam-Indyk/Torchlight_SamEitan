@@ -141,6 +141,25 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
     # zero reference line
     fig.add_hline(y=0, line_color="#bbb", line_width=1)
 
+    # prior-cohort overlay: horizontal line at the published-prior R+1
+    # estimate, drawn only when we're showing the composite-score channel
+    # so it remains comparable to the per-astronaut trajectories.
+    overlay = axis.get("prior_cohort_overlay")
+    if overlay and channel == "scores":
+        prior_y = overlay.get("r1_score_estimate")
+        if prior_y is not None:
+            fig.add_hline(
+                y=prior_y,
+                line_dash="dash", line_color="#888",
+                annotation_text=f"Prior cohort R+1 ≈ {prior_y:+.1f} "
+                                f"({overlay.get('source', '?')})"
+                                + (" *approx*"
+                                   if overlay.get("is_approximate")
+                                   else ""),
+                annotation_position="top right",
+                annotation_font=dict(size=10, color="#666"),
+            )
+
     fig.update_layout(
         height=380,
         margin=dict(l=10, r=10, t=20, b=40),
@@ -176,6 +195,14 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
     if prior and prior.get("summary"):
         st.markdown(f"**vs. published priors ({prior.get('source', '?')}):** "
                     f"{prior['summary']}")
+    overlay = axis.get("prior_cohort_overlay")
+    if overlay and overlay.get("r1_score_estimate") is not None:
+        approx_tag = " *(approximate)*" if overlay.get("is_approximate") else ""
+        st.caption(
+            f"Reference line at R+1 = {overlay['r1_score_estimate']:+.1f} "
+            f"from {overlay.get('source', '?')}.{approx_tag}  "
+            f"_{overlay.get('method', '')}_"
+        )
 
     # --- actionable line ---------------------------------------------------
     if axis.get("actionable_line"):

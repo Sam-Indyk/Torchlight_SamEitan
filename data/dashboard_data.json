@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-09T15:51:33+00:00",
+    "generated_at": "2026-05-09T15:54:04+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -520,6 +520,13 @@
         "summary": "Compare R+1 acute-phase cytokine elevations to Tierney 2024 Inspiration-4 multi-omics cohort once supplementary tables are joined.",
         "source": "Tierney et al. 2024",
         "data": null
+      },
+      "prior_cohort_overlay": {
+        "tp": "R+1",
+        "r1_score_estimate": 1.5,
+        "source": "Tierney et al. 2024 (Inspiration-4 multi-omics)",
+        "method": "Tierney 2024 reports per-astronaut Th1/Th2/Treg cytokine shifts of approximately 1-2x preflight magnitude at R+1 across most crew. Converted to ~1.5 own-baseline SD.",
+        "is_approximate": true
       }
     },
     {
@@ -1025,6 +1032,13 @@
         "summary": "Plasma protein PF4 / TGFB1 elevation at R+1 reported in Park 2024 is consistent with the cohort-level OSD-571 finding (see analysis/results/OSD-571_protein_pooled_DE.csv).",
         "source": "Park et al. 2024",
         "data": null
+      },
+      "prior_cohort_overlay": {
+        "tp": "R+1",
+        "r1_score_estimate": 2.0,
+        "source": "Tierney et al. 2024; Park et al. 2024",
+        "method": "Tierney 2024 reports IL-6 elevations of ~2-3x baseline and TNF-alpha elevations of ~1.5-2x at R+1; Park 2024 reports concordant PF4/TGFB1 plasma elevations. Converted to ~2.0 own-baseline SD as a representative magnitude.",
+        "is_approximate": true
       }
     },
     {
@@ -1519,6 +1533,13 @@
         "source": "(pending)",
         "data": null
       },
+      "prior_cohort_overlay": {
+        "tp": "R+1",
+        "r1_score_estimate": 1.5,
+        "source": "Spaceflight DDR literature (Garrett-Bakelman 2019, Tierney 2024)",
+        "method": "DDR gene-set induction at R+1 in spaceflight cohorts typically runs ~1-2 SD above ground-control baseline. Approximate.",
+        "is_approximate": true
+      },
       "is_mock": true
     },
     {
@@ -1957,6 +1978,13 @@
         "summary": "OSD-571 LysoPC family suppression at R+1 is the classic spaceflight lipid signature reported in Tierney 2024 and aligns with this dataset.",
         "source": "Tierney et al. 2024",
         "data": null
+      },
+      "prior_cohort_overlay": {
+        "tp": "R+1",
+        "r1_score_estimate": 1.5,
+        "source": "Tierney et al. 2024",
+        "method": "Tierney 2024 reports LysoPC family suppression and TCA-cycle perturbation magnitudes consistent with ~1-2 SD post-flight deviation.",
+        "is_approximate": true
       },
       "is_cohort_level": true
     }

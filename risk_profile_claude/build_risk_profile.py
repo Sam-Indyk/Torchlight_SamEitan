@@ -43,6 +43,9 @@ import pandas as pd
 # local module for healthy-adult cytokine reference values
 import population_reference as popref
 
+# local module for prior-cohort R+1 reference points (Tierney/Park overlays)
+import published_priors as priors
+
 
 # --------------------------------------------------------------------------
 # paths and constants
@@ -739,6 +742,7 @@ def build_immune_axis() -> dict:
             "source": "Tierney et al. 2024",
             "data": None,
         },
+        "prior_cohort_overlay": priors.get("immune"),
     }
 
 
@@ -812,6 +816,7 @@ def build_inflammation_axis() -> dict:
             "source": "Park et al. 2024",
             "data": None,
         },
+        "prior_cohort_overlay": priors.get("inflammation"),
     }
 
 
@@ -856,6 +861,7 @@ def build_ddr_axis() -> dict:
             "source": "(pending)",
             "data": None,
         },
+        "prior_cohort_overlay": priors.get("ddr"),
         "is_mock": True,
     }
 
@@ -960,6 +966,7 @@ def build_mitochondrial_axis() -> dict:
             "source": "Tierney et al. 2024",
             "data": None,
         },
+        "prior_cohort_overlay": priors.get("mitochondrial"),
         "is_cohort_level": True,
     }
 
