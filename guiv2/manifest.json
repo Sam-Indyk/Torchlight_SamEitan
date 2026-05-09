@@ -34,6 +34,12 @@
           "ranking_at": "R+1"
         },
         {
+          "id": "astronaut_report_cards",
+          "type": "astronaut_report_card",
+          "title": "Per-astronaut report cards",
+          "json": "data/dashboard_data.json"
+        },
+        {
           "id": "risk_immune",
           "type": "risk_axis_panel",
           "title": "Immune Regulation",

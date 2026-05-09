@@ -13,6 +13,7 @@ from .pooled_table      import render_pooled_table
 from .risk_overview     import render_risk_overview
 from .risk_axis_panel   import render_risk_axis_panel
 from .flow_diagram      import render_flow_diagram
+from .report_card       import render_report_card
 
 RENDERERS = {
     "per_subject_table": render_per_subject_table,
@@ -20,4 +21,5 @@ RENDERERS = {
     "risk_overview":     render_risk_overview,
     "risk_axis_panel":   render_risk_axis_panel,
     "flow_diagram":      render_flow_diagram,
+    "astronaut_report_card": render_report_card,
 }
