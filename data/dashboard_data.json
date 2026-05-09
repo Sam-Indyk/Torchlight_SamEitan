@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-09T15:54:04+00:00",
+    "generated_at": "2026-05-09T18:42:25+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -2383,5 +2383,475 @@
       "capsule_to_ARM_shared_fraction": 0.8676,
       "barrier_pooled_signed_mean": -0.6642
     }
+  },
+  "cascade_inference": {
+    "method": "Each cascade in pathway_priors.py declares a set of terminal observable features and an expected direction. We scan all DE-style CSVs in analysis/results/, look up each terminal feature, and score cascades by the weighted sum of directional agreements (minus a soft penalty for disagreements). Cascades are ranked by score_ratio = score / sum_of_weights.",
+    "n_observations": 133988,
+    "cascades": [
+      {
+        "id": "m6a_remodel",
+        "name": "Cellular stress \u2192 METTL3/METTL14 \u2192 m6A RNA methylation remodeling",
+        "stressor": "microgravity + radiation (combined)",
+        "root_cause": "m6A methyltransferase complex (METTL3/METTL14) activity shift",
+        "mechanism": "Cellular stress alters METTL3/METTL14 activity, broadly remodeling N6-methyladenosine (m6A) marks across the transcriptome. m6A controls mRNA stability and translation, so a body-wide m6A shift implies coordinated post-transcriptional reprogramming. OSD-569 found 5,760 concordantly altered m6A sites at R+1 \u2014 one of the largest post-transcriptional shifts reported in any spaceflight study.",
+        "intermediate_nodes": [
+          "Cellular stress (combined)",
+          "METTL3 / METTL14 (activity shift)",
+          "Transcriptome-wide m6A pattern (remodeled)",
+          "mRNA stability + translation (rebalanced)"
+        ],
+        "evidence": "FINDINGS.md OSD-569 row: 5,760 concordant m6A modification sites altered, one of the strongest signals in the entire dataset. Wang et al. 2014 (Cell) on the m6A epitranscriptome. Liu et al. 2020 (Mol Cell) on m6A as a stress-response regulator.",
+        "confidence": "high",
+        "score": 2.0,
+        "max_possible": 1.0,
+        "score_ratio": 2.0,
+        "n_matched": 1,
+        "n_disagreed": 0,
+        "n_missing": 0,
+        "terminal_results": [
+          {
+            "feature": "enst",
+            "expected": "either",
+            "observed": "up",
+            "agreement": true,
+            "strength": 17.962,
+            "weight": 1.0,
+            "source": "OSD-569_m6A_post_vs_pre.csv"
+          }
+        ]
+      },
+      {
+        "id": "platelet_endothelial",
+        "name": "Endothelial shear stress change \u2192 platelet activation",
+        "stressor": "microgravity (cardiovascular fluid shift)",
+        "root_cause": "Endothelial mechanotransduction shift from gravity-driven flow to redistributed venous return",
+        "mechanism": "Spaceflight shifts ~2 L of fluid from the lower body to the upper torso and head. The change in shear stress on endothelial cells alters their gene-expression program and promotes platelet activation. Activated platelets release PF4, which appears in plasma proteomics.",
+        "intermediate_nodes": [
+          "Cephalad fluid shift",
+          "Endothelial shear stress (altered)",
+          "Endothelial activation",
+          "Platelet activation (PF4 release)"
+        ],
+        "evidence": "FINDINGS.md OSD-571 protein row: PF4 up (platelet factor 4 / platelet activation) confirmed. Hughson et al. 2018 (NEJM) on cephalad fluid shifts. Stenger 2017 on cardiovascular deconditioning in microgravity.",
+        "confidence": "moderate",
+        "score": 2.841,
+        "max_possible": 2.0,
+        "score_ratio": 1.42,
+        "n_matched": 3,
+        "n_disagreed": 0,
+        "n_missing": 0,
+        "terminal_results": [
+          {
+            "feature": "pf4",
+            "expected": "up",
+            "observed": "up",
+            "agreement": true,
+            "strength": 1.756,
+            "weight": 1.0,
+            "source": "OSD-571_protein_pooled_DE.csv"
+          },
+          {
+            "feature": "thbs",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.466,
+            "weight": 0.5,
+            "source": "OSD-571_evp_pooled_DE.csv"
+          },
+          {
+            "feature": "fn1",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 2.384,
+            "weight": 0.5,
+            "source": "OSD-571_evp_pooled_DE.csv"
+          }
+        ]
+      },
+      {
+        "id": "ribosome_stress",
+        "name": "Cellular stress \u2192 ATF4/eIF2\u03b1 \u2192 ribosome biogenesis suppression",
+        "stressor": "microgravity (cellular stress response)",
+        "root_cause": "Integrated stress response activation via PERK/eIF2\u03b1 phosphorylation",
+        "mechanism": "Cellular stress (microgravity-induced) phosphorylates eIF2\u03b1 via PERK, GCN2, or HRI. eIF2\u03b1-P inhibits global translation initiation and selectively up-regulates ATF4. ATF4 represses ribosomal-protein gene transcription as a stress-conservation response. PBMCs in OSD-570 show exactly this signature: massive coordinated suppression of RPL/RPS gene family across multiple cell types.",
+        "intermediate_nodes": [
+          "PERK / GCN2 (active)",
+          "eIF2\u03b1-P (elevated)",
+          "ATF4 (induced)",
+          "RPL/RPS transcription (suppressed)"
+        ],
+        "evidence": "FINDINGS.md OSD-570 row: 696 down vs 63 up in PBMC snRNA-seq, dominated by ribosomal-protein gene suppression across cell types. Pakos-Zebrucka et al. 2016 (EMBO Rep) review of the integrated stress response.",
+        "confidence": "high",
+        "score": 3.646,
+        "max_possible": 2.7,
+        "score_ratio": 1.35,
+        "n_matched": 2,
+        "n_disagreed": 0,
+        "n_missing": 1,
+        "terminal_results": [
+          {
+            "feature": "rpl",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 2.61,
+            "weight": 1.0,
+            "source": "OSD-570_snrnaseq_pooled_DE.csv"
+          },
+          {
+            "feature": "rps",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 2.682,
+            "weight": 1.0,
+            "source": "OSD-570_snrnaseq_pooled_DE.csv"
+          },
+          {
+            "feature": "atf4",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.7,
+            "source": null
+          }
+        ]
+      },
+      {
+        "id": "barrier_actin_loss",
+        "name": "Microgravity \u2192 arrector pili / vascular smooth muscle \u2192 skin barrier",
+        "stressor": "microgravity",
+        "root_cause": "Loss of dermal smooth-muscle / vascular tone",
+        "mechanism": "Microgravity removes the mechanical loading on dermal arrector-pili and vascular smooth-muscle cells. Without load, smooth-muscle markers (DES, TAGLN, ACTA2, ACTG2, MYLK, GSN) coordinately drop. The skin's mechanical scaffolding weakens, contributing to the barrier-function phenotype Park 2024 reports.",
+        "intermediate_nodes": [
+          "Mechanical loading (absent)",
+          "Smooth-muscle cell program (suppressed)",
+          "Cytoskeletal/dermal architecture (altered)"
+        ],
+        "evidence": "Park et al. 2024 (Inspiration-4 skin): smooth-muscle / cytoskeleton suppression signature in deltoid biopsies. FINDINGS.md OSD-574: 39 down vs 10 up, coherent with this cascade. Mao et al. 2018 (NPJ Microgravity) on dermal mechanotransduction.",
+        "confidence": "high",
+        "score": 6.004,
+        "max_possible": 4.9,
+        "score_ratio": 1.225,
+        "n_matched": 6,
+        "n_disagreed": 0,
+        "n_missing": 0,
+        "terminal_results": [
+          {
+            "feature": "des",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.692,
+            "weight": 1.0,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          },
+          {
+            "feature": "tagln",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.549,
+            "weight": 1.0,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          },
+          {
+            "feature": "acta2",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.294,
+            "weight": 0.9,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          },
+          {
+            "feature": "actg2",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.343,
+            "weight": 0.7,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          },
+          {
+            "feature": "mylk",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.298,
+            "weight": 0.7,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          },
+          {
+            "feature": "gsn",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.422,
+            "weight": 0.6,
+            "source": "OSD-574_spatial_pooled_DE.csv"
+          }
+        ]
+      },
+      {
+        "id": "membrane_oxidation",
+        "name": "Oxidative stress \u2192 membrane lipid peroxidation \u2192 LysoPC suppression",
+        "stressor": "radiation + microgravity (combined oxidative stress)",
+        "root_cause": "Phospholipase A2 substrate depletion via membrane lipid peroxidation",
+        "mechanism": "Healthy phospholipase A2 (PLA2) cleaves phosphatidylcholine into LysoPC + a free fatty acid. When ROS peroxidizes the PC sn-2 acyl chains first, the substrate is altered and PLA2 products are reduced. The LysoPC family (15:0, 16:0, 17:0, 18:0) drops in plasma \u2014 the canonical spaceflight lipid signature reported in Tierney 2024.",
+        "intermediate_nodes": [
+          "Membrane PC (oxidized)",
+          "Lipid peroxide (elevated)",
+          "PLA2 (substrate-depleted)"
+        ],
+        "evidence": "Tierney et al. 2024 (Inspiration-4 multi-omics): LysoPC family suppression at R+1 across the cohort. da Silveira 2020 (Cell): comparable lipid-membrane signature in twin study. Halliwell & Gutteridge (textbook) on ROS-driven membrane peroxidation chemistry.",
+        "confidence": "high",
+        "score": 2.688,
+        "max_possible": 3.0,
+        "score_ratio": 0.896,
+        "n_matched": 2,
+        "n_disagreed": 0,
+        "n_missing": 2,
+        "terminal_results": [
+          {
+            "feature": "lysopc",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 2.342,
+            "weight": 1.0,
+            "source": "OSD-571_metabolomics_pooled_DE.csv"
+          },
+          {
+            "feature": "sphingosine",
+            "expected": "down",
+            "observed": "down",
+            "agreement": true,
+            "strength": 1.907,
+            "weight": 0.7,
+            "source": "OSD-571_metabolomics_pooled_DE.csv"
+          },
+          {
+            "feature": "s1p",
+            "expected": "down",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.7,
+            "source": null
+          },
+          {
+            "feature": "sphingomyelin",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.6,
+            "source": null
+          }
+        ]
+      },
+      {
+        "id": "radiation_ros_mito",
+        "name": "Cosmic radiation \u2192 ROS \u2192 mitochondrial dysfunction \u2192 metabolic shift",
+        "stressor": "radiation",
+        "root_cause": "Electron-transport-chain (ETC complex I/III) damage from high-LET radiation",
+        "mechanism": "Galactic cosmic rays and trapped protons deposit energy on ETC complex I and III, increasing electron leak and superoxide production. ROS damages mtDNA and lipid membranes, suppressing TCA-cycle enzyme activity and fatty-acid \u03b2-oxidation. Acylcarnitines accumulate because carnitine-acyl transfer outpaces \u03b2-oxidation.",
+        "intermediate_nodes": [
+          "ETC complex I/III (damaged)",
+          "ROS (elevated)",
+          "mtDNA (oxidative damage)",
+          "TCA-cycle enzymes (suppressed)",
+          "\u03b2-oxidation (reduced flux)"
+        ],
+        "evidence": "da Silveira et al. 2020 (Cell): NASA Twins study found TCA-cycle and \u03b2-oxidation suppression after ISS exposure. Garrett-Bakelman et al. 2019 (Science): mitochondrial dysfunction signature in spaceflight cohorts. Cucinotta & Durante 2006 (Lancet Oncol) on radiation-induced ROS.",
+        "confidence": "moderate",
+        "score": 0.708,
+        "max_possible": 3.1,
+        "score_ratio": 0.228,
+        "n_matched": 1,
+        "n_disagreed": 0,
+        "n_missing": 3,
+        "terminal_results": [
+          {
+            "feature": "succinate",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.8,
+            "source": null
+          },
+          {
+            "feature": "fumarate",
+            "expected": "down",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.7,
+            "source": null
+          },
+          {
+            "feature": "acylcarnitine",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 1.0,
+            "source": null
+          },
+          {
+            "feature": "carnitine",
+            "expected": "up",
+            "observed": "up",
+            "agreement": true,
+            "strength": 1.361,
+            "weight": 0.6,
+            "source": "OSD-571_metabolomics_pooled_DE.csv"
+          }
+        ]
+      },
+      {
+        "id": "mechano_nfkb",
+        "name": "Microgravity \u2192 mechanotransduction \u2192 NF-\u03baB \u2192 cytokine cascade",
+        "stressor": "microgravity",
+        "root_cause": "YAP/TAZ mechanosensing disruption (loss of cytoskeletal tension)",
+        "mechanism": "Microgravity removes the gravitational load that normally stretches the actin cytoskeleton. Without that mechanical tension, YAP/TAZ co-activators dissociate from the nucleus and Hippo-pathway brake on NF-\u03baB is lifted. NF-\u03baB then transcribes IL-6, TNF-\u03b1, and CRP-induction signals.",
+        "intermediate_nodes": [
+          "actin cytoskeleton (decreased tension)",
+          "RhoA/ROCK pathway (suppressed)",
+          "YAP/TAZ (cytoplasmic retention)",
+          "NF-\u03baB (nuclear translocation)"
+        ],
+        "evidence": "Versari et al. 2013 (FASEB J): cytoskeletal disruption in microgravity \u2192 NF-\u03baB activation in endothelial cells. Crawford-Young 2006 (Int J Dev Biol): comprehensive review of microgravity mechanotransduction effects.",
+        "confidence": "moderate",
+        "score": 0.545,
+        "max_possible": 4.0,
+        "score_ratio": 0.136,
+        "n_matched": 1,
+        "n_disagreed": 1,
+        "n_missing": 3,
+        "terminal_results": [
+          {
+            "feature": "il_6",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 1.0,
+            "source": null
+          },
+          {
+            "feature": "tnf",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 1.0,
+            "source": null
+          },
+          {
+            "feature": "crp",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.9,
+            "source": null
+          },
+          {
+            "feature": "tgfb",
+            "expected": "up",
+            "observed": "up",
+            "agreement": true,
+            "strength": 1.483,
+            "weight": 0.6,
+            "source": "OSD-571_protein_pooled_DE.csv"
+          },
+          {
+            "feature": "pf4",
+            "expected": "up",
+            "observed": "down",
+            "agreement": false,
+            "strength": 2.823,
+            "weight": 0.5,
+            "source": "OSD-571_evp_pooled_DE.csv"
+          }
+        ]
+      },
+      {
+        "id": "ddr_radiation",
+        "name": "Cosmic radiation \u2192 DNA double-strand breaks \u2192 ATM/ATR activation",
+        "stressor": "radiation",
+        "root_cause": "High-LET radiation-induced DNA double-strand breaks",
+        "mechanism": "GCRs and SPE protons cause DNA strand breaks in actively dividing cells. ATM phosphorylates H2AX (\u03b3H2AX foci), recruiting BRCA1/2 and the homologous-recombination machinery. p53 is activated, inducing GADD45A and cell-cycle arrest. The whole cassette of canonical DDR genes (ATM, ATR, BRCA1/2, TP53, H2AFX, RAD51, GADD45A, XRCC) would be elevated post-flight.",
+        "intermediate_nodes": [
+          "DNA double-strand breaks",
+          "ATM / ATR (active)",
+          "\u03b3H2AX (phosphorylated)",
+          "p53 (stabilized)",
+          "DDR transcriptional program (induced)"
+        ],
+        "evidence": "Garrett-Bakelman et al. 2019 (Science): DDR signature in NASA Twins blood RNA-seq. Cucinotta & Durante 2006 on high-LET radiation biology. Pending Ensembl-to-symbol mapping in our pipeline (FINDINGS.md issue #3) before this cascade can be matched against real data.",
+        "confidence": "expected (currently unmatchable: see DDR axis)",
+        "score": 0.0,
+        "max_possible": 4.2,
+        "score_ratio": 0.0,
+        "n_matched": 0,
+        "n_disagreed": 0,
+        "n_missing": 5,
+        "terminal_results": [
+          {
+            "feature": "atm",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 1.0,
+            "source": null
+          },
+          {
+            "feature": "tp53",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 1.0,
+            "source": null
+          },
+          {
+            "feature": "brca",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.8,
+            "source": null
+          },
+          {
+            "feature": "h2afx",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.7,
+            "source": null
+          },
+          {
+            "feature": "gadd45",
+            "expected": "up",
+            "observed": null,
+            "agreement": null,
+            "strength": 0.0,
+            "weight": 0.7,
+            "source": null
+          }
+        ]
+      }
+    ],
+    "honesty_note": "These are HYPOTHESIS-GENERATING. n = 4 cannot prove a causal chain; we are flagging that the observed terminal pattern is consistent with a known upstream cause. The actual root-cause attribution is supported by the cited literature, not by this dataset."
   }
 }

@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2._plotly_theme import apply_clean_theme
 from guiv2.components._chart_about import about_chart
 
 
@@ -183,4 +184,5 @@ def _make_timeline(timepoints, pre, during, post) -> go.Figure:
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
     )
+    apply_clean_theme(fig)
     return fig

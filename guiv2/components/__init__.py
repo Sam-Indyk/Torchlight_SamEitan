@@ -20,6 +20,7 @@ from .body_sample_map   import render_body_sample_map
 from .data_provenance   import render_data_provenance
 from .ai_narrative_panel import render_ai_narrative_panel
 from .ai_qa_box          import render_ai_qa_box
+from .cascade_panel      import render_cascade_panel
 
 RENDERERS = {
     "per_subject_table": render_per_subject_table,
@@ -34,4 +35,5 @@ RENDERERS = {
     "data_provenance":      render_data_provenance,
     "ai_narrative":         render_ai_narrative_panel,
     "ai_qa":                render_ai_qa_box,
+    "cascade_panel":        render_cascade_panel,
 }

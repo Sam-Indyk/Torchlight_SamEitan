@@ -15,6 +15,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2._plotly_theme import apply_clean_theme
 from guiv2.components._chart_about import about_chart
 
 
@@ -134,6 +135,7 @@ def _render_one_sankey(graph: dict, legend: dict) -> None:
         margin=dict(l=10, r=10, t=10, b=10),
         font=dict(size=12),
     )
+    apply_clean_theme(fig, transparent=False)
     st.plotly_chart(fig, use_container_width=True)
 
     if legend:

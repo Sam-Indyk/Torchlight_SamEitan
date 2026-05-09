@@ -13,6 +13,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2._plotly_theme import apply_clean_theme
 from guiv2.components._chart_about import about_chart
 
 
@@ -94,6 +95,7 @@ def render_risk_overview(view: dict, manifest: dict) -> None:
     fig.update_yaxes(tickfont=dict(size=10), zeroline=False,
                      title=dict(text="SDs from preflight",
                                 font=dict(size=10)))
+    apply_clean_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
 
     about_chart(

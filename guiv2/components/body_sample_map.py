@@ -17,6 +17,7 @@ from pathlib import Path
 import html as _html
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 from guiv2 import config
 from guiv2.components._chart_about import about_chart
@@ -91,7 +92,10 @@ def render_body_sample_map(view: dict, manifest: dict) -> None:
 
     site_effects = _load_site_effects()
     svg = _build_svg(site_effects)
-    st.markdown(svg, unsafe_allow_html=True)
+    # Streamlit's markdown sanitizer strips <svg> while keeping the inner
+    # <text> nodes, which would render as a wall of mashed-together labels.
+    # Use components.html so the SVG is iframed and rendered intact.
+    components.html(svg, height=1340, scrolling=False)
 
     # ---- companion table -------------------------------------------------
     rows = []

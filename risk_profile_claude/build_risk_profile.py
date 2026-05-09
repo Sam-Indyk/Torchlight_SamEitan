@@ -46,6 +46,9 @@ import population_reference as popref
 # local module for prior-cohort R+1 reference points (Tierney/Park overlays)
 import published_priors as priors
 
+# local module for cascade -> upstream-cause inference
+import cascade_inference
+
 
 # --------------------------------------------------------------------------
 # paths and constants
@@ -1363,7 +1366,7 @@ def build(mock_only: bool) -> dict:
             build_mitochondrial_axis(),
         ]
 
-    return {
+    payload = {
         "metadata": metadata,
         "astronauts": astronauts,
         "axes": axes,
@@ -1371,6 +1374,15 @@ def build(mock_only: bool) -> dict:
                                                                   ALL_TPS),
         "flow_diagram": build_real_flow_diagram(axes),
     }
+    # Cascade inference: score literature-derived upstream causes against
+    # the observed concordant perturbations. Skipped in --mock-only since
+    # it relies on the real analysis/results/ CSVs.
+    if not mock_only:
+        try:
+            payload["cascade_inference"] = cascade_inference.run()
+        except Exception as e:
+            payload["cascade_inference"] = {"error": str(e)}
+    return payload
 
 
 def compute_multi_system_deviation(axes_built: list[dict],

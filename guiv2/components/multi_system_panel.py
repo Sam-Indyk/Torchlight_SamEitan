@@ -16,6 +16,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2._plotly_theme import apply_clean_theme
 from guiv2.components._chart_about import about_chart
 
 
@@ -86,6 +87,7 @@ def render_multi_system_panel(view: dict, manifest: dict) -> None:
                     xanchor="right", x=1),
         hovermode="x unified",
     )
+    apply_clean_theme(fig)
     st.plotly_chart(fig, use_container_width=True)
 
     about_chart(
