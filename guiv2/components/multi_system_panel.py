@@ -16,6 +16,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_multi_system_panel(view: dict, manifest: dict) -> None:
@@ -77,14 +78,40 @@ def render_multi_system_panel(view: dict, manifest: dict) -> None:
     fig.update_layout(
         height=380,
         margin=dict(l=10, r=10, t=20, b=40),
-        xaxis=dict(title="Mission timepoint"),
-        yaxis=dict(title="Multi-system Mahalanobis distance",
+        xaxis=dict(title="Mission timepoint (preflight L–, in-flight FD, post-flight R+)"),
+        yaxis=dict(title="Multi-system Mahalanobis distance "
+                         "(unitless · higher = farther outside preflight envelope)",
                    zeroline=False),
         legend=dict(orientation="h", yanchor="bottom", y=1.02,
                     xanchor="right", x=1),
         hovermode="x unified",
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    about_chart(
+        chart_type="Trajectory line chart of multivariate Mahalanobis "
+                   "distance, one line per astronaut",
+        shows=("A single number per (astronaut, timepoint) that captures "
+               "deviation across multiple Track 2 axes simultaneously. "
+               "Computed as Mahalanobis distance from the cohort's "
+               "preflight joint distribution over the per-axis composite "
+               "score vector. Cohort-level axes (mitochondrial, where all "
+               "four crew share the same trajectory) are excluded from "
+               "the score because they have zero between-astronaut "
+               "variance and would make the covariance singular."),
+        x_axis="Mission timepoint (10 visits)",
+        y_axis=("Mahalanobis distance, unitless and ≥ 0. Preflight "
+                "values cluster at ~1–2 by construction. R+1 values "
+                "in this cohort run 13–22, reflecting that all four "
+                "crew sit far outside the preflight envelope on multiple "
+                "systems at once."),
+        why=("A line chart trades the per-axis detail of the small-"
+             "multiples view for cohort-wide ranking. Useful as the "
+             "single number the README explicitly reserves the right "
+             "to compute for cross-astronaut comparison — but read "
+             "alongside the per-axis panels, since one scalar can't "
+             "tell you *which* axis is driving the deviation."),
+    )
 
     # ---- ranking at R+1 (or selectable) ----------------------------------
     target_tp = view.get("ranking_at", "R+1")

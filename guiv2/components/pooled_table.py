@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_pooled_table(view: dict, manifest: dict) -> None:
@@ -49,10 +50,31 @@ def render_pooled_table(view: dict, manifest: dict) -> None:
     fig.update_layout(
         height=max(320, 22 * len(df) + 80),
         margin=dict(l=10, r=10, t=10, b=40),
-        xaxis=dict(title="log2FC (pooled)", zeroline=True, zerolinecolor="#888"),
-        yaxis=dict(tickfont=dict(size=11)),
+        xaxis=dict(title="log2 fold-change (post vs pre, cohort pooled · "
+                         "1 unit = 2× change)",
+                   zeroline=True, zerolinecolor="#888"),
+        yaxis=dict(title="Feature (gene / metabolite / protein)",
+                   tickfont=dict(size=11)),
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    about_chart(
+        chart_type="Sorted horizontal bar chart, top-N pooled DE hits",
+        shows=("Top-N differentially expressed features by absolute "
+               "log2 fold-change. Bars to the right (red) are induced "
+               "post-flight; bars to the left (blue) are suppressed. "
+               "Hover any bar for the exact log2FC."),
+        x_axis="log2 fold-change, post-vs-pre, pooled across all 4 crew. "
+               "1 unit = 2× change; ±1 is the literature 'biologically "
+               "meaningful' cutoff used everywhere in the analysis pipeline.",
+        y_axis="Feature ID (gene symbol, metabolite name, or protein), "
+               "sorted top-to-bottom by descending |log2FC|",
+        why=("Pooled DE only gives one number per feature (the upstream "
+             "limma test ran across the cohort, not per-subject), so "
+             "there's no per-crew dimension to encode — a horizontal "
+             "bar chart with diverging color is the right shape for "
+             "ranked signed magnitudes."),
+    )
 
     with st.expander("Source data"):
         st.caption(view["csv"])

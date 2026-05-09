@@ -19,6 +19,7 @@ import pandas as pd
 import streamlit as st
 
 from guiv2 import config
+from guiv2.components._chart_about import about_chart
 
 
 # ---------------------------------------------------------------------------
@@ -113,6 +114,28 @@ def render_body_sample_map(view: dict, manifest: dict) -> None:
         "Axillary (PIT), forearm (ARM), and nasopharynx (NAP) carry the "
         "strongest concordant signal during flight. The nasal cavity (NAC) "
         "is unusually conserved — Tierney et al. note the same."
+    )
+
+    about_chart(
+        chart_type="Annotated anatomical illustration (inline SVG)",
+        shows=("Where each Inspiration-4 sample was collected, layered "
+               "with the magnitude of the during-vs-pre microbiome shift "
+               "across all four crew. Hover any dot for the per-site "
+               "numbers. Diamonds outside the body silhouette mark "
+               "systemic / environmental collections (blood, urine, "
+               "stool, deltoid biopsy, capsule surfaces)."),
+        x_axis="Anatomical position (illustrative, not to scale)",
+        y_axis=("Marker size scales with the number of features that "
+                "shifted concordantly in all 4 crew at |log2FC| ≥ 1; "
+                "marker color encodes direction (red = trending UP, "
+                "blue = DOWN, gold = mixed, gray = no signal at the "
+                "4-of-4 bar). Companion table below has exact n, "
+                "mean |log2FC|, and % trending up per site."),
+        why=("A literal body diagram is the most compact way to "
+             "communicate which body sites carry signal — judges can "
+             "pattern-match against anatomy at a glance instead of "
+             "decoding site codes (NAP vs ARM vs PIT) from a table. "
+             "The companion table preserves the precise numbers."),
     )
 
 

@@ -13,6 +13,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_risk_overview(view: dict, manifest: dict) -> None:
@@ -87,9 +88,30 @@ def render_risk_overview(view: dict, manifest: dict) -> None:
                     xanchor="center", x=0.5),
         hovermode="closest",
     )
-    fig.update_xaxes(tickfont=dict(size=9))
-    fig.update_yaxes(tickfont=dict(size=10), zeroline=False)
+    fig.update_xaxes(tickfont=dict(size=9),
+                     title=dict(text="Mission timepoint",
+                                font=dict(size=10)))
+    fig.update_yaxes(tickfont=dict(size=10), zeroline=False,
+                     title=dict(text="SDs from preflight",
+                                font=dict(size=10)))
     st.plotly_chart(fig, use_container_width=True)
+
+    about_chart(
+        chart_type="Small-multiples grid: 2×2 trajectory line charts, one "
+                   "subplot per Track 2 axis with all four crew overlaid",
+        shows=("All four axes at once so judges can spot which axis "
+               "drives the most cross-crew differentiation. Each subplot "
+               "is the same per-axis chart available in the drill-down "
+               "panels — same y-axis, same timepoints, just smaller."),
+        x_axis="Mission timepoint (10 visits across pre/in-flight/post)",
+        y_axis=("Standard deviations (SDs) from each astronaut's own "
+                "preflight mean. y=0 line = preflight baseline. "
+                "|z| ≥ 2 ≈ outside the 95% interval of preflight values."),
+        why=("Small multiples beat one super-wide chart for cross-axis "
+             "comparison: each astronaut's full trajectory across all "
+             "four systems is one glance. A single overview chart with "
+             "16 lines would be unreadable."),
+    )
 
     # quick-glance table: who deviated most at R+1 on each axis
     st.markdown("### R+1 deviation rank per axis")

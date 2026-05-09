@@ -15,6 +15,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_flow_diagram(view: dict, manifest: dict) -> None:
@@ -40,6 +41,31 @@ def render_flow_diagram(view: dict, manifest: dict) -> None:
     for tab, astro_id in zip(tabs, astro_ids):
         with tab:
             _render_one_sankey(per_astro[astro_id], flow.get("evidence_legend", {}))
+
+    about_chart(
+        chart_type="Sankey diagram (4 layers: environment → host site → "
+                   "barrier → systemic), one per astronaut",
+        shows=("How spaceflight perturbations flow through the body for "
+               "each crew member: from microbes detected on capsule "
+               "surfaces (OSD-573), to the astronaut's body-site "
+               "microbiome shifts (OSD-572 NAP/ARM), to the skin "
+               "barrier transcriptomic response (OSD-574 FLG/CLDN/HAS), "
+               "to the systemic R+1 inflammation composite (IL-6/TNF/CRP "
+               "from OSD-575). Edge thickness = computed weight; edge "
+               "color = evidence type."),
+        x_axis="Layers, left → right: environment → host site → barrier → systemic",
+        y_axis=("Each node's relative magnitude is encoded by node "
+                "color/position. Edge weight = √(product of normalized "
+                "source and target magnitudes), unitless and clipped to "
+                "[0.05, 1] for visual readability. The capsule→host "
+                "edges include the actual shared-taxa fraction (96% NAP, "
+                "87% ARM) as part of the weight."),
+        why=("A Sankey is the natural fit when you have a directional "
+             "chain with thickness-encoded magnitudes at each step. The "
+             "four-layer left-to-right reading mirrors the README's "
+             "biological story (capsule → barrier → immune). The same "
+             "data as a network diagram would lose the layer ordering."),
+    )
 
 
 def _render_one_sankey(graph: dict, legend: dict) -> None:

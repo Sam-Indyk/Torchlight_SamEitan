@@ -17,13 +17,14 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 _CHANNEL_LABELS = {
-    "scores":         "Composite score (own-baseline mean)",
-    "own_baseline_z": "Own-baseline z (per analyte mean)",
-    "population_z":   "Population-anchored z (vs. clinical reference range)",
-    "mahalanobis":    "Mahalanobis distance (multivariate)",
+    "scores":         "Composite score — SDs from this astronaut's preflight mean",
+    "own_baseline_z": "Own-baseline z — SDs from this astronaut's preflight mean",
+    "population_z":   "Population z — SDs from healthy-adult reference range",
+    "mahalanobis":    "Mahalanobis distance — multivariate, unitless, ≥ 0",
 }
 
 
@@ -163,7 +164,8 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
     fig.update_layout(
         height=380,
         margin=dict(l=10, r=10, t=20, b=40),
-        xaxis=dict(title="Mission timepoint", tickfont=dict(size=11)),
+        xaxis=dict(title="Mission timepoint (preflight L–, in-flight FD, post-flight R+)",
+                   tickfont=dict(size=11)),
         yaxis=dict(title=_CHANNEL_LABELS[channel],
                    zeroline=False, tickfont=dict(size=11)),
         legend=dict(orientation="h", yanchor="bottom", y=1.02,
@@ -171,6 +173,29 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
         hovermode="x unified",
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    about_chart(
+        chart_type="Trajectory line chart, one line per astronaut, "
+                   "with optional 95% bootstrap CI bands",
+        shows=("How each astronaut's score on this axis changes from "
+               "preflight (L−92, L−44, L−3) through in-flight (FD1–3, "
+               "blanked when the assay required ground-only collection) "
+               "to post-flight (R+1, R+45, R+82, R+194). Vertical dotted "
+               "lines mark the phase boundaries; the solid horizontal "
+               "line at y=0 is each astronaut's preflight baseline. "
+               "If a published prior cohort overlay exists, it appears "
+               "as a dashed reference line."),
+        x_axis="Mission timepoint, ordinal (10 visits across pre/in/post)",
+        y_axis=("Standard deviations (SDs) from baseline. Score channel "
+                "is selectable above the chart: composite (own-baseline "
+                "mean across the panel), own-baseline z, population z, "
+                "or Mahalanobis. |z| ≥ 2 ≈ outside 95% interval."),
+        why=("A line chart with one line per astronaut is the cleanest "
+             "way to see (a) magnitude of deviation, (b) recovery "
+             "trajectory, and (c) per-crew differences simultaneously. "
+             "We deliberately avoid bar charts of single timepoints "
+             "since the *shape* of recovery is the actual risk signal."),
+    )
 
     # --- recovery rate (post-flight exponential decay fit) -----------------
     _render_recovery_table(axis, crew_names)

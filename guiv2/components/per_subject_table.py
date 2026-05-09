@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_per_subject_table(view: dict, manifest: dict) -> None:
@@ -44,7 +45,7 @@ def render_per_subject_table(view: dict, manifest: dict) -> None:
             y=df["feature"].astype(str),
             colorscale=config.HEATMAP_COLORSCALE,
             zmid=0,
-            colorbar=dict(title="log2FC"),
+            colorbar=dict(title="log2FC<br>(during vs pre)"),
             hovertemplate=(
                 "<b>%{y}</b><br>%{x}<br>log2FC: %{z:.2f}<extra></extra>"
             ),
@@ -57,6 +58,27 @@ def render_per_subject_table(view: dict, manifest: dict) -> None:
         xaxis=dict(side="top"),
     )
     st.plotly_chart(fig, use_container_width=True)
+
+    about_chart(
+        chart_type="Heatmap, top-N features × 4 crew",
+        shows=("Top-N features (rows) that all four crew shifted "
+               "concordantly between phases, colored by per-crew log2 "
+               "fold-change (columns C001–C004). Sort by absolute mean "
+               "magnitude across crew. Hover any cell for the exact "
+               "log2FC for that astronaut on that feature."),
+        x_axis="Crew member (C001–C004)",
+        y_axis=("Feature ID — taxon, KEGG KO, gene-family, or pathway, "
+                "depending on the source CSV. Color = log2 fold-change "
+                "(unitless, log base 2): +1 = 2× increase, −1 = 2× "
+                "decrease, 0 = no change. Diverging RdBu_r colorscale "
+                "centered at 0."),
+        why=("A heatmap with crew on x and features on y is the cleanest "
+             "way to scan for direction-of-shift agreement across crew. "
+             "Anything that's all-red or all-blue across the row is a "
+             "concordant signal; mixed rows would mean the per-subject "
+             "concordance filter let through some noise (it didn't — "
+             "the upstream filter requires all 4 to agree)."),
+    )
 
     with st.expander("Source data"):
         st.caption(view["csv"])

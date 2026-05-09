@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from guiv2 import config, data
+from guiv2.components._chart_about import about_chart
 
 
 def render_mission_overview(view: dict, manifest: dict) -> None:
@@ -104,6 +105,23 @@ def render_mission_overview(view: dict, manifest: dict) -> None:
         "Phlebotomy-dependent panels (CMP, CBC, plasma, urine) sampled "
         "only at preflight and post-flight; microbiome swabs sampled "
         "across all phases including in-flight."
+    )
+
+    about_chart(
+        chart_type="Annotated timeline strip with phase shading",
+        shows=("All ten sampling timepoints positioned by their actual "
+               "day-relative-to-launch. Background shading marks the "
+               "three mission phases: preflight (navy tint), in-flight "
+               "(gold tint), post-flight (ice tint)."),
+        x_axis="Days relative to launch (day 0 = launch). Negative = "
+               "preflight, 1–3 = in flight, ≥4 = post-flight.",
+        y_axis="None — the chart is a 1-D timeline, all markers on a "
+               "shared horizontal line.",
+        why=("Showing the actual day spacing (not just labels in order) "
+             "makes it visually obvious that recovery sampling was "
+             "front-loaded near landing and tapered out to ~6 months "
+             "post-flight. That's important context for reading the "
+             "recovery half-life numbers in the per-axis panels."),
     )
 
 
