@@ -186,3 +186,37 @@ div[data-baseweb="notification"][kind="success"] {
   border-left: 4px solid var(--ice) !important;
   color: var(--navy) !important;
 }
+
+/* ---------- AI panels ---------- */
+
+.ai-narrative-card {
+  background: linear-gradient(135deg, #ffffff 0%, var(--ice-tint) 100%);
+  border-radius: 10px;
+  padding: 22px 26px 16px 26px;
+  margin: 12px 0 10px 0;
+  border-left: 4px solid var(--ice);
+  border: 1px solid #e6ecf2;
+  box-shadow: 0 2px 12px rgba(10,31,68,0.06);
+  font-size: 1.02rem; line-height: 1.65;
+  color: var(--ink);
+}
+.ai-narrative-card p { margin: 0 0 12px 0; }
+.ai-narrative-card p:last-child { margin-bottom: 0; }
+
+.ai-qa-card {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 18px 22px 16px 22px;
+  margin: 14px 0 10px 0;
+  border-left: 4px solid var(--gold);
+  border: 1px solid #e6ecf2;
+  box-shadow: 0 2px 8px rgba(10,31,68,0.06);
+}
+.ai-qa-q {
+  font-size: 0.84rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 600; margin-bottom: 8px;
+}
+.ai-qa-a {
+  font-size: 1.02rem; line-height: 1.55; color: var(--ink);
+}

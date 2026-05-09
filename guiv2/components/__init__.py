@@ -18,6 +18,8 @@ from .multi_system_panel import render_multi_system_panel
 from .mission_overview  import render_mission_overview
 from .body_sample_map   import render_body_sample_map
 from .data_provenance   import render_data_provenance
+from .ai_narrative_panel import render_ai_narrative_panel
+from .ai_qa_box          import render_ai_qa_box
 
 RENDERERS = {
     "per_subject_table": render_per_subject_table,
@@ -30,4 +32,6 @@ RENDERERS = {
     "mission_overview":     render_mission_overview,
     "body_sample_map":      render_body_sample_map,
     "data_provenance":      render_data_provenance,
+    "ai_narrative":         render_ai_narrative_panel,
+    "ai_qa":                render_ai_qa_box,
 }

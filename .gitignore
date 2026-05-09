@@ -1,2 +1,8 @@
 .venv/
 __pycache__/
+
+# AI-generated narrative cache (regenerated on demand)
+guiv2/ai/cache/*.md
+
+# user-pasted secrets
+.streamlit/secrets.toml

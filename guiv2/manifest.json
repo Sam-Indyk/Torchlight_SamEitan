@@ -96,6 +96,25 @@
       ]
     },
     {
+      "id": "ai_grounded",
+      "label": "AI · grounded in the data",
+      "intro_md": "Two AI features grounded in the precomputed risk-profile JSON. The model never sees raw OSDR data — only `data/dashboard_data.json`, the same file the rest of the dashboard reads. Every numeric claim in AI output is verified against that JSON; any unverified number is flagged. See [`AI_PLAN.md`](../AI_PLAN.md) for the design rationale.",
+      "views": [
+        {
+          "id": "ai_qa",
+          "type": "ai_qa",
+          "title": "Ask the dashboard",
+          "json": "data/dashboard_data.json"
+        },
+        {
+          "id": "ai_narratives",
+          "type": "ai_narrative",
+          "title": "Per-astronaut AI narratives",
+          "json": "data/dashboard_data.json"
+        }
+      ]
+    },
+    {
       "id": "flow",
       "label": "Capsule → Barrier → Systemic Flow",
       "intro_md": "Per-astronaut signature visual: capsule-environment microbiome → host-site colonization → skin-barrier response → systemic cytokine response. Edge color encodes evidence strength. The temporal-precedence edges (capsule → host) are directional; correlation-only edges are reported as undirected associations.",
