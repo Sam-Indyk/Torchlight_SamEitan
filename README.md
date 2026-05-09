@@ -140,6 +140,94 @@ To pick `guiv2/` as the submission, point the deploy at `guiv2/app.py`. `gui/` r
 
 ---
 
+## How we used AI
+
+> **Best Use of AI award submission.** TL;DR — AI is used in two
+> grounded, verifiable roles inside the dashboard, plus as a
+> development tool for the surrounding code. The model never touches
+> raw OSDR data; it only reads the structured JSON our deterministic
+> pipeline produced, and every numeric claim it makes is checked
+> against that JSON before being shown.
+
+### 1. Runtime AI features inside the dashboard *(this is the submission)*
+
+Open the **AI · grounded in the data** tab. Two LLM features live there, both backed by Claude Haiku 4.5 via the Anthropic API:
+
+- **Per-astronaut AI narratives** ([`guiv2/ai/narrative.py`](guiv2/ai/narrative.py))
+  — for each crew member, a JSON slice of that astronaut's risk
+  profile is sent to Claude with a tight system prompt; Claude returns
+  a 2-paragraph factual summary covering the largest R+1 deviation,
+  the recovery profile (slow vs fast), within-cohort context, and a
+  one-sentence honest caveat. Cached on disk by `(crew_id, json_hash)`
+  so reloads cost no tokens.
+
+- **"Ask the dashboard" Q&A** ([`guiv2/ai/qa.py`](guiv2/ai/qa.py)) —
+  a chat-style input box. Five suggested questions are pre-loaded as
+  one-click buttons; users can also type their own. Claude reads a
+  slimmed copy of `data/dashboard_data.json` and answers in 1–3
+  sentences citing verbatim numbers from the source data.
+
+**The grounding architecture (the bit we'd actually like the prize for):**
+
+- **Hard system prompts** ([`guiv2/ai/prompts.py`](guiv2/ai/prompts.py))
+  forbid (a) inventing numbers, (b) causal language, (c) clinical
+  recommendations, and instruct the model to flag mock or
+  cohort-level axes inline and redirect out-of-scope questions.
+- **A regex numeric verifier**
+  ([`guiv2/ai/verify.py`](guiv2/ai/verify.py)) scans every AI output
+  for numeric claims and checks each one against the source JSON,
+  with rounding and percent ↔ fraction tolerance. Unverified numbers
+  trigger a one-shot retry with a stricter reminder; if anything is
+  still unverified after retry, the panel surfaces a **yellow warning
+  listing the unverified numbers** above the AI output. When all
+  numbers pass, a **green ✓ "every number is grounded in the source"**
+  badge is shown. Judges can watch grounding succeed or fail in
+  real time.
+- **The model never sees raw OSDR data.** It only sees
+  [`data/dashboard_data.json`](data/dashboard_data.json), the output
+  of our deterministic scoring pipeline. Every number it can possibly
+  cite is one we precomputed.
+
+**Pitch in one sentence.** *AI is used as a query translator and prose
+generator over a precomputed, structured data object — never as a
+source of truth — and a verifier rejects any claim not grounded in
+that object.*
+
+Full disclosure (data privacy, models used, what AI explicitly did
+NOT do): [**`AI_USES.md`**](AI_USES.md). Design rationale and the
+options we considered but skipped: [**`AI_PLAN.md`**](AI_PLAN.md).
+
+### 2. Development-time AI use *(transparency, not part of the prize submission)*
+
+Most of the code in [`risk_profile_claude/`](risk_profile_claude/) and
+[`guiv2/`](guiv2/) was scaffolded by Claude Code (Opus 4.7) following
+human-authored design briefs. A human directed every step, reviewed
+every diff, and accepted or revised the output. The README and the
+methods notes inside the dashboard panels were AI-assisted; every
+clinical-sounding claim was checked against the source data or the
+cited literature.
+
+**What AI did NOT do:**
+
+- **No statistics were invented by AI.** Every score, z-value,
+  half-life, Mahalanobis distance, recovery τ, and edge weight in the
+  dashboard comes from a deterministic computation in
+  [`risk_profile_claude/build_risk_profile.py`](risk_profile_claude/build_risk_profile.py).
+- **No synthetic astronauts.** The dataset contains four real crew
+  members; we did not generate or simulate any additional data.
+- **No fabricated citations.** Every paper cited (Tierney 2024,
+  Park 2024, Kleiner 2013, Biancotto 2013, Said 2021, NHANES,
+  Garrett-Bakelman 2019, da Silveira 2020, Versari 2013,
+  Pakos-Zebrucka 2016) is a real publication. The hand-curated
+  cascades in
+  [`risk_profile_claude/pathway_priors.py`](risk_profile_claude/pathway_priors.py)
+  cite real biology.
+- **No clinical recommendations.** This is a research artifact, not
+  medical advice. No AI output recommends or implies a fly/no-fly
+  decision for any astronaut.
+
+---
+
 ## Problem statement
 
 Tierney et al. (2024) and Park et al. (2024) both identify the same open question in their Discussions: spaceflight shifts the skin, oral, and gut microbiome and disrupts the skin barrier, but the links between (a) the Dragon capsule's environmental microbiome, (b) what colonizes the crew, (c) skin-barrier breakdown, and (d) systemic immune and inflammatory response have not been integrated into a single cross-omic picture for any individual astronaut. OSD-630 (stool metagenomics) in particular remains under-analyzed in the published literature.
