@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "mission": "Inspiration4",
+    "crew": [
+      {"id": "C001", "name": "C001", "role": "Crew Member 1"},
+      {"id": "C002", "name": "C002", "role": "Crew Member 2"},
+      {"id": "C003", "name": "C003", "role": "Crew Member 3"},
+      {"id": "C004", "name": "C004", "role": "Crew Member 4"}
+    ],
+    "filter_criteria": {
+      "per_subject_log2fc_threshold": 1.0,
+      "per_subject_concordance": "all 4 crew, same direction",
+      "pooled_DE_padj_threshold": 0.05,
+      "pooled_DE_log2fc_threshold": 1.0
+    },
+    "honesty_notes": [
+      "n = 4. Per-astronaut effects are reported; we do NOT compute group-level p-values. Within-cohort rankings are descriptive, not inferential.",
+      "Risk-profile axes are scored against each astronaut's own preflight baseline AND against population-reference ranges where the source CSV embeds them (CMP, CBC). Multiplex cytokine panels lack embedded ranges, so population_z is sparse for those analytes — this is documented per axis in the Methods expander.",
+      "Strict 4-of-4 concordance plus |log2FC| ≥ 1 found no concordant signal in serum cytokines (OSD-575), urine inflammation (OSD-656), stool (OSD-630), CBC (OSD-569), snATAC-seq, or V(D)J. Absence here likely reflects inter-individual variability rather than absence of biological effect.",
+      "OSD-571 is supplied as a pre-aggregated DE table (one logFC per analyte). The Mitochondrial axis is therefore cohort-level only and shown with the same trajectory across all four crew."
+    ]
+  },
+  "panels": [
+    {
+      "id": "risk_profiles",
+      "label": "Individualized Risk Profile",
+      "intro_md": "**Track 2 deliverable.** Four axes — immune regulation, inflammation & oxidative stress, DNA damage response, mitochondrial function — each scored per astronaut, per timepoint, against own preflight baseline and against published population reference ranges where available. Trajectory charts show the full pre/in-flight/post arc; in-flight slots are masked when the underlying assay required ground-only collection.",
+      "views": [
+        {
+          "id": "risk_overview",
+          "type": "risk_overview",
+          "title": "Four-axis summary across all four crew",
+          "json": "data/dashboard_data.json",
+          "ranking_at": "R+1"
+        },
+        {
+          "id": "risk_immune",
+          "type": "risk_axis_panel",
+          "title": "Immune Regulation",
+          "json": "data/dashboard_data.json",
+          "axis_id": "immune"
+        },
+        {
+          "id": "risk_inflammation",
+          "type": "risk_axis_panel",
+          "title": "Inflammation & Oxidative Stress",
+          "json": "data/dashboard_data.json",
+          "axis_id": "inflammation"
+        },
+        {
+          "id": "risk_ddr",
+          "type": "risk_axis_panel",
+          "title": "DNA Damage Response",
+          "json": "data/dashboard_data.json",
+          "axis_id": "ddr"
+        },
+        {
+          "id": "risk_mito",
+          "type": "risk_axis_panel",
+          "title": "Mitochondrial Function",
+          "json": "data/dashboard_data.json",
+          "axis_id": "mitochondrial"
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "label": "Capsule → Barrier → Systemic Flow",
+      "intro_md": "Per-astronaut signature visual: capsule-environment microbiome → host-site colonization → skin-barrier response → systemic cytokine response. Edge color encodes evidence strength. The temporal-precedence edges (capsule → host) are directional; correlation-only edges are reported as undirected associations.",
+      "views": [
+        {
+          "id": "flow_main",
+          "type": "flow_diagram",
+          "title": "Per-astronaut microbiome → barrier → immune flow",
+          "json": "data/dashboard_data.json"
+        }
+      ]
+    },
+    {
+      "id": "microbiome",
+      "label": "Molecular Perturbations · Microbiome",
+      "intro_md": "The strongest concordant signal in the Inspiration-4 data lives in the microbiome. Skin and oral swabs (OSD-572) shifted in the same direction across all four crew at multiple body sites. Capsule-surface taxa (OSD-573) detected during flight overlap meaningfully with crew shifts. Skin barrier transcriptomics (OSD-574) shows a downstream pooled response.",
+      "views": [
+        {
+          "id": "osd572-axillary-during",
+          "type": "per_subject_table",
+          "title": "Axillary skin (during vs pre)",
+          "csv": "analysis/results/OSD-572_taxonomy_ARM_during_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd572-toeweb-during",
+          "type": "per_subject_table",
+          "title": "Toe web space (during vs pre)",
+          "csv": "analysis/results/OSD-572_taxonomy_TZO_during_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd574-skin-barrier",
+          "type": "pooled_table",
+          "title": "Skin barrier transcriptomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-574_spatial_pooled_DE.csv",
+          "top_n": 25
+        }
+      ]
+    },
+    {
+      "id": "systemic",
+      "label": "Molecular Perturbations · Systemic",
+      "intro_md": "Where the per-subject filter found cohort-concordant signal in blood, and where pooled DE captured systemic changes that single-subject testing could not.",
+      "views": [
+        {
+          "id": "osd569-rna",
+          "type": "per_subject_table",
+          "title": "Whole blood RNA-seq (post vs pre)",
+          "csv": "analysis/results/OSD-569_rna_blood_post_vs_pre.csv",
+          "top_n": 25,
+          "sort_by": "magnitude"
+        },
+        {
+          "id": "osd570-snrna",
+          "type": "pooled_table",
+          "title": "PBMC snRNA-seq (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-570_snrnaseq_pooled_DE.csv",
+          "top_n": 25
+        },
+        {
+          "id": "osd571-metabolomics",
+          "type": "pooled_table",
+          "title": "Plasma metabolomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-571_metabolomics_pooled_DE.csv",
+          "top_n": 25
+        },
+        {
+          "id": "osd571-proteomics",
+          "type": "pooled_table",
+          "title": "Plasma proteomics (post vs pre, pooled)",
+          "csv": "analysis/results/OSD-571_protein_pooled_DE.csv",
+          "top_n": 25
+        }
+      ]
+    }
+  ]
+}

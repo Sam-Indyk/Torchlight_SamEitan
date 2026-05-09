@@ -1,0 +1,201 @@
+"""Render one Track 2 axis as a trajectory dashboard.
+
+Reads a single axis out of dashboard_data.json (produced by
+risk_profile_claude/build_risk_profile.py) and renders:
+  - A trajectory line chart with one line per astronaut, optional CI bands.
+  - A choice of which score channel to display (composite score,
+    own_baseline_z, population_z, or mahalanobis distance).
+  - A within-cohort ranking at a selectable timepoint.
+  - The methods note + actionable line + dataset/observability flags.
+
+Schema reference: risk_profile_claude/SCHEMA.md
+"""
+
+from __future__ import annotations
+
+import plotly.graph_objects as go
+import streamlit as st
+
+from guiv2 import config, data
+
+
+_CHANNEL_LABELS = {
+    "scores":         "Composite score (own-baseline mean)",
+    "own_baseline_z": "Own-baseline z (per analyte mean)",
+    "population_z":   "Population-anchored z (vs. clinical reference range)",
+    "mahalanobis":    "Mahalanobis distance (multivariate)",
+}
+
+
+def render_risk_axis_panel(view: dict, manifest: dict) -> None:
+    st.subheader(view["title"])
+
+    dashboard = data.load_json(view["json"])
+    if not dashboard:
+        st.error(f"Could not load risk-profile JSON at `{view['json']}`. "
+                 "Run risk_profile_claude/build_risk_profile.py first.")
+        return
+
+    axis_id = view["axis_id"]
+    axis = data.find_axis(dashboard, axis_id)
+    if axis is None:
+        st.error(f"Axis `{axis_id}` not found in {view['json']}.")
+        return
+
+    # --- header strip: provenance, observability, mock/cohort flags --------
+    flags = []
+    if axis.get("is_mock"):         flags.append("preliminary (mock)")
+    if axis.get("is_cohort_level"): flags.append("cohort-level only")
+    if not axis.get("in_flight_observable", True):
+        flags.append("ground-only")
+    flag_html = (" · ".join(f"<code>{f}</code>" for f in flags)) \
+                if flags else "&nbsp;"
+    st.markdown(
+        f"<div style='color:#666; font-size:0.92em; margin-bottom:8px;'>"
+        f"Datasets: {', '.join(axis.get('datasets_used', []))}"
+        f"{' · ' + flag_html if flags else ''}"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(f"_{axis.get('description', '')}_")
+
+    # --- channel selector ---------------------------------------------------
+    timepoints = dashboard["metadata"]["timepoints"]
+    available = [k for k in _CHANNEL_LABELS
+                 if any(any(v is not None
+                            for v in axis["trajectories"][a].get(k, []))
+                        for a in axis["trajectories"])]
+    default_idx = available.index("scores") if "scores" in available else 0
+    col1, col2 = st.columns([3, 2])
+    with col1:
+        channel = st.selectbox(
+            "Score channel",
+            options=available,
+            index=default_idx,
+            format_func=lambda k: _CHANNEL_LABELS.get(k, k),
+            key=f"chan_{axis_id}",
+        )
+    with col2:
+        show_ci = st.checkbox(
+            "Show 95% bootstrap CI band",
+            value=(channel == "scores"),
+            key=f"ci_{axis_id}",
+        )
+
+    # --- trajectory chart ---------------------------------------------------
+    fig = go.Figure()
+    crew_names = data.crew_display_names(manifest)
+
+    for crew_id, traj in axis["trajectories"].items():
+        ys = traj.get(channel, [None] * len(timepoints))
+        color = config.CREW_COLORS.get(crew_id, "#444")
+
+        # main line — Plotly draws gaps where y is None, which is what we want
+        # for unobservable timepoints.
+        fig.add_trace(go.Scatter(
+            x=timepoints,
+            y=ys,
+            mode="lines+markers",
+            name=crew_names.get(crew_id, crew_id),
+            line=dict(color=color, width=2.5),
+            marker=dict(size=7, color=color,
+                        line=dict(color="white", width=1)),
+            connectgaps=False,
+            hovertemplate=(f"<b>{crew_names.get(crew_id, crew_id)}</b>"
+                           "<br>%{x}: %{y:.2f}<extra></extra>"),
+        ))
+
+        # CI band (only meaningful for the composite "scores" channel)
+        if show_ci and channel == "scores":
+            lo = traj.get("ci_lower")
+            hi = traj.get("ci_upper")
+            if lo and hi and any(v is not None for v in lo):
+                xs_band = [tp for tp, lv, hv in zip(timepoints, lo, hi)
+                           if lv is not None and hv is not None]
+                lo_band = [lv for lv in lo if lv is not None]
+                hi_band = [hv for hv in hi if hv is not None]
+                if xs_band:
+                    fillcolor = _hex_to_rgba(color, config.CI_BAND_ALPHA)
+                    fig.add_trace(go.Scatter(
+                        x=xs_band + xs_band[::-1],
+                        y=hi_band + lo_band[::-1],
+                        fill="toself",
+                        fillcolor=fillcolor,
+                        line=dict(color="rgba(0,0,0,0)"),
+                        hoverinfo="skip",
+                        showlegend=False,
+                        name=f"{crew_id}_ci",
+                    ))
+
+    # vertical separators between mission phases
+    pre  = dashboard["metadata"].get("preflight_timepoints", [])
+    during = dashboard["metadata"].get("in_flight_timepoints", [])
+    if pre and during:
+        # boundary between last preflight and first in-flight
+        boundary_x = (timepoints.index(pre[-1]) + 0.5)
+        fig.add_vline(x=boundary_x, line_dash="dot", line_color="#aaa")
+    if during:
+        last_during = (timepoints.index(during[-1]) + 0.5)
+        fig.add_vline(x=last_during, line_dash="dot", line_color="#aaa")
+
+    # zero reference line
+    fig.add_hline(y=0, line_color="#bbb", line_width=1)
+
+    fig.update_layout(
+        height=380,
+        margin=dict(l=10, r=10, t=20, b=40),
+        xaxis=dict(title="Mission timepoint", tickfont=dict(size=11)),
+        yaxis=dict(title=_CHANNEL_LABELS[channel],
+                   zeroline=False, tickfont=dict(size=11)),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02,
+                    xanchor="right", x=1),
+        hovermode="x unified",
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    # --- within-cohort ranking ---------------------------------------------
+    wc = axis.get("within_cohort_comparison", {})
+    if wc.get("ranking"):
+        st.markdown("**Within-cohort ranking**")
+        rank_df_rows = [
+            {"Astronaut": crew_names.get(r["astronaut"], r["astronaut"]),
+             "Score":     r["score"]}
+            for r in wc["ranking"]
+        ]
+        st.dataframe(rank_df_rows, hide_index=True,
+                     use_container_width=True)
+        st.caption(wc.get("summary", ""))
+    elif wc.get("summary"):
+        st.markdown(f"**Within-cohort:** {wc['summary']}")
+
+    # --- prior cohort -------------------------------------------------------
+    prior = axis.get("prior_cohort_comparison")
+    if prior and prior.get("summary"):
+        st.markdown(f"**vs. published priors ({prior.get('source', '?')}):** "
+                    f"{prior['summary']}")
+
+    # --- actionable line ---------------------------------------------------
+    if axis.get("actionable_line"):
+        st.success(f"**Actionable:** {axis['actionable_line']}")
+
+    # --- methods + raw data expanders --------------------------------------
+    with st.expander("Scoring method"):
+        st.write(axis.get("scoring_method", ""))
+        if axis.get("ground_only_note"):
+            st.caption(f"Observability note: {axis['ground_only_note']}")
+        if axis.get("feature_panel"):
+            st.markdown("**Features in this panel:**")
+            st.dataframe(axis["feature_panel"], hide_index=True,
+                         use_container_width=True)
+
+    with st.expander("Raw trajectories"):
+        st.json(axis["trajectories"], expanded=False)
+
+
+def _hex_to_rgba(hex_color: str, alpha: float) -> str:
+    """Turn '#1f77b4' into 'rgba(31,119,180,0.18)' for fill colors."""
+    h = hex_color.lstrip("#")
+    if len(h) != 6:
+        return f"rgba(100,100,100,{alpha})"
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha:.3f})"

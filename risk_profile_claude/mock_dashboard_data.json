@@ -1,0 +1,1937 @@
+{
+  "metadata": {
+    "mission": "Inspiration4",
+    "generated_at": "2026-05-08T18:07:47+00:00",
+    "generator": "risk_profile_claude/build_risk_profile.py v0.1",
+    "n_astronauts": 4,
+    "timepoints": [
+      "L-92",
+      "L-44",
+      "L-3",
+      "FD1",
+      "FD2",
+      "FD3",
+      "R+1",
+      "R+45",
+      "R+82",
+      "R+194"
+    ],
+    "in_flight_timepoints": [
+      "FD1",
+      "FD2",
+      "FD3"
+    ],
+    "preflight_timepoints": [
+      "L-92",
+      "L-44",
+      "L-3"
+    ],
+    "postflight_timepoints": [
+      "R+1",
+      "R+45",
+      "R+82",
+      "R+194"
+    ],
+    "scoring_conventions": {
+      "own_baseline_z": "(value - mean(self_preflight)) / sd(self_preflight)",
+      "population_z": "(value - range_mid) / (range_width / 3.92), reference range = central 95%",
+      "mahalanobis": "sqrt((x - mu_pre)^T * Sigma^-1 * (x - mu_pre)); Sigma uses preflight-pool correlation with Ledoit-Wolf shrinkage and population-reference marginal SDs where available",
+      "sign_convention": "positive = elevated relative to baseline / population midpoint"
+    }
+  },
+  "astronauts": [
+    {
+      "id": "C001",
+      "display_id": "C001",
+      "role_label": "Crew member 1"
+    },
+    {
+      "id": "C002",
+      "display_id": "C002",
+      "role_label": "Crew member 2"
+    },
+    {
+      "id": "C003",
+      "display_id": "C003",
+      "role_label": "Crew member 3"
+    },
+    {
+      "id": "C004",
+      "display_id": "C004",
+      "role_label": "Crew member 4"
+    }
+  ],
+  "axes": [
+    {
+      "id": "immune",
+      "label": "Immune Regulation",
+      "description": "Composite z of Th1/Th2/Treg cytokines.",
+      "scoring_method": "Mock data for GUI development.",
+      "datasets_used": [
+        "OSD-570",
+        "OSD-575"
+      ],
+      "in_flight_observable": false,
+      "ground_only_note": "OSD-575 panels require phlebotomy.",
+      "actionable_line": "Saliva-based cytokine surrogates would help in flight.",
+      "feature_panel": [
+        {
+          "name": "IL-2",
+          "source": "mock"
+        },
+        {
+          "name": "IL-10",
+          "source": "mock"
+        }
+      ],
+      "trajectories": {
+        "C001": {
+          "scores": [
+            0.005,
+            0.204,
+            0.184,
+            null,
+            null,
+            null,
+            0.929,
+            0.565,
+            0.308,
+            0.276
+          ],
+          "ci_lower": [
+            -0.495,
+            -0.296,
+            -0.316,
+            null,
+            null,
+            null,
+            0.429,
+            0.065,
+            -0.192,
+            -0.224
+          ],
+          "ci_upper": [
+            0.505,
+            0.704,
+            0.684,
+            null,
+            null,
+            null,
+            1.429,
+            1.065,
+            0.808,
+            0.776
+          ],
+          "own_baseline_z": [
+            0.005,
+            0.204,
+            0.184,
+            null,
+            null,
+            null,
+            0.929,
+            0.565,
+            0.308,
+            0.276
+          ],
+          "population_z": [
+            0.004,
+            0.163,
+            0.147,
+            null,
+            null,
+            null,
+            0.743,
+            0.452,
+            0.246,
+            0.221
+          ],
+          "mahalanobis": [
+            0.006,
+            0.224,
+            0.202,
+            null,
+            null,
+            null,
+            1.022,
+            0.621,
+            0.339,
+            0.304
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C002": {
+          "scores": [
+            -0.008,
+            0.112,
+            -0.277,
+            null,
+            null,
+            null,
+            1.417,
+            0.755,
+            0.532,
+            0.267
+          ],
+          "ci_lower": [
+            -0.508,
+            -0.388,
+            -0.777,
+            null,
+            null,
+            null,
+            0.917,
+            0.255,
+            0.032,
+            -0.233
+          ],
+          "ci_upper": [
+            0.492,
+            0.612,
+            0.223,
+            null,
+            null,
+            null,
+            1.917,
+            1.255,
+            1.032,
+            0.767
+          ],
+          "own_baseline_z": [
+            -0.008,
+            0.112,
+            -0.277,
+            null,
+            null,
+            null,
+            1.417,
+            0.755,
+            0.532,
+            0.267
+          ],
+          "population_z": [
+            -0.006,
+            0.09,
+            -0.222,
+            null,
+            null,
+            null,
+            1.134,
+            0.604,
+            0.426,
+            0.214
+          ],
+          "mahalanobis": [
+            0.009,
+            0.123,
+            0.305,
+            null,
+            null,
+            null,
+            1.559,
+            0.831,
+            0.585,
+            0.294
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C003": {
+          "scores": [
+            -0.057,
+            0.069,
+            0.124,
+            null,
+            null,
+            null,
+            1.52,
+            0.919,
+            0.635,
+            0.257
+          ],
+          "ci_lower": [
+            -0.557,
+            -0.431,
+            -0.376,
+            null,
+            null,
+            null,
+            1.02,
+            0.419,
+            0.135,
+            -0.243
+          ],
+          "ci_upper": [
+            0.443,
+            0.569,
+            0.624,
+            null,
+            null,
+            null,
+            2.02,
+            1.419,
+            1.135,
+            0.757
+          ],
+          "own_baseline_z": [
+            -0.057,
+            0.069,
+            0.124,
+            null,
+            null,
+            null,
+            1.52,
+            0.919,
+            0.635,
+            0.257
+          ],
+          "population_z": [
+            -0.046,
+            0.055,
+            0.099,
+            null,
+            null,
+            null,
+            1.216,
+            0.735,
+            0.508,
+            0.206
+          ],
+          "mahalanobis": [
+            0.063,
+            0.076,
+            0.136,
+            null,
+            null,
+            null,
+            1.672,
+            1.011,
+            0.699,
+            0.283
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C004": {
+          "scores": [
+            -0.227,
+            0.059,
+            -0.101,
+            null,
+            null,
+            null,
+            1.628,
+            1.022,
+            0.623,
+            0.287
+          ],
+          "ci_lower": [
+            -0.727,
+            -0.441,
+            -0.601,
+            null,
+            null,
+            null,
+            1.128,
+            0.522,
+            0.123,
+            -0.213
+          ],
+          "ci_upper": [
+            0.273,
+            0.559,
+            0.399,
+            null,
+            null,
+            null,
+            2.128,
+            1.522,
+            1.123,
+            0.787
+          ],
+          "own_baseline_z": [
+            -0.227,
+            0.059,
+            -0.101,
+            null,
+            null,
+            null,
+            1.628,
+            1.022,
+            0.623,
+            0.287
+          ],
+          "population_z": [
+            -0.182,
+            0.047,
+            -0.081,
+            null,
+            null,
+            null,
+            1.302,
+            0.818,
+            0.498,
+            0.23
+          ],
+          "mahalanobis": [
+            0.25,
+            0.065,
+            0.111,
+            null,
+            null,
+            null,
+            1.791,
+            1.124,
+            0.685,
+            0.316
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "within_cohort_comparison": {
+        "summary": "Mock data.",
+        "ranking_at": "R+1",
+        "ranking": []
+      },
+      "prior_cohort_comparison": null,
+      "is_mock": true
+    },
+    {
+      "id": "inflammation",
+      "label": "Inflammation & Oxidative Stress",
+      "description": "Acute-phase cytokines + urine markers.",
+      "scoring_method": "Mock data for GUI development.",
+      "datasets_used": [
+        "OSD-575",
+        "OSD-656",
+        "OSD-571"
+      ],
+      "in_flight_observable": false,
+      "ground_only_note": "Ground-only panels.",
+      "actionable_line": "R+45 follow-up for residual inflammation.",
+      "feature_panel": [
+        {
+          "name": "IL-6",
+          "source": "mock"
+        },
+        {
+          "name": "CRP",
+          "source": "mock"
+        }
+      ],
+      "trajectories": {
+        "C001": {
+          "scores": [
+            -0.21,
+            -0.181,
+            -0.195,
+            null,
+            null,
+            null,
+            1.198,
+            0.872,
+            0.259,
+            0.336
+          ],
+          "ci_lower": [
+            -0.71,
+            -0.681,
+            -0.695,
+            null,
+            null,
+            null,
+            0.698,
+            0.372,
+            -0.241,
+            -0.164
+          ],
+          "ci_upper": [
+            0.29,
+            0.319,
+            0.305,
+            null,
+            null,
+            null,
+            1.698,
+            1.372,
+            0.759,
+            0.836
+          ],
+          "own_baseline_z": [
+            -0.21,
+            -0.181,
+            -0.195,
+            null,
+            null,
+            null,
+            1.198,
+            0.872,
+            0.259,
+            0.336
+          ],
+          "population_z": [
+            -0.168,
+            -0.145,
+            -0.156,
+            null,
+            null,
+            null,
+            0.958,
+            0.698,
+            0.207,
+            0.269
+          ],
+          "mahalanobis": [
+            0.231,
+            0.199,
+            0.215,
+            null,
+            null,
+            null,
+            1.318,
+            0.959,
+            0.285,
+            0.37
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C002": {
+          "scores": [
+            0.189,
+            -0.053,
+            -0.105,
+            null,
+            null,
+            null,
+            1.667,
+            1.056,
+            0.755,
+            0.4
+          ],
+          "ci_lower": [
+            -0.311,
+            -0.553,
+            -0.605,
+            null,
+            null,
+            null,
+            1.167,
+            0.556,
+            0.255,
+            -0.1
+          ],
+          "ci_upper": [
+            0.689,
+            0.447,
+            0.395,
+            null,
+            null,
+            null,
+            2.167,
+            1.556,
+            1.255,
+            0.9
+          ],
+          "own_baseline_z": [
+            0.189,
+            -0.053,
+            -0.105,
+            null,
+            null,
+            null,
+            1.667,
+            1.056,
+            0.755,
+            0.4
+          ],
+          "population_z": [
+            0.151,
+            -0.042,
+            -0.084,
+            null,
+            null,
+            null,
+            1.334,
+            0.845,
+            0.604,
+            0.32
+          ],
+          "mahalanobis": [
+            0.208,
+            0.058,
+            0.116,
+            null,
+            null,
+            null,
+            1.834,
+            1.162,
+            0.831,
+            0.44
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C003": {
+          "scores": [
+            0.239,
+            -0.068,
+            -0.131,
+            null,
+            null,
+            null,
+            1.808,
+            1.027,
+            0.623,
+            0.4
+          ],
+          "ci_lower": [
+            -0.261,
+            -0.568,
+            -0.631,
+            null,
+            null,
+            null,
+            1.308,
+            0.527,
+            0.123,
+            -0.1
+          ],
+          "ci_upper": [
+            0.739,
+            0.432,
+            0.369,
+            null,
+            null,
+            null,
+            2.308,
+            1.527,
+            1.123,
+            0.9
+          ],
+          "own_baseline_z": [
+            0.239,
+            -0.068,
+            -0.131,
+            null,
+            null,
+            null,
+            1.808,
+            1.027,
+            0.623,
+            0.4
+          ],
+          "population_z": [
+            0.191,
+            -0.054,
+            -0.105,
+            null,
+            null,
+            null,
+            1.446,
+            0.822,
+            0.498,
+            0.32
+          ],
+          "mahalanobis": [
+            0.263,
+            0.075,
+            0.144,
+            null,
+            null,
+            null,
+            1.989,
+            1.13,
+            0.685,
+            0.44
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C004": {
+          "scores": [
+            -0.197,
+            0.122,
+            -0.015,
+            null,
+            null,
+            null,
+            2.276,
+            1.274,
+            0.981,
+            0.466
+          ],
+          "ci_lower": [
+            -0.697,
+            -0.378,
+            -0.515,
+            null,
+            null,
+            null,
+            1.776,
+            0.774,
+            0.481,
+            -0.034
+          ],
+          "ci_upper": [
+            0.303,
+            0.622,
+            0.485,
+            null,
+            null,
+            null,
+            2.776,
+            1.774,
+            1.481,
+            0.966
+          ],
+          "own_baseline_z": [
+            -0.197,
+            0.122,
+            -0.015,
+            null,
+            null,
+            null,
+            2.276,
+            1.274,
+            0.981,
+            0.466
+          ],
+          "population_z": [
+            -0.158,
+            0.098,
+            -0.012,
+            null,
+            null,
+            null,
+            1.821,
+            1.019,
+            0.785,
+            0.373
+          ],
+          "mahalanobis": [
+            0.217,
+            0.134,
+            0.017,
+            null,
+            null,
+            null,
+            2.504,
+            1.401,
+            1.079,
+            0.513
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "within_cohort_comparison": {
+        "summary": "Mock data.",
+        "ranking_at": "R+1",
+        "ranking": []
+      },
+      "prior_cohort_comparison": null,
+      "is_mock": true
+    },
+    {
+      "id": "ddr",
+      "label": "DNA Damage Response",
+      "description": "Canonical DDR gene signature.",
+      "scoring_method": "Mock data for GUI development.",
+      "datasets_used": [
+        "OSD-569"
+      ],
+      "in_flight_observable": false,
+      "ground_only_note": "No in-flight blood draws.",
+      "actionable_line": "Pending Ensembl-to-symbol mapping.",
+      "feature_panel": [
+        {
+          "name": "ATM",
+          "source": "mock"
+        },
+        {
+          "name": "ATR",
+          "source": "mock"
+        },
+        {
+          "name": "BRCA1",
+          "source": "mock"
+        },
+        {
+          "name": "BRCA2",
+          "source": "mock"
+        },
+        {
+          "name": "TP53",
+          "source": "mock"
+        },
+        {
+          "name": "H2AFX",
+          "source": "mock"
+        },
+        {
+          "name": "RAD51",
+          "source": "mock"
+        },
+        {
+          "name": "GADD45A",
+          "source": "mock"
+        },
+        {
+          "name": "XRCC1",
+          "source": "mock"
+        },
+        {
+          "name": "XRCC4",
+          "source": "mock"
+        },
+        {
+          "name": "XRCC5",
+          "source": "mock"
+        },
+        {
+          "name": "XRCC6",
+          "source": "mock"
+        },
+        {
+          "name": "PARP1",
+          "source": "mock"
+        },
+        {
+          "name": "MDM2",
+          "source": "mock"
+        }
+      ],
+      "trajectories": {
+        "C001": {
+          "scores": [
+            0.046,
+            -0.156,
+            0.113,
+            null,
+            null,
+            null,
+            1.214,
+            0.519,
+            0.325,
+            0.303
+          ],
+          "ci_lower": [
+            -0.454,
+            -0.656,
+            -0.387,
+            null,
+            null,
+            null,
+            0.714,
+            0.019,
+            -0.175,
+            -0.197
+          ],
+          "ci_upper": [
+            0.546,
+            0.344,
+            0.613,
+            null,
+            null,
+            null,
+            1.714,
+            1.019,
+            0.825,
+            0.803
+          ],
+          "own_baseline_z": [
+            0.046,
+            -0.156,
+            0.113,
+            null,
+            null,
+            null,
+            1.214,
+            0.519,
+            0.325,
+            0.303
+          ],
+          "population_z": [
+            0.037,
+            -0.125,
+            0.09,
+            null,
+            null,
+            null,
+            0.971,
+            0.415,
+            0.26,
+            0.242
+          ],
+          "mahalanobis": [
+            0.051,
+            0.172,
+            0.124,
+            null,
+            null,
+            null,
+            1.335,
+            0.571,
+            0.358,
+            0.333
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C002": {
+          "scores": [
+            -0.047,
+            -0.003,
+            -0.128,
+            null,
+            null,
+            null,
+            1.528,
+            0.996,
+            0.592,
+            0.486
+          ],
+          "ci_lower": [
+            -0.547,
+            -0.503,
+            -0.628,
+            null,
+            null,
+            null,
+            1.028,
+            0.496,
+            0.092,
+            -0.014
+          ],
+          "ci_upper": [
+            0.453,
+            0.497,
+            0.372,
+            null,
+            null,
+            null,
+            2.028,
+            1.496,
+            1.092,
+            0.986
+          ],
+          "own_baseline_z": [
+            -0.047,
+            -0.003,
+            -0.128,
+            null,
+            null,
+            null,
+            1.528,
+            0.996,
+            0.592,
+            0.486
+          ],
+          "population_z": [
+            -0.038,
+            -0.002,
+            -0.102,
+            null,
+            null,
+            null,
+            1.222,
+            0.797,
+            0.474,
+            0.389
+          ],
+          "mahalanobis": [
+            0.052,
+            0.003,
+            0.141,
+            null,
+            null,
+            null,
+            1.681,
+            1.096,
+            0.651,
+            0.535
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C003": {
+          "scores": [
+            0.07,
+            -0.129,
+            0.055,
+            null,
+            null,
+            null,
+            1.664,
+            1.21,
+            0.711,
+            0.438
+          ],
+          "ci_lower": [
+            -0.43,
+            -0.629,
+            -0.445,
+            null,
+            null,
+            null,
+            1.164,
+            0.71,
+            0.211,
+            -0.062
+          ],
+          "ci_upper": [
+            0.57,
+            0.371,
+            0.555,
+            null,
+            null,
+            null,
+            2.164,
+            1.71,
+            1.211,
+            0.938
+          ],
+          "own_baseline_z": [
+            0.07,
+            -0.129,
+            0.055,
+            null,
+            null,
+            null,
+            1.664,
+            1.21,
+            0.711,
+            0.438
+          ],
+          "population_z": [
+            0.056,
+            -0.103,
+            0.044,
+            null,
+            null,
+            null,
+            1.331,
+            0.968,
+            0.569,
+            0.35
+          ],
+          "mahalanobis": [
+            0.077,
+            0.142,
+            0.061,
+            null,
+            null,
+            null,
+            1.83,
+            1.331,
+            0.782,
+            0.482
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C004": {
+          "scores": [
+            -0.102,
+            0.183,
+            -0.023,
+            null,
+            null,
+            null,
+            2.037,
+            1.291,
+            0.899,
+            0.576
+          ],
+          "ci_lower": [
+            -0.602,
+            -0.317,
+            -0.523,
+            null,
+            null,
+            null,
+            1.537,
+            0.791,
+            0.399,
+            0.076
+          ],
+          "ci_upper": [
+            0.398,
+            0.683,
+            0.477,
+            null,
+            null,
+            null,
+            2.537,
+            1.791,
+            1.399,
+            1.076
+          ],
+          "own_baseline_z": [
+            -0.102,
+            0.183,
+            -0.023,
+            null,
+            null,
+            null,
+            2.037,
+            1.291,
+            0.899,
+            0.576
+          ],
+          "population_z": [
+            -0.082,
+            0.146,
+            -0.018,
+            null,
+            null,
+            null,
+            1.63,
+            1.033,
+            0.719,
+            0.461
+          ],
+          "mahalanobis": [
+            0.112,
+            0.201,
+            0.025,
+            null,
+            null,
+            null,
+            2.241,
+            1.42,
+            0.989,
+            0.634
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "within_cohort_comparison": {
+        "summary": "Mock data.",
+        "ranking_at": "R+1",
+        "ranking": []
+      },
+      "prior_cohort_comparison": null,
+      "is_mock": true
+    },
+    {
+      "id": "mitochondrial",
+      "label": "Mitochondrial Function",
+      "description": "TCA intermediates + acylcarnitines.",
+      "scoring_method": "Mock data for GUI development.",
+      "datasets_used": [
+        "OSD-571"
+      ],
+      "in_flight_observable": false,
+      "ground_only_note": "Plasma collection requires phlebotomy.",
+      "actionable_line": "Cohort-level only; raw matrix needed for per-astronaut.",
+      "feature_panel": [
+        {
+          "name": "citrate",
+          "source": "mock"
+        },
+        {
+          "name": "succinate",
+          "source": "mock"
+        },
+        {
+          "name": "fumarate",
+          "source": "mock"
+        },
+        {
+          "name": "malate",
+          "source": "mock"
+        },
+        {
+          "name": "alpha-ketoglutarate",
+          "source": "mock"
+        },
+        {
+          "name": "ketoglutarate",
+          "source": "mock"
+        },
+        {
+          "name": "acylcarnitine",
+          "source": "mock"
+        },
+        {
+          "name": "carnitine",
+          "source": "mock"
+        }
+      ],
+      "trajectories": {
+        "C001": {
+          "scores": [
+            0.06,
+            -0.084,
+            0.088,
+            null,
+            null,
+            null,
+            0.844,
+            0.406,
+            0.478,
+            0.243
+          ],
+          "ci_lower": [
+            -0.44,
+            -0.584,
+            -0.412,
+            null,
+            null,
+            null,
+            0.344,
+            -0.094,
+            -0.022,
+            -0.257
+          ],
+          "ci_upper": [
+            0.56,
+            0.416,
+            0.588,
+            null,
+            null,
+            null,
+            1.344,
+            0.906,
+            0.978,
+            0.743
+          ],
+          "own_baseline_z": [
+            0.06,
+            -0.084,
+            0.088,
+            null,
+            null,
+            null,
+            0.844,
+            0.406,
+            0.478,
+            0.243
+          ],
+          "population_z": [
+            0.048,
+            -0.067,
+            0.07,
+            null,
+            null,
+            null,
+            0.675,
+            0.325,
+            0.382,
+            0.194
+          ],
+          "mahalanobis": [
+            0.066,
+            0.092,
+            0.097,
+            null,
+            null,
+            null,
+            0.928,
+            0.447,
+            0.526,
+            0.267
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C002": {
+          "scores": [
+            0.093,
+            0.276,
+            0.04,
+            null,
+            null,
+            null,
+            0.973,
+            0.656,
+            0.587,
+            0.18
+          ],
+          "ci_lower": [
+            -0.407,
+            -0.224,
+            -0.46,
+            null,
+            null,
+            null,
+            0.473,
+            0.156,
+            0.087,
+            -0.32
+          ],
+          "ci_upper": [
+            0.593,
+            0.776,
+            0.54,
+            null,
+            null,
+            null,
+            1.473,
+            1.156,
+            1.087,
+            0.68
+          ],
+          "own_baseline_z": [
+            0.093,
+            0.276,
+            0.04,
+            null,
+            null,
+            null,
+            0.973,
+            0.656,
+            0.587,
+            0.18
+          ],
+          "population_z": [
+            0.074,
+            0.221,
+            0.032,
+            null,
+            null,
+            null,
+            0.778,
+            0.525,
+            0.47,
+            0.144
+          ],
+          "mahalanobis": [
+            0.102,
+            0.304,
+            0.044,
+            null,
+            null,
+            null,
+            1.07,
+            0.722,
+            0.646,
+            0.198
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C003": {
+          "scores": [
+            0.04,
+            0.056,
+            -0.173,
+            null,
+            null,
+            null,
+            1.337,
+            0.94,
+            0.516,
+            0.35
+          ],
+          "ci_lower": [
+            -0.46,
+            -0.444,
+            -0.673,
+            null,
+            null,
+            null,
+            0.837,
+            0.44,
+            0.016,
+            -0.15
+          ],
+          "ci_upper": [
+            0.54,
+            0.556,
+            0.327,
+            null,
+            null,
+            null,
+            1.837,
+            1.44,
+            1.016,
+            0.85
+          ],
+          "own_baseline_z": [
+            0.04,
+            0.056,
+            -0.173,
+            null,
+            null,
+            null,
+            1.337,
+            0.94,
+            0.516,
+            0.35
+          ],
+          "population_z": [
+            0.032,
+            0.045,
+            -0.138,
+            null,
+            null,
+            null,
+            1.07,
+            0.752,
+            0.413,
+            0.28
+          ],
+          "mahalanobis": [
+            0.044,
+            0.062,
+            0.19,
+            null,
+            null,
+            null,
+            1.471,
+            1.034,
+            0.568,
+            0.385
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "C004": {
+          "scores": [
+            0.082,
+            -0.195,
+            -0.132,
+            null,
+            null,
+            null,
+            1.655,
+            1.054,
+            0.559,
+            0.471
+          ],
+          "ci_lower": [
+            -0.418,
+            -0.695,
+            -0.632,
+            null,
+            null,
+            null,
+            1.155,
+            0.554,
+            0.059,
+            -0.029
+          ],
+          "ci_upper": [
+            0.582,
+            0.305,
+            0.368,
+            null,
+            null,
+            null,
+            2.155,
+            1.554,
+            1.059,
+            0.971
+          ],
+          "own_baseline_z": [
+            0.082,
+            -0.195,
+            -0.132,
+            null,
+            null,
+            null,
+            1.655,
+            1.054,
+            0.559,
+            0.471
+          ],
+          "population_z": [
+            0.066,
+            -0.156,
+            -0.106,
+            null,
+            null,
+            null,
+            1.324,
+            0.843,
+            0.447,
+            0.377
+          ],
+          "mahalanobis": [
+            0.09,
+            0.215,
+            0.145,
+            null,
+            null,
+            null,
+            1.821,
+            1.159,
+            0.615,
+            0.518
+          ],
+          "observable_mask": [
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "within_cohort_comparison": {
+        "summary": "Mock data.",
+        "ranking_at": "R+1",
+        "ranking": []
+      },
+      "prior_cohort_comparison": null,
+      "is_mock": true
+    }
+  ],
+  "flow_diagram": {
+    "per_astronaut": {
+      "C001": {
+        "nodes": [
+          {
+            "id": "capsule_NAP_taxa",
+            "layer": "environment",
+            "label": "Capsule taxa (NAP-relevant)",
+            "magnitude": 0.455
+          },
+          {
+            "id": "host_NAP",
+            "layer": "host_site",
+            "label": "Nasopharynx microbiome",
+            "magnitude": 0.595
+          },
+          {
+            "id": "host_ARM",
+            "layer": "host_site",
+            "label": "Forearm skin microbiome (diversity)",
+            "magnitude": -0.42
+          },
+          {
+            "id": "barrier_FLG",
+            "layer": "barrier",
+            "label": "FLG (filaggrin) expression",
+            "magnitude": -0.35
+          },
+          {
+            "id": "cytokine_IL6",
+            "layer": "systemic",
+            "label": "IL-6",
+            "magnitude": 0.49
+          },
+          {
+            "id": "cytokine_TNF",
+            "layer": "systemic",
+            "label": "TNF-alpha",
+            "magnitude": 0.385
+          }
+        ],
+        "edges": [
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_NAP",
+            "weight": 0.7,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "host_NAP",
+            "target": "barrier_FLG",
+            "weight": 0.4,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "host_ARM",
+            "target": "barrier_FLG",
+            "weight": 0.5,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_IL6",
+            "weight": 0.55,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_TNF",
+            "weight": 0.45,
+            "evidence": "correlation_only"
+          }
+        ]
+      },
+      "C002": {
+        "nodes": [
+          {
+            "id": "capsule_NAP_taxa",
+            "layer": "environment",
+            "label": "Capsule taxa (NAP-relevant)",
+            "magnitude": 0.585
+          },
+          {
+            "id": "host_NAP",
+            "layer": "host_site",
+            "label": "Nasopharynx microbiome",
+            "magnitude": 0.765
+          },
+          {
+            "id": "host_ARM",
+            "layer": "host_site",
+            "label": "Forearm skin microbiome (diversity)",
+            "magnitude": -0.54
+          },
+          {
+            "id": "barrier_FLG",
+            "layer": "barrier",
+            "label": "FLG (filaggrin) expression",
+            "magnitude": -0.435
+          },
+          {
+            "id": "cytokine_IL6",
+            "layer": "systemic",
+            "label": "IL-6",
+            "magnitude": 0.63
+          },
+          {
+            "id": "cytokine_TNF",
+            "layer": "systemic",
+            "label": "TNF-alpha",
+            "magnitude": 0.495
+          }
+        ],
+        "edges": [
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_NAP",
+            "weight": 0.7,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "host_NAP",
+            "target": "barrier_FLG",
+            "weight": 0.4,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "host_ARM",
+            "target": "barrier_FLG",
+            "weight": 0.5,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_IL6",
+            "weight": 0.55,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_TNF",
+            "weight": 0.45,
+            "evidence": "correlation_only"
+          }
+        ]
+      },
+      "C003": {
+        "nodes": [
+          {
+            "id": "capsule_NAP_taxa",
+            "layer": "environment",
+            "label": "Capsule taxa (NAP-relevant)",
+            "magnitude": 0.715
+          },
+          {
+            "id": "host_NAP",
+            "layer": "host_site",
+            "label": "Nasopharynx microbiome",
+            "magnitude": 0.935
+          },
+          {
+            "id": "host_ARM",
+            "layer": "host_site",
+            "label": "Forearm skin microbiome (diversity)",
+            "magnitude": -0.66
+          },
+          {
+            "id": "barrier_FLG",
+            "layer": "barrier",
+            "label": "FLG (filaggrin) expression",
+            "magnitude": -0.564
+          },
+          {
+            "id": "cytokine_IL6",
+            "layer": "systemic",
+            "label": "IL-6",
+            "magnitude": 0.77
+          },
+          {
+            "id": "cytokine_TNF",
+            "layer": "systemic",
+            "label": "TNF-alpha",
+            "magnitude": 0.605
+          }
+        ],
+        "edges": [
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_NAP",
+            "weight": 0.7,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "host_NAP",
+            "target": "barrier_FLG",
+            "weight": 0.4,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "host_ARM",
+            "target": "barrier_FLG",
+            "weight": 0.5,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_IL6",
+            "weight": 0.55,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_TNF",
+            "weight": 0.45,
+            "evidence": "correlation_only"
+          }
+        ]
+      },
+      "C004": {
+        "nodes": [
+          {
+            "id": "capsule_NAP_taxa",
+            "layer": "environment",
+            "label": "Capsule taxa (NAP-relevant)",
+            "magnitude": 0.845
+          },
+          {
+            "id": "host_NAP",
+            "layer": "host_site",
+            "label": "Nasopharynx microbiome",
+            "magnitude": 1.105
+          },
+          {
+            "id": "host_ARM",
+            "layer": "host_site",
+            "label": "Forearm skin microbiome (diversity)",
+            "magnitude": -0.78
+          },
+          {
+            "id": "barrier_FLG",
+            "layer": "barrier",
+            "label": "FLG (filaggrin) expression",
+            "magnitude": -0.695
+          },
+          {
+            "id": "cytokine_IL6",
+            "layer": "systemic",
+            "label": "IL-6",
+            "magnitude": 0.91
+          },
+          {
+            "id": "cytokine_TNF",
+            "layer": "systemic",
+            "label": "TNF-alpha",
+            "magnitude": 0.715
+          }
+        ],
+        "edges": [
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_NAP",
+            "weight": 0.7,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "host_NAP",
+            "target": "barrier_FLG",
+            "weight": 0.4,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "host_ARM",
+            "target": "barrier_FLG",
+            "weight": 0.5,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_IL6",
+            "weight": 0.55,
+            "evidence": "correlation_only"
+          },
+          {
+            "source": "barrier_FLG",
+            "target": "cytokine_TNF",
+            "weight": 0.45,
+            "evidence": "correlation_only"
+          }
+        ]
+      }
+    },
+    "evidence_legend": {
+      "shared_taxa_temporal": "Taxon present pre-launch in capsule, absent on crew member preflight, present on crew during/post flight. Temporal precedence supports directionality.",
+      "correlation_only": "Direction not established; reported as undirected association."
+    }
+  }
+}
