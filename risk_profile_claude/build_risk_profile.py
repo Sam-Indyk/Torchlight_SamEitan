@@ -60,6 +60,15 @@ DURING_TPS = ["FD1", "FD2", "FD3"]
 POST_TPS   = ["R+1", "R+45", "R+82", "R+194"]
 ALL_TPS    = PRE_TPS + DURING_TPS + POST_TPS
 
+# Days since landing, used for the exponential-decay recovery fit.
+POST_TP_DAYS = {"R+1": 1, "R+45": 45, "R+82": 82, "R+194": 194}
+
+# Recovery-fit gating thresholds. We only emit a tau if the trajectory is
+# big enough to be meaningfully fitted and decays in the expected direction.
+RECOVERY_MIN_POSTPOINTS  = 2     # need at least 2 finite post-flight points
+RECOVERY_MIN_INITIAL_ABS = 0.30  # |R+1 score| must exceed this to fit
+RECOVERY_MAX_TAU_DAYS    = 1500  # clamp absurd extrapolations
+
 # Bootstrap settings for CI bands over preflight pool
 BOOTSTRAP_N = 500
 BOOTSTRAP_SEED = 0
@@ -297,6 +306,104 @@ def panel_mahalanobis(point_vec: np.ndarray,
 
 
 # --------------------------------------------------------------------------
+# recovery-rate fit
+# --------------------------------------------------------------------------
+
+def fit_recovery(scores: list[float | None],
+                 timepoints: list[str]
+                 ) -> dict | None:
+    """Fit y(t) = A * exp(-t/tau) to the post-flight portion of a score
+    trajectory and return a small summary block:
+
+      {"tau_days": float, "half_life_days": float, "initial_deviation": float,
+       "r_squared": float, "n_points_used": int, "direction": "up"|"down",
+       "fit_quality": "ok"|"low_n"|"poor_fit"|"non_decaying"}
+
+    Returns None if the trajectory is too small to fit, has too few finite
+    post points, or doesn't decay in a single direction.
+
+    Method: log-linear regression on log(|y|) over t in days. Slope = -1/tau.
+    A simple, dependency-free alternative to scipy.optimize.curve_fit that
+    is appropriate for a 4-point post-flight sequence.
+    """
+    if not scores or len(scores) != len(timepoints):
+        return None
+
+    # extract (days, signed score) pairs at post-flight timepoints
+    pts: list[tuple[float, float]] = []
+    for tp, s in zip(timepoints, scores):
+        if tp in POST_TP_DAYS and s is not None and np.isfinite(s):
+            pts.append((POST_TP_DAYS[tp], float(s)))
+    if len(pts) < RECOVERY_MIN_POSTPOINTS:
+        return None
+
+    # initial deviation from the earliest available post-flight reading
+    pts.sort(key=lambda r: r[0])
+    days_arr   = np.asarray([d for d, _ in pts], dtype=float)
+    scores_arr = np.asarray([s for _, s in pts], dtype=float)
+    initial = float(scores_arr[0])
+    if abs(initial) < RECOVERY_MIN_INITIAL_ABS:
+        return None
+
+    # use the sign of the initial deviation as the trajectory direction;
+    # only keep points that are on the same side of zero (still decaying
+    # toward baseline). If the trajectory crosses zero, that's a sign of
+    # over-correction and we don't try to fit it as a single decay.
+    sign = 1.0 if initial > 0 else -1.0
+    same_side = (scores_arr * sign) > 0
+    if same_side.sum() < RECOVERY_MIN_POSTPOINTS:
+        return None
+    days_use   = days_arr[same_side]
+    scores_use = scores_arr[same_side]
+
+    # log-linear fit on |y|
+    log_y = np.log(np.abs(scores_use))
+    # numpy.polyfit returns [slope, intercept]
+    slope, intercept = np.polyfit(days_use, log_y, 1)
+    if not np.isfinite(slope) or slope >= 0:
+        # zero or positive slope means the trajectory is flat or growing
+        return {
+            "tau_days":          None,
+            "half_life_days":    None,
+            "initial_deviation": round(initial, 3),
+            "r_squared":         None,
+            "n_points_used":     int(same_side.sum()),
+            "direction":         "up" if sign > 0 else "down",
+            "fit_quality":       "non_decaying",
+        }
+
+    tau = float(-1.0 / slope)
+    tau = float(min(tau, RECOVERY_MAX_TAU_DAYS))
+    half_life = float(tau * np.log(2))
+    A_signed = float(sign * np.exp(intercept))
+
+    # r^2 of the log-linear fit (a clean, interpretable goodness-of-fit
+    # number on the same scale that was actually fit). For 2 points r^2
+    # is trivially 1; we mark that as low-confidence.
+    pred = slope * days_use + intercept
+    ss_res = float(np.sum((log_y - pred) ** 2))
+    ss_tot = float(np.sum((log_y - log_y.mean()) ** 2))
+    r2 = 1.0 - (ss_res / ss_tot) if ss_tot > 1e-12 else float("nan")
+
+    if same_side.sum() == 2:
+        quality = "low_n"
+    elif np.isfinite(r2) and r2 < 0.5:
+        quality = "poor_fit"
+    else:
+        quality = "ok"
+
+    return {
+        "tau_days":          round(tau, 1),
+        "half_life_days":    round(half_life, 1),
+        "initial_deviation": round(A_signed, 3),
+        "r_squared":         round(r2, 3) if np.isfinite(r2) else None,
+        "n_points_used":     int(same_side.sum()),
+        "direction":         "up" if sign > 0 else "down",
+        "fit_quality":       quality,
+    }
+
+
+# --------------------------------------------------------------------------
 # axis assembly
 # --------------------------------------------------------------------------
 
@@ -424,6 +531,7 @@ def per_astronaut_trajectory(values_by_analyte: dict[str, dict[str, dict[str, fl
             "population_z":    pop_z_traj,
             "mahalanobis":     maha_traj,
             "observable_mask": observable,
+            "recovery":        fit_recovery(scores, ALL_TPS),
         }
     return out
 
@@ -527,6 +635,7 @@ def _empty_traj() -> dict[str, dict]:
         "population_z":    [None] * len(ALL_TPS),
         "mahalanobis":     [None] * len(ALL_TPS),
         "observable_mask": [False] * len(ALL_TPS),
+        "recovery":        None,
     } for astro in CREW}
 
 
@@ -781,6 +890,7 @@ def build_mitochondrial_axis() -> dict:
             "population_z":    [None] * len(ALL_TPS),
             "mahalanobis":     [None] * len(ALL_TPS),
             "observable_mask": observable,
+            "recovery":        fit_recovery(scores, ALL_TPS),
         }
 
     note = ("OSD-571 plasma metabolomics is supplied as a pre-aggregated "
@@ -865,6 +975,7 @@ def _mock_smooth_traj(seed: int, magnitude: float,
             "mahalanobis":     [None if s is None else round(abs(s) * 1.1, 3)
                                 for s in scores],
             "observable_mask": observable,
+            "recovery":        fit_recovery(scores, ALL_TPS),
         }
     return out
 

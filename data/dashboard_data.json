@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-08T18:07:15+00:00",
+    "generated_at": "2026-05-09T01:17:00+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -221,7 +221,8 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": null
         },
         "C002": {
           "scores": [
@@ -307,7 +308,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 274.1,
+            "half_life_days": 190.0,
+            "initial_deviation": -0.382,
+            "r_squared": 0.765,
+            "n_points_used": 4,
+            "direction": "down",
+            "fit_quality": "ok"
+          }
         },
         "C003": {
           "scores": [
@@ -393,7 +403,8 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": null
         },
         "C004": {
           "scores": [
@@ -479,7 +490,8 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": null
         }
       },
       "within_cohort_comparison": {
@@ -690,7 +702,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 1500.0,
+            "half_life_days": 1039.7,
+            "initial_deviation": 1.009,
+            "r_squared": 1.0,
+            "n_points_used": 2,
+            "direction": "up",
+            "fit_quality": "low_n"
+          }
         },
         "C002": {
           "scores": [
@@ -776,7 +797,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": null,
+            "half_life_days": null,
+            "initial_deviation": 0.652,
+            "r_squared": null,
+            "n_points_used": 3,
+            "direction": "up",
+            "fit_quality": "non_decaying"
+          }
         },
         "C003": {
           "scores": [
@@ -862,7 +892,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": null,
+            "half_life_days": null,
+            "initial_deviation": -0.639,
+            "r_squared": null,
+            "n_points_used": 3,
+            "direction": "down",
+            "fit_quality": "non_decaying"
+          }
         },
         "C004": {
           "scores": [
@@ -948,7 +987,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 53.4,
+            "half_life_days": 37.0,
+            "initial_deviation": 0.508,
+            "r_squared": 1.0,
+            "n_points_used": 2,
+            "direction": "up",
+            "fit_quality": "low_n"
+          }
         }
       },
       "within_cohort_comparison": {
@@ -1147,7 +1195,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 158.2,
+            "half_life_days": 109.7,
+            "initial_deviation": 0.83,
+            "r_squared": 0.667,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C002": {
           "scores": [
@@ -1233,7 +1290,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 176.1,
+            "half_life_days": 122.0,
+            "initial_deviation": 1.285,
+            "r_squared": 0.821,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C003": {
           "scores": [
@@ -1319,7 +1385,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 144.7,
+            "half_life_days": 100.3,
+            "initial_deviation": 1.552,
+            "r_squared": 0.941,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C004": {
           "scores": [
@@ -1405,7 +1480,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 159.4,
+            "half_life_days": 110.5,
+            "initial_deviation": 1.79,
+            "r_squared": 0.933,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         }
       },
       "within_cohort_comparison": {
@@ -1567,7 +1651,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 83.5,
+            "half_life_days": 57.9,
+            "initial_deviation": 1.307,
+            "r_squared": 0.985,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C002": {
           "scores": [
@@ -1653,7 +1746,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 83.5,
+            "half_life_days": 57.9,
+            "initial_deviation": 1.307,
+            "r_squared": 0.985,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C003": {
           "scores": [
@@ -1739,7 +1841,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 83.5,
+            "half_life_days": 57.9,
+            "initial_deviation": 1.307,
+            "r_squared": 0.985,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         },
         "C004": {
           "scores": [
@@ -1825,7 +1936,16 @@
             true,
             true,
             true
-          ]
+          ],
+          "recovery": {
+            "tau_days": 83.5,
+            "half_life_days": 57.9,
+            "initial_deviation": 1.307,
+            "r_squared": 0.985,
+            "n_points_used": 4,
+            "direction": "up",
+            "fit_quality": "ok"
+          }
         }
       },
       "within_cohort_comparison": {

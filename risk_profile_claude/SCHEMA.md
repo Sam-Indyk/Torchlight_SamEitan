@@ -94,7 +94,16 @@ Per-axis shape:
       "own_baseline_z":    [ 0.0, -0.1,  0.0, null, null, null,  1.4,  0.7,  0.3,  0.0],
       "population_z":      [ 0.2,  0.1,  0.2, null, null, null,  2.4,  1.3,  0.6,  0.3],
       "mahalanobis":       [ 0.4,  0.3,  0.5, null, null, null,  3.7,  2.1,  1.0,  0.5],
-      "observable_mask":   [true, true, true, false, false, false, true, true, true, true]
+      "observable_mask":   [true, true, true, false, false, false, true, true, true, true],
+      "recovery": {
+        "tau_days":          120.0,
+        "half_life_days":     83.2,
+        "initial_deviation":   1.5,
+        "r_squared":           0.94,
+        "n_points_used":       4,
+        "direction":          "up",
+        "fit_quality":        "ok"
+      }
     },
     "C002": { ... },
     "C003": { ... },
@@ -134,8 +143,28 @@ Per-axis shape:
 | `trajectories[id].own_baseline_z` / `population_z` | optional but populated | for the secondary lines on the chart |
 | `trajectories[id].mahalanobis` | optional | only set for axes where a multivariate panel is defined |
 | `trajectories[id].observable_mask` | required | parallel array of booleans |
+| `trajectories[id].recovery` | optional, may be `null` | post-flight exponential-decay summary; absent when initial deviation is too small or fewer than 2 same-side post points |
 | `within_cohort_comparison` | required | summary always present, ranking optional |
 | `prior_cohort_comparison` | optional | `null` when no prior available |
+
+### `trajectories[id].recovery` schema
+
+Fitted as `y(t) = A · exp(-t/τ)` over post-flight timepoints in days
+(R+1=1, R+45=45, R+82=82, R+194=194), via log-linear regression on `|y|`.
+
+| Field | Type | Notes |
+|---|---|---|
+| `tau_days` | number or null | time constant in days; null if trajectory does not decay |
+| `half_life_days` | number or null | `tau_days * ln(2)`; the practical "days for the deviation to halve" |
+| `initial_deviation` | number | signed deviation at the earliest fitted post point |
+| `r_squared` | number or null | goodness of fit on the log-linear regression |
+| `n_points_used` | int | number of same-sign post-flight points used in the fit |
+| `direction` | `"up"` or `"down"` | sign of the post-flight deviation being modeled |
+| `fit_quality` | enum | `"ok"`, `"low_n"` (only 2 same-sign points), `"poor_fit"` (R² < 0.5), or `"non_decaying"` (slope ≥ 0) |
+
+A long half-life or a `non_decaying` quality flag is the actual *risk* signal —
+a per-axis indication that an astronaut is still affected late in the
+post-flight window, regardless of how big their R+1 deviation was.
 
 ## flow_diagram
 

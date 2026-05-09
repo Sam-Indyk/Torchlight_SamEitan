@@ -153,6 +153,9 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
     )
     st.plotly_chart(fig, use_container_width=True)
 
+    # --- recovery rate (post-flight exponential decay fit) -----------------
+    _render_recovery_table(axis, crew_names)
+
     # --- within-cohort ranking ---------------------------------------------
     wc = axis.get("within_cohort_comparison", {})
     if wc.get("ranking"):
@@ -199,3 +202,57 @@ def _hex_to_rgba(hex_color: str, alpha: float) -> str:
         return f"rgba(100,100,100,{alpha})"
     r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
     return f"rgba({r},{g},{b},{alpha:.3f})"
+
+
+_QUALITY_LABELS = {
+    "ok":           "good fit",
+    "low_n":        "limited fit (only 2 same-side post points)",
+    "poor_fit":     "poor fit (R^2 < 0.5)",
+    "non_decaying": "trajectory does not monotonically decay",
+}
+
+
+def _render_recovery_table(axis: dict, crew_names: dict[str, str]) -> None:
+    """Render the post-flight exponential-decay summary per astronaut.
+
+    Reports tau (time constant) and half-life in days. A fast half-life means
+    this astronaut recovered quickly on this axis; a slow or absent half-life
+    is the actual risk signal we care about.
+    """
+    rows = []
+    for crew_id, traj in axis.get("trajectories", {}).items():
+        rec = traj.get("recovery")
+        name = crew_names.get(crew_id, crew_id)
+        if rec is None:
+            rows.append({
+                "Astronaut": name,
+                "Half-life (days)":   "—",
+                "tau (days)":         "—",
+                "Initial deviation":  "—",
+                "R^2":                "—",
+                "Fit quality":        "no fit (small initial deviation or <2 post points)",
+            })
+            continue
+        tau = rec.get("tau_days")
+        hl  = rec.get("half_life_days")
+        a   = rec.get("initial_deviation")
+        r2  = rec.get("r_squared")
+        q   = rec.get("fit_quality") or "—"
+        rows.append({
+            "Astronaut": name,
+            "Half-life (days)":   f"{hl:.0f}" if hl is not None else "—",
+            "tau (days)":         f"{tau:.0f}" if tau is not None else "—",
+            "Initial deviation":  f"{a:+.2f}"  if a  is not None else "—",
+            "R^2":                f"{r2:.2f}"  if r2 is not None else "—",
+            "Fit quality":        _QUALITY_LABELS.get(q, q),
+        })
+
+    st.markdown("**Post-flight recovery rate** "
+                "(exp decay fit on |y| over post timepoints)")
+    st.dataframe(rows, hide_index=True, use_container_width=True)
+    st.caption(
+        "Half-life = days for the deviation to halve, fit on R+1 / R+45 / "
+        "R+82 / R+194. Faster half-life = quicker return to baseline. "
+        "Astronauts whose half-life is long (or whose trajectory does not "
+        "decay at all) are the per-axis risk signals worth flagging."
+    )
