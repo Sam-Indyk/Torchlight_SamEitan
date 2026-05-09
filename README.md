@@ -2,96 +2,58 @@
 
 **Track 2 — Individualized Risk Profile.** Inspiration4 (n = 4), Torchlight Summit Biosovereignty Hackathon, May 6–9 2026.
 
-> **For judges:** the dashboard is the deliverable.
->
-> **🚀 Easiest path:** open the live deployment (Sam, paste the URL here once Streamlit Cloud finishes the first deploy — instructions in the [Deploy](#deploy-to-streamlit-cloud) section below).
->
-> **Local path:** three commands (next section). Open `http://localhost:8501/` and follow the tab order — Mission Overview → Individualized Risk Profile → AI · grounded in the data → Upstream Causes → Capsule → Barrier → Systemic Flow → Molecular Perturbations → Data Sources & Provenance.
+---
+
+## 🚀 Open the live dashboard
+
+# **[torchlightsameitan-d6ydnn3ximwbpt6yiko3gp.streamlit.app](https://torchlightsameitan-d6ydnn3ximwbpt6yiko3gp.streamlit.app/)**
+
+No install required. Public, hosted on Streamlit Cloud. The app *is* the deliverable — this README is the supporting documentation.
 
 ---
 
-## Quick start — run the dashboard
+## What this is, in one paragraph
 
-**Prerequisites:** Python 3.10 or newer with `pip` available.
+A per-astronaut risk profile of the Inspiration-4 spaceflight cohort, integrating nine OSDR multi-omics datasets into the four Track 2 health axes — **immune regulation**, **inflammation & oxidative stress**, **DNA damage response**, and **mitochondrial function**. Each axis is scored against the astronaut's own preflight baseline *and* against published healthy-adult reference ranges, with bootstrap CIs and exponential recovery-rate fits. A grounded-LLM layer lets users ask natural-language questions over the precomputed scores, with a regex verifier that rejects any AI claim not present in the source data. Every chart has explicit units and a "Why this chart?" expander. **No synthetic data, no causal claims, no clinical recommendations** — n = 4 is honored throughout.
+
+---
+
+## How to read the dashboard (left → right)
+
+| # | Tab | What you'll find |
+|---|---|---|
+| 1 | **Mission Overview** | Hero, anonymous crew cards (C001–C004), at-a-glance stats (n=4, 9 datasets, 67k concordant features, **96% capsule→NAP taxa overlap**), mission timeline, and an interactive body-sample map with a **time-machine slider** flipping between preflight / in-flight / post-flight phases |
+| 2 | **Individualized Risk Profile** *(Track 2 deliverable)* | Four-axis overview with R+1 ranking and recovery-half-life matrix · multi-system Mahalanobis (single risk number) · per-astronaut clinical-style report cards · **side-by-side astronaut comparison** with per-axis difference table · per-axis drill-downs with trajectory, 95% bootstrap CI, recovery-rate fits, prior-cohort overlay, methods note |
+| 3 | **AI · grounded in the data** *(Best Use of AI submission)* | "Ask the dashboard" natural-language Q&A · per-astronaut AI narratives, both with regex-verified numeric grounding (visible green ✓ / yellow ⚠ badges) |
+| 4 | **Upstream Causes** | Network view of 8 hand-curated cascades (microgravity / radiation / fluid-shift → root causes → match against data) · per-cascade detail with chain-of-pills visualization, terminal-observation match table, and citations |
+| 5 | **Capsule → Barrier → Systemic Flow** | Per-astronaut signature visual: 4-column SVG flow with computed edge weights showing capsule taxa → body sites → skin barrier → systemic cytokines |
+| 6 | **Molecular Perturbations · Microbiome / Systemic** | Heatmaps and bar charts of the underlying DE results, read directly from `analysis/results/` CSVs |
+| 7 | **Data Sources & Provenance** | What's real, what's calibrated. Every internal OSDR dataset and every external literature reference (population SDs, Tierney/Park overlays) with citations |
+
+Every chart has an **ⓘ About this chart** expander documenting type, units, and rationale.
+
+---
+
+## Run it locally (optional)
+
+The live deploy above is the canonical way to look at the project. If you want to run the dashboard locally — to inspect the code, regenerate the JSON, or develop on top of it — here's the three-command path:
 
 ```bash
-# 1. Clone and enter the repo
 git clone https://github.com/Sam-Indyk/Torchlight_SamEitan.git
 cd Torchlight_SamEitan
-
-# 2. Install dependencies
 pip install -r requirements.txt
-
-# 3. (Optional) Set the Anthropic API key for the AI tab
-#    Without this, the dashboard runs unchanged but the AI tab will
-#    prompt you to paste a key into the GUI (session-only, never written
-#    to disk). A free-tier key works.
-#
-#    Mac/Linux:  export ANTHROPIC_API_KEY=sk-ant-...
-#    Windows:    $env:ANTHROPIC_API_KEY = "sk-ant-..."
-
-# 4. Launch the dashboard
 streamlit run guiv2/app.py
 ```
 
-Streamlit prints the URL when it starts — usually **http://localhost:8501/**.
-It also auto-opens the browser. To stop the server, press `Ctrl+C` in the terminal.
+Streamlit prints `http://localhost:8501/` and auto-opens the browser. Use the `streamlit` CLI, not `python guiv2/app.py` — Streamlit apps must be launched through their CLI runner. If `streamlit` isn't on PATH, `python -m streamlit run guiv2/app.py` works.
 
-> **Heads up:** `python guiv2/app.py` will *not* work — Streamlit apps must be launched through the `streamlit` CLI. If `streamlit` isn't on your PATH, use `python -m streamlit run guiv2/app.py`.
+For the AI tab, set `ANTHROPIC_API_KEY` in your shell before launching, or paste a key into the in-app password gate (session-only, never written to disk). The free tier is plenty for a few minutes of exploration.
 
-### Deploy to Streamlit Cloud
-
-The repo is configured to deploy to [share.streamlit.io](https://share.streamlit.io)
-in three clicks. Streamlit Cloud auto-detects [`streamlit_app.py`](streamlit_app.py)
-at the repo root and reads dependencies from [`requirements.txt`](requirements.txt).
-
-1. Go to **[share.streamlit.io](https://share.streamlit.io)** and sign in with GitHub.
-2. Click **"New app"** → pick this repo (`Sam-Indyk/Torchlight_SamEitan`),
-   branch `main`, main file `streamlit_app.py`. Hit **Deploy**.
-3. Once the build finishes, open the deployed app's settings → **Secrets** and paste:
-   ```toml
-   [anthropic]
-   api_key = "sk-ant-..."
-   ```
-   (See [`.streamlit/secrets.example.toml`](.streamlit/secrets.example.toml).)
-   The dashboard works without this — the AI tab will simply prompt
-   visitors to paste their own key — but pasting yours once means
-   judges can use the AI features end-to-end without bringing their own key.
-4. Pin the deployed URL to the top of this README so judges land on
-   the live app, not the source.
-
-### What if I just want to look at the data?
-
-The risk-profile JSON the dashboard reads is checked into the repo at
-[`data/dashboard_data.json`](data/dashboard_data.json). It's the schema-driven
-single source of truth for the per-astronaut axes and is fully documented in
-[`risk_profile_claude/SCHEMA.md`](risk_profile_claude/SCHEMA.md).
-
-To regenerate it from scratch (reads the cached OSDR data via `analysis/`):
+To regenerate `data/dashboard_data.json` from the cached OSDR data:
 
 ```bash
 python risk_profile_claude/build_risk_profile.py
 ```
-
----
-
-## Tour the dashboard — what you'll see in each tab
-
-1. **Mission Overview** — Hero banner, anonymous crew cards (C001–C004), at-a-glance stats (n=4, datasets used, 67k concordant features, 96% capsule→NAP overlap), mission timeline strip, and a body-sample map showing where every OSDR sample was collected.
-2. **Individualized Risk Profile** — *the Track 2 deliverable.*
-   - Four-axis overview with a per-axis × per-astronaut R+1 ranking and a half-life recovery matrix.
-   - **Multi-system Mahalanobis** — the single risk number per astronaut combining all four axes.
-   - **Per-astronaut report cards** — rule-based clinical-style summaries.
-   - One drill-down per axis (Immune, Inflammation, DDR, Mitochondrial), each with full trajectory, 95% bootstrap CI, recovery-rate fits, prior-cohort overlay, and a methods expander.
-3. **AI · grounded in the data** — *the $100 AI-prize submission.*
-   - **Ask the dashboard** — natural-language Q&A grounded in the precomputed JSON, with a numeric verifier.
-   - **Per-astronaut AI narratives** — Claude-written 2-paragraph factual summaries, every number checked against source.
-   - See [`AI_USES.md`](AI_USES.md) for the disclosure and [`AI_PLAN.md`](AI_PLAN.md) for the design rationale.
-4. **Capsule → Barrier → Systemic Flow** — Per-astronaut Sankey: capsule taxa → host body sites → skin barrier → systemic cytokines, with computed edge weights.
-5. **Molecular Perturbations · Microbiome / · Systemic** — Eitan's CSV-driven heatmaps and bar charts of the underlying differential-expression results from `analysis/results/`.
-6. **Data Sources & Provenance** — Card grid documenting every internal OSDR dataset and every external literature reference (population SDs, prior-cohort overlays). The "what's real, what's calibrated" page.
-
-Every chart in the dashboard has an **ⓘ About this chart** expander beneath it that documents what the chart is showing, the units of each axis, and why we chose that chart type.
 
 ---
 
