@@ -1,23 +1,65 @@
-"""Per-astronaut microbiome → barrier → systemic flow diagram.
+"""Per-astronaut microbiome → barrier → systemic flow (inline SVG).
 
-Renders the `flow_diagram` block of dashboard_data.json as a Sankey diagram
-with one tab per astronaut. Edge colors encode evidence type:
-  - shared_taxa_temporal: directional, supported by temporal precedence
-  - correlation_only:     undirected association
+Replaces the Plotly Sankey, which crammed long node labels into narrow
+columns and hid every magnitude behind hover. Same data
+(`dashboard_data.json["flow_diagram"]`), same four layers
+(environment → host site → barrier → systemic), but laid out as a
+custom SVG with:
 
-This is the signature visual called out in README.md ("microbiome → barrier
-→ immune flow diagram embedded in the immune and inflammation panels").
+  - Column headers at the top spelling out each layer
+  - Each node as a rounded card with its label and signed magnitude
+    visible inline (red if positive, blue if suppressed)
+  - Curved edges between cards with thickness scaled to edge weight
+    and the weight value labeled at the edge midpoint
+  - A clear colour key below the chart for layer color, edge weight,
+    and node magnitude direction
+  - Native browser tooltips on every node and edge
+
+This is the signature visual called out in README.md.
 """
 
 from __future__ import annotations
 
-import plotly.graph_objects as go
+import html as _html
+
 import streamlit as st
+import streamlit.components.v1 as components
 
 from guiv2 import config, data
-from guiv2._plotly_theme import apply_clean_theme
 from guiv2.components._chart_about import about_chart
 
+
+# ---------------------------------------------------------------------------
+# layout knobs
+# ---------------------------------------------------------------------------
+
+LAYERS = ["environment", "host_site", "barrier", "systemic"]
+LAYER_LABEL = {
+    "environment": "ENVIRONMENT",
+    "host_site":   "HOST SITE",
+    "barrier":     "BARRIER",
+    "systemic":    "SYSTEMIC",
+}
+LAYER_SUB = {
+    "environment": "what's on the capsule",
+    "host_site":   "what's on the crew",
+    "barrier":     "skin barrier response",
+    "systemic":    "blood-borne signal",
+}
+
+# canvas
+W, H = 1180, 720
+HEADER_TOP = 30
+NODE_TOP = 110         # where the first node row starts
+NODE_W, NODE_H = 230, 92
+
+# four equally-spaced column centers
+COL_X = {l: int((i + 0.5) * W / len(LAYERS)) for i, l in enumerate(LAYERS)}
+
+
+# ---------------------------------------------------------------------------
+# rendering
+# ---------------------------------------------------------------------------
 
 def render_flow_diagram(view: dict, manifest: dict) -> None:
     st.subheader(view["title"])
@@ -34,111 +76,309 @@ def render_flow_diagram(view: dict, manifest: dict) -> None:
         st.info("No per-astronaut flow data available.")
         return
 
+    cohort = flow.get("cohort_level_facts", {}) or {}
+
+    st.markdown(
+        f"<div style='background:{config.COLOR_BG_BANNER};"
+        f"color:{config.COLOR_PRIMARY};padding:12px 16px;border-radius:8px;"
+        f"border-left:4px solid {config.COLOR_ICE};margin-bottom:14px;'>"
+        f"<strong>What this chart measures.</strong> For each astronaut, "
+        f"a four-step chain from the cabin environment to the systemic "
+        f"inflammation signal at R+1. Each step shows a single node value "
+        f"(signed deviation, in own-baseline z-units for cytokines and "
+        f"normalized magnitude for microbiome / barrier). Edge thickness "
+        f"is the computed coupling between adjacent nodes; the number "
+        f"on each edge is that coupling weight."
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
+    # cohort-level facts as a one-liner above the per-astronaut tabs
+    facts = []
+    if "capsule_to_NAP_shared_fraction" in cohort:
+        facts.append(
+            f"**Capsule→crew NAP overlap:** "
+            f"{100*cohort['capsule_to_NAP_shared_fraction']:.0f}%"
+        )
+    if "capsule_to_ARM_shared_fraction" in cohort:
+        facts.append(
+            f"**Capsule→crew ARM overlap:** "
+            f"{100*cohort['capsule_to_ARM_shared_fraction']:.0f}%"
+        )
+    if "barrier_pooled_signed_mean" in cohort:
+        facts.append(
+            f"**Barrier pooled mean log2FC:** "
+            f"{cohort['barrier_pooled_signed_mean']:+.2f}"
+        )
+    if facts:
+        st.markdown(" · ".join(facts))
+
     crew_names = data.crew_display_names(manifest)
     astro_ids = [c for c in data.crew_columns(manifest) if c in per_astro]
-
     tab_labels = [crew_names.get(a, a) for a in astro_ids]
     tabs = st.tabs(tab_labels)
     for tab, astro_id in zip(tabs, astro_ids):
         with tab:
-            _render_one_sankey(per_astro[astro_id], flow.get("evidence_legend", {}))
+            svg = _build_svg(per_astro[astro_id])
+            components.html(svg, height=H + 60, scrolling=False)
+
+    # legend
+    st.markdown(_legend_html(flow.get("evidence_legend", {})),
+                unsafe_allow_html=True)
 
     about_chart(
-        chart_type="Sankey diagram (4 layers: environment → host site → "
-                   "barrier → systemic), one per astronaut",
-        shows=("How spaceflight perturbations flow through the body for "
-               "each crew member: from microbes detected on capsule "
-               "surfaces (OSD-573), to the astronaut's body-site "
-               "microbiome shifts (OSD-572 NAP/ARM), to the skin "
-               "barrier transcriptomic response (OSD-574 FLG/CLDN/HAS), "
+        chart_type="Custom SVG flow diagram (4 columns, labeled cards, curved edges)",
+        shows=("How spaceflight signal moves from the cabin environment "
+               "(OSD-573 capsule taxa) through the astronaut's body-site "
+               "microbiome (OSD-572 NAP/ARM swabs) through the skin "
+               "barrier transcriptomic response (OSD-574 spatial pooled) "
                "to the systemic R+1 inflammation composite (IL-6/TNF/CRP "
-               "from OSD-575). Edge thickness = computed weight; edge "
-               "color = evidence type."),
-        x_axis="Layers, left → right: environment → host site → barrier → systemic",
-        y_axis=("Each node's relative magnitude is encoded by node "
-                "color/position. Edge weight = √(product of normalized "
-                "source and target magnitudes), unitless and clipped to "
-                "[0.05, 1] for visual readability. The capsule→host "
-                "edges include the actual shared-taxa fraction (96% NAP, "
-                "87% ARM) as part of the weight."),
-        why=("A Sankey is the natural fit when you have a directional "
-             "chain with thickness-encoded magnitudes at each step. The "
-             "four-layer left-to-right reading mirrors the README's "
-             "biological story (capsule → barrier → immune). The same "
-             "data as a network diagram would lose the layer ordering."),
+               "from OSD-575). Per astronaut, in tabs."),
+        x_axis="Four columns left → right: ENVIRONMENT → HOST SITE → "
+               "BARRIER → SYSTEMIC. Read each row as one biological step.",
+        y_axis=("Each card shows its signed magnitude inline. For "
+                "microbiome cards (host site) magnitude = normalized "
+                "mean |log2FC|, 0 to 1, scale within layer. For barrier, "
+                "magnitude = signed mean log2FC mapped into [-1, 1] "
+                "(negative = suppressed). For systemic cytokines, "
+                "magnitude = R+1 own-baseline z-score (SDs from "
+                "preflight). Edge thickness scales with edge weight; "
+                "the number labeled on each edge is the weight value."),
+        why=("Custom SVG beats Plotly Sankey here because the graph is "
+             "small (5 nodes, 5 edges per astronaut) and the labels are "
+             "long. Sankey crammed magnitudes into hover tooltips and "
+             "couldn't show layer headers cleanly. Inline cards with "
+             "visible magnitudes and labeled edges make the chain "
+             "readable at a glance."),
     )
 
 
-def _render_one_sankey(graph: dict, legend: dict) -> None:
+# ---------------------------------------------------------------------------
+# SVG construction
+# ---------------------------------------------------------------------------
+
+def _build_svg(graph: dict) -> str:
     nodes = graph.get("nodes", [])
     edges = graph.get("edges", [])
     if not nodes or not edges:
-        st.info("Empty graph for this astronaut.")
-        return
+        return "<div>(no graph data)</div>"
 
-    # Sankey requires integer node indices; build a label/color/x-position
-    # list and a name→index map.
-    node_ids = [n["id"] for n in nodes]
-    id_to_idx = {nid: i for i, nid in enumerate(node_ids)}
-    node_labels = [n.get("label", n["id"]) for n in nodes]
+    # group nodes by layer
+    by_layer: dict[str, list[dict]] = {l: [] for l in LAYERS}
+    for n in nodes:
+        l = n.get("layer", "systemic")
+        by_layer.setdefault(l, []).append(n)
 
-    # color by layer
-    node_colors = [config.SANKEY_LAYER_COLORS.get(n.get("layer"), "#888")
-                   for n in nodes]
-
-    # column positions: derive from layer order so the diagram reads
-    # left → right as environment, host_site, barrier, systemic
-    layer_x = {"environment": 0.05, "host_site": 0.35,
-               "barrier": 0.65, "systemic": 0.95}
-    node_x = [layer_x.get(n.get("layer"), None) for n in nodes]
-    has_x = all(x is not None for x in node_x)
-
-    # build edges; skip any that reference unknown nodes
-    sources, targets, values, link_colors, link_hovers = [], [], [], [], []
-    for e in edges:
-        s_idx = id_to_idx.get(e["source"])
-        t_idx = id_to_idx.get(e["target"])
-        if s_idx is None or t_idx is None:
+    # vertical positions: spread within the column
+    available_h = H - NODE_TOP - 50  # leave room at bottom
+    positions: dict[str, tuple[int, int]] = {}
+    for layer in LAYERS:
+        ns = by_layer.get(layer, [])
+        n_count = len(ns)
+        if n_count == 0:
             continue
-        sources.append(s_idx)
-        targets.append(t_idx)
-        values.append(max(float(e.get("weight", 0.0)), 0.01))
-        ev = e.get("evidence", "correlation_only")
-        link_colors.append(
-            config.SANKEY_EDGE_COLORS.get(ev, "rgba(154,163,173,0.4)"))
-        link_hovers.append(
-            f"{node_labels[s_idx]} → {node_labels[t_idx]}<br>"
-            f"weight: {e.get('weight', 0.0):.2f}<br>"
-            f"evidence: {ev}")
+        cx = COL_X[layer]
+        # distribute n_count cards centered vertically
+        total_used = n_count * NODE_H + (n_count - 1) * 24
+        start_y = NODE_TOP + (available_h - total_used) // 2
+        for i, node in enumerate(ns):
+            y = start_y + i * (NODE_H + 24)
+            x = cx - NODE_W // 2
+            positions[node["id"]] = (x, y)
 
-    fig = go.Figure(go.Sankey(
-        arrangement="snap",
-        node=dict(
-            pad=18, thickness=18,
-            line=dict(color="white", width=0.5),
-            label=node_labels,
-            color=node_colors,
-            x=node_x if has_x else None,
-            customdata=[f"magnitude: {n.get('magnitude', 0.0):+.2f}"
-                        for n in nodes],
-            hovertemplate="<b>%{label}</b><br>%{customdata}<extra></extra>",
-        ),
-        link=dict(
-            source=sources, target=targets, value=values,
-            color=link_colors,
-            customdata=link_hovers,
-            hovertemplate="%{customdata}<extra></extra>",
-        ),
-    ))
-    fig.update_layout(
-        height=460,
-        margin=dict(l=10, r=10, t=10, b=10),
-        font=dict(size=12),
+    parts: list[str] = []
+    parts.append(
+        f'<svg viewBox="0 0 {W} {H}" width="100%" '
+        f'preserveAspectRatio="xMidYMid meet" '
+        f'style="font-family:\'Segoe UI\', system-ui, sans-serif;">'
     )
-    apply_clean_theme(fig, transparent=False)
-    st.plotly_chart(fig, use_container_width=True)
 
-    if legend:
-        with st.expander("Evidence legend"):
-            for k, v in legend.items():
-                st.markdown(f"- **`{k}`** — {v}")
+    # ---- defs: gradients + markers
+    parts.append(
+        '<defs>'
+        '<filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">'
+        '<feGaussianBlur in="SourceAlpha" stdDeviation="2"/>'
+        '<feOffset dx="0" dy="2" result="off"/>'
+        '<feComponentTransfer><feFuncA type="linear" slope="0.18"/>'
+        '</feComponentTransfer><feMerge>'
+        '<feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>'
+        '</filter>'
+        '</defs>'
+    )
+
+    # ---- column headers
+    for layer in LAYERS:
+        cx = COL_X[layer]
+        layer_color = config.SANKEY_LAYER_COLORS.get(layer, "#888")
+        parts.append(
+            f'<text x="{cx}" y="{HEADER_TOP + 8}" text-anchor="middle" '
+            f'font-size="13" font-weight="700" letter-spacing="3" '
+            f'fill="{layer_color}">{LAYER_LABEL[layer]}</text>'
+        )
+        parts.append(
+            f'<text x="{cx}" y="{HEADER_TOP + 28}" text-anchor="middle" '
+            f'font-size="11" fill="#5a6675" font-style="italic">'
+            f'{LAYER_SUB[layer]}</text>'
+        )
+        # subtle column divider
+        parts.append(
+            f'<line x1="{cx + W // (2*len(LAYERS))}" y1="{HEADER_TOP + 40}" '
+            f'x2="{cx + W // (2*len(LAYERS))}" y2="{H - 30}" '
+            f'stroke="#e6ecf2" stroke-width="1" stroke-dasharray="3 4"/>'
+        )
+
+    # ---- edges (drawn behind nodes)
+    for e in edges:
+        s_pos = positions.get(e["source"])
+        t_pos = positions.get(e["target"])
+        if s_pos is None or t_pos is None:
+            continue
+        sx = s_pos[0] + NODE_W
+        sy = s_pos[1] + NODE_H // 2
+        tx = t_pos[0]
+        ty = t_pos[1] + NODE_H // 2
+        weight = float(e.get("weight", 0))
+        evidence = e.get("evidence", "correlation_only")
+        edge_color = config.SANKEY_EDGE_COLORS.get(
+            evidence, "rgba(154,163,173,0.4)")
+        stroke_w = max(2.0, min(weight * 14.0, 18.0))
+
+        # cubic bezier with horizontal handles for smooth flow
+        midx = (sx + tx) / 2
+        path = (f"M {sx} {sy} "
+                f"C {midx} {sy}, {midx} {ty}, {tx} {ty}")
+        tooltip = (f"{e['source']} → {e['target']}\n"
+                   f"weight: {weight:.2f}\n"
+                   f"evidence: {evidence}")
+        parts.append(
+            f'<g><title>{_html.escape(tooltip)}</title>'
+            f'<path d="{path}" stroke="{edge_color}" stroke-width="{stroke_w}" '
+            f'fill="none" stroke-linecap="round"/>'
+            # weight label at the path midpoint
+            f'<rect x="{midx - 18}" y="{(sy + ty) / 2 - 11}" '
+            f'width="36" height="20" rx="4" fill="white" '
+            f'stroke="{config.COLOR_ICE}" stroke-width="1"/>'
+            f'<text x="{midx}" y="{(sy + ty) / 2 + 4}" '
+            f'text-anchor="middle" font-size="11" font-weight="600" '
+            f'fill="{config.COLOR_PRIMARY}">{weight:.2f}</text>'
+            f'</g>'
+        )
+
+    # ---- nodes on top
+    for node in nodes:
+        pos = positions.get(node["id"])
+        if pos is None:
+            continue
+        x, y = pos
+        layer = node.get("layer", "systemic")
+        layer_color = config.SANKEY_LAYER_COLORS.get(layer, "#888")
+        label = node.get("label", node["id"])
+        magnitude = float(node.get("magnitude", 0.0))
+        mag_color = (config.COLOR_UP if magnitude > 0.05
+                     else (config.COLOR_DOWN if magnitude < -0.05
+                           else config.COLOR_NEUTRAL))
+        mag_str = f"{magnitude:+.2f}"
+        # readable label: split long text into two lines if needed
+        label_lines = _wrap_label(label, max_chars=26)
+
+        tooltip = f"{layer.upper()}\n{label}\nmagnitude: {mag_str}"
+        parts.append(
+            f'<g><title>{_html.escape(tooltip)}</title>'
+            # card body
+            f'<rect x="{x}" y="{y}" width="{NODE_W}" height="{NODE_H}" '
+            f'rx="10" fill="white" stroke="{layer_color}" stroke-width="2" '
+            f'filter="url(#cardShadow)"/>'
+            # top color stripe
+            f'<rect x="{x}" y="{y}" width="{NODE_W}" height="6" '
+            f'rx="3" fill="{layer_color}"/>'
+        )
+        # label lines
+        for i, ln in enumerate(label_lines[:2]):
+            parts.append(
+                f'<text x="{x + NODE_W / 2}" y="{y + 28 + i * 16}" '
+                f'text-anchor="middle" font-size="12" font-weight="600" '
+                f'fill="{config.COLOR_PRIMARY}">{_html.escape(ln)}</text>'
+            )
+        # magnitude pill
+        parts.append(
+            f'<rect x="{x + NODE_W / 2 - 32}" y="{y + NODE_H - 26}" '
+            f'width="64" height="20" rx="10" fill="{mag_color}"/>'
+            f'<text x="{x + NODE_W / 2}" y="{y + NODE_H - 11}" '
+            f'text-anchor="middle" font-size="12" font-weight="700" '
+            f'fill="white">{mag_str}</text>'
+            f'</g>'
+        )
+
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def _wrap_label(text: str, *, max_chars: int) -> list[str]:
+    """Greedy two-line wrap on word boundaries. Truncates long lines with …."""
+    if len(text) <= max_chars:
+        return [text]
+    words = text.split()
+    lines: list[list[str]] = [[]]
+    for w in words:
+        if not lines[-1]:
+            lines[-1].append(w)
+            continue
+        candidate = " ".join(lines[-1] + [w])
+        if len(candidate) <= max_chars:
+            lines[-1].append(w)
+        else:
+            if len(lines) == 2:
+                lines[-1].append(w)
+                break
+            lines.append([w])
+    out = [" ".join(ln) for ln in lines]
+    if len(out) > 1 and len(out[1]) > max_chars:
+        out[1] = out[1][: max_chars - 1].rstrip() + "…"
+    return out
+
+
+# ---------------------------------------------------------------------------
+# legend
+# ---------------------------------------------------------------------------
+
+def _legend_html(evidence_legend: dict) -> str:
+    swatch = lambda color, shape="circle": (
+        f'<span style="display:inline-block;width:12px;height:12px;'
+        f'border-radius:{"50%" if shape=="circle" else "0"};'
+        f'background:{color};vertical-align:middle;margin-right:6px;'
+        f'border:1px solid rgba(10,31,68,0.2);"></span>'
+    )
+    lines: list[str] = []
+    lines.append('<div style="display:flex;flex-wrap:wrap;gap:18px;'
+                 'padding:10px 0;font-size:0.9rem;color:#14233e;">')
+    # layer colors
+    for layer in LAYERS:
+        color = config.SANKEY_LAYER_COLORS.get(layer, "#888")
+        lines.append(
+            f'<div>{swatch(color, "rect")}<strong>{LAYER_LABEL[layer]}</strong> '
+            f'– {LAYER_SUB[layer]}</div>'
+        )
+    lines.append("</div>")
+
+    # magnitude direction key
+    lines.append(
+        '<div style="font-size:0.85rem;color:#5a6675;'
+        'padding:6px 0 0 0;">'
+        f'{swatch(config.COLOR_UP)}<strong style="color:#14233e;">positive</strong> '
+        '= elevated relative to baseline · '
+        f'{swatch(config.COLOR_DOWN)}<strong style="color:#14233e;">negative</strong> '
+        '= suppressed relative to baseline · '
+        '<strong>edge thickness</strong> scales with edge weight (number '
+        'on each edge is the weight value, unitless)'
+        '</div>'
+    )
+
+    if evidence_legend:
+        lines.append('<div style="font-size:0.83rem;color:#5a6675;'
+                     'padding:8px 0 0 0;">')
+        for k, v in evidence_legend.items():
+            lines.append(f'<div style="margin-top:3px;">'
+                         f'<code style="background:#f3f7fa;padding:1px 5px;'
+                         f'border-radius:3px;">{k}</code> — {v}</div>')
+        lines.append("</div>")
+    return "".join(lines)
