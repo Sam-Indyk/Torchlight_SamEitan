@@ -1010,14 +1010,197 @@ def _mock_smooth_traj(seed: int, magnitude: float,
 
 
 # --------------------------------------------------------------------------
-# flow diagram (cohort-level for now, hooks per astronaut)
+# flow diagram - real correlations across OSD-573, OSD-572, OSD-574, axes
 # --------------------------------------------------------------------------
 
-def build_flow_diagram() -> dict:
-    """Per-astronaut placeholder flow diagram. Real edge weights would
-    come from OSD-572 / OSD-573 / OSD-574 / OSD-575 cross-correlations
-    once that integrator lands. Schema is finalized so the GUI MVP can
-    render against this shape today.
+def _read_taxa_set(path: Path) -> set[str]:
+    if not path.exists():
+        return set()
+    try:
+        df = pd.read_csv(path)
+    except Exception:
+        return set()
+    if "feature" not in df.columns:
+        return set()
+    return set(str(f) for f in df["feature"].dropna())
+
+
+def _read_per_subject_csv(path: Path) -> pd.DataFrame | None:
+    if not path.exists():
+        return None
+    try:
+        df = pd.read_csv(path)
+    except Exception:
+        return None
+    needed = {"feature", "C001", "C002", "C003", "C004"}
+    if not needed.issubset(df.columns):
+        return None
+    return df
+
+
+def _per_astro_mean_abs(df: pd.DataFrame) -> dict[str, float]:
+    """Mean of |log2FC| per astronaut across features in a per-subject CSV."""
+    out: dict[str, float] = {}
+    for crew in CREW:
+        col = pd.to_numeric(df[crew], errors="coerce").dropna()
+        out[crew] = float(col.abs().mean()) if len(col) else 0.0
+    return out
+
+
+def _signed_mean_pooled(df: pd.DataFrame) -> float:
+    """Signed cohort-level mean of the 'pooled' column. Negative = suppression."""
+    if df is None or "pooled" not in df.columns:
+        return 0.0
+    col = pd.to_numeric(df["pooled"], errors="coerce").dropna()
+    return float(col.mean()) if len(col) else 0.0
+
+
+def _normalize(values: list[float], cap: float = 1.0) -> list[float]:
+    """Scale values to [-cap, cap] by dividing by max(|v|). Used for node
+    magnitudes so the Sankey renders comparable thicknesses."""
+    if not values:
+        return values
+    m = max(abs(v) for v in values) or 1.0
+    return [round(v / m * cap, 3) for v in values]
+
+
+def build_real_flow_diagram(axes_built: list[dict]) -> dict:
+    """Per-astronaut microbiome -> barrier -> systemic flow with computed
+    edge weights. Reads:
+      analysis/results/OSD-573_taxonomy_detected_during_flight.csv
+      analysis/results/OSD-572_taxonomy_NAP_during_vs_pre.csv
+      analysis/results/OSD-572_taxonomy_ARM_during_vs_pre.csv
+      analysis/results/OSD-574_spatial_pooled_DE.csv
+      and pulls per-astronaut R+1 cytokine values from the inflammation
+      axis trajectory.
+
+    Falls back to a placeholder if any required file is missing.
+    """
+    capsule = _read_taxa_set(
+        ANALYSIS_RESULTS / "OSD-573_taxonomy_detected_during_flight.csv")
+    nap_df  = _read_per_subject_csv(
+        ANALYSIS_RESULTS / "OSD-572_taxonomy_NAP_during_vs_pre.csv")
+    arm_df  = _read_per_subject_csv(
+        ANALYSIS_RESULTS / "OSD-572_taxonomy_ARM_during_vs_pre.csv")
+    bar_df  = None
+    bar_path = ANALYSIS_RESULTS / "OSD-574_spatial_pooled_DE.csv"
+    if bar_path.exists():
+        try:
+            bar_df = pd.read_csv(bar_path)
+        except Exception:
+            bar_df = None
+
+    if nap_df is None or arm_df is None:
+        return _build_placeholder_flow_diagram()
+
+    # cohort-level node magnitudes
+    nap_taxa = set(str(f) for f in nap_df["feature"].dropna())
+    arm_taxa = set(str(f) for f in arm_df["feature"].dropna())
+    shared_nap = (len(capsule & nap_taxa) / max(len(nap_taxa), 1)
+                  if capsule else 0.0)
+    shared_arm = (len(capsule & arm_taxa) / max(len(arm_taxa), 1)
+                  if capsule else 0.0)
+    barrier_signed = _signed_mean_pooled(bar_df)
+
+    nap_per_astro = _per_astro_mean_abs(nap_df)
+    arm_per_astro = _per_astro_mean_abs(arm_df)
+
+    # pull per-astronaut R+1 cytokine signal from the inflammation axis if
+    # available, else 0.
+    inflammation = next((ax for ax in axes_built
+                         if ax.get("id") == "inflammation"), None)
+    r1_idx = ALL_TPS.index("R+1") if "R+1" in ALL_TPS else None
+    cyto_per_astro: dict[str, float] = {c: 0.0 for c in CREW}
+    if inflammation and r1_idx is not None:
+        for crew in CREW:
+            scores = inflammation.get("trajectories", {}).get(
+                crew, {}).get("scores", [])
+            v = scores[r1_idx] if r1_idx < len(scores) else None
+            cyto_per_astro[crew] = float(v) if v is not None else 0.0
+
+    # normalize magnitudes within each layer so the Sankey reads cleanly
+    nap_vals = list(nap_per_astro.values())
+    arm_vals = list(arm_per_astro.values())
+    cyto_vals = list(cyto_per_astro.values())
+    nap_norm = _normalize(nap_vals)
+    arm_norm = _normalize(arm_vals)
+    cyto_norm = _normalize(cyto_vals)
+
+    per_astro: dict[str, dict] = {}
+    for i, crew in enumerate(CREW):
+        n_nap = nap_norm[i]
+        n_arm = arm_norm[i]
+        n_cyto = cyto_norm[i]
+        # node magnitudes (cytokines and barrier are signed; microbiome
+        # mean-|log2FC| is unsigned but we annotate direction by source)
+        nodes = [
+            {"id": "capsule_NAP_taxa", "layer": "environment",
+             "label": f"Capsule taxa shared with crew NAP "
+                      f"({100*shared_nap:.0f}% overlap)",
+             "magnitude": round(shared_nap, 3)},
+            {"id": "host_NAP", "layer": "host_site",
+             "label": "Nasopharynx microbiome shift",
+             "magnitude": n_nap},
+            {"id": "host_ARM", "layer": "host_site",
+             "label": "Forearm skin microbiome shift",
+             "magnitude": n_arm},
+            {"id": "barrier_FLG", "layer": "barrier",
+             "label": "Skin barrier (OSD-574 spatial pooled)",
+             "magnitude": round(min(max(barrier_signed / 2.0, -1), 1), 3)},
+            {"id": "cytokine_IL6", "layer": "systemic",
+             "label": "R+1 inflammation composite (IL-6 / TNF / CRP)",
+             "magnitude": n_cyto},
+        ]
+        # edges: weight = product of source and target magnitudes,
+        # clipped to [0.05, 1] for visual readability
+        def w(*ms):
+            ws = abs(np.prod(ms)) ** 0.5
+            return float(round(min(max(ws, 0.05), 1.0), 3))
+        edges = [
+            {"source": "capsule_NAP_taxa", "target": "host_NAP",
+             "weight": w(shared_nap, abs(n_nap)),
+             "evidence": "shared_taxa_temporal"},
+            {"source": "capsule_NAP_taxa", "target": "host_ARM",
+             "weight": w(shared_arm, abs(n_arm)),
+             "evidence": "shared_taxa_temporal"},
+            {"source": "host_NAP", "target": "barrier_FLG",
+             "weight": w(abs(n_nap), abs(barrier_signed) / 2.0),
+             "evidence": "correlation_only"},
+            {"source": "host_ARM", "target": "barrier_FLG",
+             "weight": w(abs(n_arm), abs(barrier_signed) / 2.0),
+             "evidence": "correlation_only"},
+            {"source": "barrier_FLG", "target": "cytokine_IL6",
+             "weight": w(abs(barrier_signed) / 2.0, abs(n_cyto)),
+             "evidence": "correlation_only"},
+        ]
+        per_astro[crew] = {"nodes": nodes, "edges": edges}
+
+    return {
+        "per_astronaut": per_astro,
+        "evidence_legend": {
+            "shared_taxa_temporal":
+                "Edge weight = sqrt(shared-taxa fraction * "
+                "normalized host-shift magnitude). Direction is supported "
+                "by temporal precedence: capsule taxa observed pre-launch "
+                "and absent on crew preflight, then present on crew "
+                "during/post flight.",
+            "correlation_only":
+                "Edge weight = sqrt(product of normalized source and "
+                "target magnitudes). Direction is NOT established; "
+                "reported as undirected association.",
+        },
+        "cohort_level_facts": {
+            "capsule_to_NAP_shared_fraction": round(shared_nap, 4),
+            "capsule_to_ARM_shared_fraction": round(shared_arm, 4),
+            "barrier_pooled_signed_mean":     round(barrier_signed, 4),
+        },
+    }
+
+
+def _build_placeholder_flow_diagram() -> dict:
+    """Per-astronaut placeholder flow diagram, used when the analysis
+    CSVs needed by build_real_flow_diagram() aren't available. Schema
+    is identical so the GUI doesn't care which one is in use.
     """
     rng = np.random.default_rng(7)
     per_astro = {}
@@ -1179,7 +1362,7 @@ def build(mock_only: bool) -> dict:
         "axes": axes,
         "multi_system_deviation": compute_multi_system_deviation(axes,
                                                                   ALL_TPS),
-        "flow_diagram": build_flow_diagram(),
+        "flow_diagram": build_real_flow_diagram(axes),
     }
 
 

@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-09T15:49:05+00:00",
+    "generated_at": "2026-05-09T15:51:33+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -2086,69 +2086,63 @@
           {
             "id": "capsule_NAP_taxa",
             "layer": "environment",
-            "label": "Capsule taxa (NAP-relevant)",
-            "magnitude": 0.455
+            "label": "Capsule taxa shared with crew NAP (96% overlap)",
+            "magnitude": 0.963
           },
           {
             "id": "host_NAP",
             "layer": "host_site",
-            "label": "Nasopharynx microbiome",
-            "magnitude": 0.595
+            "label": "Nasopharynx microbiome shift",
+            "magnitude": 0.888
           },
           {
             "id": "host_ARM",
             "layer": "host_site",
-            "label": "Forearm skin microbiome (diversity)",
-            "magnitude": -0.42
+            "label": "Forearm skin microbiome shift",
+            "magnitude": 0.855
           },
           {
             "id": "barrier_FLG",
             "layer": "barrier",
-            "label": "FLG (filaggrin) expression",
-            "magnitude": -0.35
+            "label": "Skin barrier (OSD-574 spatial pooled)",
+            "magnitude": -0.332
           },
           {
             "id": "cytokine_IL6",
             "layer": "systemic",
-            "label": "IL-6",
-            "magnitude": 0.49
-          },
-          {
-            "id": "cytokine_TNF",
-            "layer": "systemic",
-            "label": "TNF-alpha",
-            "magnitude": 0.385
+            "label": "R+1 inflammation composite (IL-6 / TNF / CRP)",
+            "magnitude": 1.0
           }
         ],
         "edges": [
           {
             "source": "capsule_NAP_taxa",
             "target": "host_NAP",
-            "weight": 0.7,
+            "weight": 0.925,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_ARM",
+            "weight": 0.861,
             "evidence": "shared_taxa_temporal"
           },
           {
             "source": "host_NAP",
             "target": "barrier_FLG",
-            "weight": 0.4,
+            "weight": 0.543,
             "evidence": "correlation_only"
           },
           {
             "source": "host_ARM",
             "target": "barrier_FLG",
-            "weight": 0.5,
+            "weight": 0.533,
             "evidence": "correlation_only"
           },
           {
             "source": "barrier_FLG",
             "target": "cytokine_IL6",
-            "weight": 0.55,
-            "evidence": "correlation_only"
-          },
-          {
-            "source": "barrier_FLG",
-            "target": "cytokine_TNF",
-            "weight": 0.45,
+            "weight": 0.576,
             "evidence": "correlation_only"
           }
         ]
@@ -2158,69 +2152,63 @@
           {
             "id": "capsule_NAP_taxa",
             "layer": "environment",
-            "label": "Capsule taxa (NAP-relevant)",
-            "magnitude": 0.585
+            "label": "Capsule taxa shared with crew NAP (96% overlap)",
+            "magnitude": 0.963
           },
           {
             "id": "host_NAP",
             "layer": "host_site",
-            "label": "Nasopharynx microbiome",
-            "magnitude": 0.765
+            "label": "Nasopharynx microbiome shift",
+            "magnitude": 1.0
           },
           {
             "id": "host_ARM",
             "layer": "host_site",
-            "label": "Forearm skin microbiome (diversity)",
-            "magnitude": -0.54
+            "label": "Forearm skin microbiome shift",
+            "magnitude": 1.0
           },
           {
             "id": "barrier_FLG",
             "layer": "barrier",
-            "label": "FLG (filaggrin) expression",
-            "magnitude": -0.435
+            "label": "Skin barrier (OSD-574 spatial pooled)",
+            "magnitude": -0.332
           },
           {
             "id": "cytokine_IL6",
             "layer": "systemic",
-            "label": "IL-6",
-            "magnitude": 0.63
-          },
-          {
-            "id": "cytokine_TNF",
-            "layer": "systemic",
-            "label": "TNF-alpha",
-            "magnitude": 0.495
+            "label": "R+1 inflammation composite (IL-6 / TNF / CRP)",
+            "magnitude": 0.646
           }
         ],
         "edges": [
           {
             "source": "capsule_NAP_taxa",
             "target": "host_NAP",
-            "weight": 0.7,
+            "weight": 0.981,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_ARM",
+            "weight": 0.931,
             "evidence": "shared_taxa_temporal"
           },
           {
             "source": "host_NAP",
             "target": "barrier_FLG",
-            "weight": 0.4,
+            "weight": 0.576,
             "evidence": "correlation_only"
           },
           {
             "source": "host_ARM",
             "target": "barrier_FLG",
-            "weight": 0.5,
+            "weight": 0.576,
             "evidence": "correlation_only"
           },
           {
             "source": "barrier_FLG",
             "target": "cytokine_IL6",
-            "weight": 0.55,
-            "evidence": "correlation_only"
-          },
-          {
-            "source": "barrier_FLG",
-            "target": "cytokine_TNF",
-            "weight": 0.45,
+            "weight": 0.463,
             "evidence": "correlation_only"
           }
         ]
@@ -2230,69 +2218,63 @@
           {
             "id": "capsule_NAP_taxa",
             "layer": "environment",
-            "label": "Capsule taxa (NAP-relevant)",
-            "magnitude": 0.715
+            "label": "Capsule taxa shared with crew NAP (96% overlap)",
+            "magnitude": 0.963
           },
           {
             "id": "host_NAP",
             "layer": "host_site",
-            "label": "Nasopharynx microbiome",
-            "magnitude": 0.935
+            "label": "Nasopharynx microbiome shift",
+            "magnitude": 0.918
           },
           {
             "id": "host_ARM",
             "layer": "host_site",
-            "label": "Forearm skin microbiome (diversity)",
-            "magnitude": -0.66
+            "label": "Forearm skin microbiome shift",
+            "magnitude": 0.7
           },
           {
             "id": "barrier_FLG",
             "layer": "barrier",
-            "label": "FLG (filaggrin) expression",
-            "magnitude": -0.564
+            "label": "Skin barrier (OSD-574 spatial pooled)",
+            "magnitude": -0.332
           },
           {
             "id": "cytokine_IL6",
             "layer": "systemic",
-            "label": "IL-6",
-            "magnitude": 0.77
-          },
-          {
-            "id": "cytokine_TNF",
-            "layer": "systemic",
-            "label": "TNF-alpha",
-            "magnitude": 0.605
+            "label": "R+1 inflammation composite (IL-6 / TNF / CRP)",
+            "magnitude": -0.633
           }
         ],
         "edges": [
           {
             "source": "capsule_NAP_taxa",
             "target": "host_NAP",
-            "weight": 0.7,
+            "weight": 0.94,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_ARM",
+            "weight": 0.779,
             "evidence": "shared_taxa_temporal"
           },
           {
             "source": "host_NAP",
             "target": "barrier_FLG",
-            "weight": 0.4,
+            "weight": 0.552,
             "evidence": "correlation_only"
           },
           {
             "source": "host_ARM",
             "target": "barrier_FLG",
-            "weight": 0.5,
+            "weight": 0.482,
             "evidence": "correlation_only"
           },
           {
             "source": "barrier_FLG",
             "target": "cytokine_IL6",
-            "weight": 0.55,
-            "evidence": "correlation_only"
-          },
-          {
-            "source": "barrier_FLG",
-            "target": "cytokine_TNF",
-            "weight": 0.45,
+            "weight": 0.458,
             "evidence": "correlation_only"
           }
         ]
@@ -2302,77 +2284,76 @@
           {
             "id": "capsule_NAP_taxa",
             "layer": "environment",
-            "label": "Capsule taxa (NAP-relevant)",
-            "magnitude": 0.845
+            "label": "Capsule taxa shared with crew NAP (96% overlap)",
+            "magnitude": 0.963
           },
           {
             "id": "host_NAP",
             "layer": "host_site",
-            "label": "Nasopharynx microbiome",
-            "magnitude": 1.105
+            "label": "Nasopharynx microbiome shift",
+            "magnitude": 0.941
           },
           {
             "id": "host_ARM",
             "layer": "host_site",
-            "label": "Forearm skin microbiome (diversity)",
-            "magnitude": -0.78
+            "label": "Forearm skin microbiome shift",
+            "magnitude": 0.73
           },
           {
             "id": "barrier_FLG",
             "layer": "barrier",
-            "label": "FLG (filaggrin) expression",
-            "magnitude": -0.695
+            "label": "Skin barrier (OSD-574 spatial pooled)",
+            "magnitude": -0.332
           },
           {
             "id": "cytokine_IL6",
             "layer": "systemic",
-            "label": "IL-6",
-            "magnitude": 0.91
-          },
-          {
-            "id": "cytokine_TNF",
-            "layer": "systemic",
-            "label": "TNF-alpha",
-            "magnitude": 0.715
+            "label": "R+1 inflammation composite (IL-6 / TNF / CRP)",
+            "magnitude": 0.495
           }
         ],
         "edges": [
           {
             "source": "capsule_NAP_taxa",
             "target": "host_NAP",
-            "weight": 0.7,
+            "weight": 0.952,
+            "evidence": "shared_taxa_temporal"
+          },
+          {
+            "source": "capsule_NAP_taxa",
+            "target": "host_ARM",
+            "weight": 0.796,
             "evidence": "shared_taxa_temporal"
           },
           {
             "source": "host_NAP",
             "target": "barrier_FLG",
-            "weight": 0.4,
+            "weight": 0.559,
             "evidence": "correlation_only"
           },
           {
             "source": "host_ARM",
             "target": "barrier_FLG",
-            "weight": 0.5,
+            "weight": 0.492,
             "evidence": "correlation_only"
           },
           {
             "source": "barrier_FLG",
             "target": "cytokine_IL6",
-            "weight": 0.55,
-            "evidence": "correlation_only"
-          },
-          {
-            "source": "barrier_FLG",
-            "target": "cytokine_TNF",
-            "weight": 0.45,
+            "weight": 0.405,
             "evidence": "correlation_only"
           }
         ]
       }
     },
     "evidence_legend": {
-      "shared_taxa_temporal": "Taxon present pre-launch in capsule, absent on crew member preflight, present on crew during/post flight. Temporal precedence supports directionality.",
-      "correlation_only": "Direction not established; reported as undirected association."
+      "shared_taxa_temporal": "Edge weight = sqrt(shared-taxa fraction * normalized host-shift magnitude). Direction is supported by temporal precedence: capsule taxa observed pre-launch and absent on crew preflight, then present on crew during/post flight.",
+      "correlation_only": "Edge weight = sqrt(product of normalized source and target magnitudes). Direction is NOT established; reported as undirected association."
+    },
+    "cohort_level_facts": {
+      "capsule_to_NAP_shared_fraction": 0.9625,
+      "capsule_to_ARM_shared_fraction": 0.8676,
+      "barrier_pooled_signed_mean": -0.6642
     }
   }
 }
