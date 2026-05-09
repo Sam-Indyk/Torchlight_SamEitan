@@ -53,23 +53,35 @@ def render_ai_qa_box(view: dict, manifest: dict) -> None:
         return
 
     # ---- suggestion buttons -------------------------------------------
+    # Process suggestion clicks BEFORE rendering the text_input so we
+    # can seed the text_input's own session_state key directly. (Setting
+    # `value=` on a text_input that has `key=` is ignored on reruns —
+    # Streamlit's widget state takes precedence over the value kwarg.)
     st.markdown("**Try a suggested question:**")
     sugg_cols = st.columns(len(SUGGESTED_QUESTIONS))
+    suggestion_clicked = False
     for col, q in zip(sugg_cols, SUGGESTED_QUESTIONS):
-        if col.button(q, key=f"sugg_{hash(q)}", use_container_width=True):
-            st.session_state["_qa_question"] = q
+        if col.button(q, key=f"sugg_{hash(q)}",
+                       use_container_width=True):
+            st.session_state["_qa_input"] = q
+            st.session_state["_qa_auto_submit"] = True
+            suggestion_clicked = True
 
     # ---- input box -----------------------------------------------------
+    # No `value=` kwarg — the text_input reads from session_state["_qa_input"]
+    # directly. This is what makes seeding the box from a button work.
     question = st.text_input(
         "Or type your own:",
-        value=st.session_state.get("_qa_question", ""),
         placeholder='e.g. "Which axis recovered fastest for C002?"',
         key="_qa_input",
     )
     submit = st.button("Ask", type="primary", key="_qa_submit",
                        use_container_width=False)
 
-    if (submit or st.session_state.get("_qa_question")) and question.strip():
+    # Consume the auto-submit flag set by a suggestion button.
+    auto_submit = st.session_state.pop("_qa_auto_submit", False)
+
+    if (submit or auto_submit) and question.strip():
         # only run the LLM call if the question changed
         cache_key = f"_qa_answer::{question.strip()}"
         if cache_key not in st.session_state:
@@ -77,8 +89,6 @@ def render_ai_qa_box(view: dict, manifest: dict) -> None:
                 result = ai_qa.answer(question, dashboard)
             st.session_state[cache_key] = result
         result = st.session_state[cache_key]
-        # clear the suggestion-set so the user can re-type
-        st.session_state.pop("_qa_question", None)
 
         if "error" in result:
             st.error(f"Q&A failed: `{result['error']}`")
