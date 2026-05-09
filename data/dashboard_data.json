@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-09T01:17:00+00:00",
+    "generated_at": "2026-05-09T15:38:24+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -66,7 +66,7 @@
       "id": "immune",
       "label": "Immune Regulation",
       "description": "Composite z-score of Th1/Th2/Treg-aligned serum cytokine deviations.",
-      "scoring_method": "Mean own-baseline z across 15 Th1/Th2/Treg-aligned cytokines from OSD-575 (Eve + Alamar). Per-analyte z-scores are winsorized at +/- 5 before averaging to keep a near-constant analyte (which produces a tiny preflight SD denominator on n=3 baseline points) from dominating the mean. Analytes whose preflight CV is below 2% are excluded from the average for that astronaut. Population z is reported only for analytes whose CSV ships an embedded clinical reference range; multiplex cytokines usually do not, so population_z is sparse for this axis. Mahalanobis distance uses preflight-pool correlation with Ledoit-Wolf shrinkage (lambda=0.30).",
+      "scoring_method": "Mean own-baseline z across 15 Th1/Th2/Treg-aligned cytokines from OSD-575 (Eve + Alamar). Per-analyte z-scores are winsorized at +/- 5 before averaging to keep a near-constant analyte (which produces a tiny preflight SD denominator on n=3 baseline points) from dominating the mean. Analytes whose preflight CV is below 2% are excluded from the average for that astronaut. Population z is computed against published healthy-adult Luminex/Eve reference values where available \u2014 see risk_profile_claude/population_reference.py \u2014 and is approximate due to assay-scale heterogeneity. Alamar NPQ values are skipped for population_z because no published population SD exists for that scale. Mahalanobis distance uses preflight-pool correlation with Ledoit-Wolf shrinkage (lambda=0.30).\n\nReferences applied: tgf: median 18 pg/mL, sd 12 pg/mL (Said 2021); ifn: median 5 pg/mL, sd 25 pg/mL (Kleiner 2013, Said 2021)",
       "datasets_used": [
         "OSD-570",
         "OSD-575"
@@ -187,16 +187,16 @@
             -0.706
           ],
           "population_z": [
+            0.921,
+            0.173,
+            1.24,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            2.039,
+            -0.38,
+            0.247,
+            0.247
           ],
           "mahalanobis": [
             2.845,
@@ -274,16 +274,16 @@
             -0.208
           ],
           "population_z": [
+            2.16,
+            -0.215,
+            1.197,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            0.669,
+            1.219,
+            -0.822,
+            0.038
           ],
           "mahalanobis": [
             2.698,
@@ -369,16 +369,16 @@
             0.113
           ],
           "population_z": [
+            2.095,
+            -0.909,
+            1.487,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            -0.139,
+            0.618,
+            1.023,
+            -0.272
           ],
           "mahalanobis": [
             2.739,
@@ -456,16 +456,16 @@
             -0.055
           ],
           "population_z": [
+            0.011,
+            -0.477,
+            0.073,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            -0.743,
+            -0.73,
+            -0.365,
+            -0.832
           ],
           "mahalanobis": [
             2.597,
@@ -526,7 +526,7 @@
       "id": "inflammation",
       "label": "Inflammation & Oxidative Stress",
       "description": "Composite of acute-phase cytokines and urine inflammation markers.",
-      "scoring_method": "Mean own-baseline z across 23 acute-phase cytokines (IL-6, TNF, CRP) and urine inflammation markers. Per-analyte z-scores are winsorized at +/- 5 and analytes with preflight CV < 2% are excluded for that astronaut, since 3 preflight points yield unstable SD denominators for near-constant analytes. Population z populates where the panel CSV embeds a reference range. Mahalanobis on the joint cytokine + urine panel is reported for timepoints where >=2 analytes are observed.",
+      "scoring_method": "Mean own-baseline z across 23 acute-phase cytokines (IL-6, TNF, CRP) and urine inflammation markers. Per-analyte z-scores are winsorized at +/- 5 and analytes with preflight CV < 2% are excluded for that astronaut, since 3 preflight points yield unstable SD denominators for near-constant analytes. Population z combines (a) the embedded clinical reference ranges shipped in the CMP CSV and (b) published healthy-adult Luminex reference values for IL-6 / IL-10 / TNF / IFN-gamma / CRP. Mahalanobis on the joint cytokine + urine panel is reported for timepoints where >=2 analytes are observed.\n\nLiterature references: tnf: Kleiner 2013, Biancotto 2013",
       "datasets_used": [
         "OSD-575",
         "OSD-656",
@@ -668,16 +668,16 @@
             0.965
           ],
           "population_z": [
+            2.586,
+            2.284,
+            2.783,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            2.66,
+            1.485,
+            5.0,
+            2.82
           ],
           "mahalanobis": [
             3.391,
@@ -763,16 +763,16 @@
             5.0
           ],
           "population_z": [
+            3.815,
+            3.543,
+            3.559,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            3.305,
+            3.88,
+            2.534,
+            4.821
           ],
           "mahalanobis": [
             3.448,
@@ -858,16 +858,16 @@
             -0.94
           ],
           "population_z": [
+            5.0,
+            2.801,
+            5.0,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            5.0,
+            5.0,
+            2.79,
+            3.786
           ],
           "mahalanobis": [
             4.234,
@@ -953,16 +953,16 @@
             -0.336
           ],
           "population_z": [
+            2.596,
+            3.289,
+            2.713,
             null,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
+            2.56,
+            2.814,
+            3.71,
+            2.765
           ],
           "mahalanobis": [
             3.822,

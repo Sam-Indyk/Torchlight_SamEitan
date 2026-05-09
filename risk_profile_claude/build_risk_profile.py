@@ -40,6 +40,9 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 
+# local module for healthy-adult cytokine reference values
+import population_reference as popref
+
 
 # --------------------------------------------------------------------------
 # paths and constants
@@ -488,7 +491,16 @@ def per_astronaut_trajectory(values_by_analyte: dict[str, dict[str, dict[str, fl
                 if rng is not None:
                     pop_zs.append(population_z(v, *rng))
                 else:
-                    pop_zs.append(float("nan"))
+                    # fall back to literature reference values (cytokines,
+                    # CRP) where the panel CSV has no embedded range
+                    lit = popref.population_z(v, str(a))
+                    if lit is not None:
+                        z_lit, _ = lit
+                        # winsorize to the same bound the own-baseline z uses
+                        pop_zs.append(max(-WINSOR_LIMIT,
+                                          min(WINSOR_LIMIT, z_lit)))
+                    else:
+                        pop_zs.append(float("nan"))
             own_z_mean = _nanmean(own_zs)
             pop_z_mean = _nanmean(pop_zs)
             scores.append(_round(own_z_mean))
@@ -680,6 +692,12 @@ def build_immune_axis() -> dict:
                 "once analysis/.cache/ is hydrated.")
     else:
         traj = per_astronaut_trajectory(values_by_analyte, ranges)
+        refs_used = popref.all_references_used(values_by_analyte.keys())
+        ref_summary = ("; ".join(f"{r['key']}: median {r['median']:g} pg/mL, "
+                                 f"sd {r['sd']:g} pg/mL ({r['source']})"
+                                 for r in refs_used)
+                       if refs_used else "(no Eve-panel cytokines matched "
+                                         "literature reference table)")
         note = (f"Mean own-baseline z across {len(values_by_analyte)} "
                 "Th1/Th2/Treg-aligned cytokines from OSD-575 (Eve + Alamar). "
                 "Per-analyte z-scores are winsorized at +/- 5 before "
@@ -687,11 +705,15 @@ def build_immune_axis() -> dict:
                 "a tiny preflight SD denominator on n=3 baseline points) "
                 "from dominating the mean. Analytes whose preflight CV is "
                 "below 2% are excluded from the average for that astronaut. "
-                "Population z is reported only for analytes whose CSV "
-                "ships an embedded clinical reference range; multiplex "
-                "cytokines usually do not, so population_z is sparse for "
-                "this axis. Mahalanobis distance uses preflight-pool "
-                "correlation with Ledoit-Wolf shrinkage (lambda=0.30).")
+                "Population z is computed against published healthy-adult "
+                "Luminex/Eve reference values where available — see "
+                "risk_profile_claude/population_reference.py — and is "
+                "approximate due to assay-scale heterogeneity. Alamar NPQ "
+                "values are skipped for population_z because no published "
+                "population SD exists for that scale. Mahalanobis distance "
+                "uses preflight-pool correlation with Ledoit-Wolf shrinkage "
+                "(lambda=0.30).\n\n"
+                f"References applied: {ref_summary}")
 
     return {
         "id": "immune",
@@ -747,16 +769,23 @@ def build_inflammation_axis() -> dict:
                 "Placeholder values; will populate once cache is hydrated.")
     else:
         traj = per_astronaut_trajectory(values_by_analyte, ranges)
+        refs_used = popref.all_references_used(values_by_analyte.keys())
+        ref_summary = ("; ".join(f"{r['key']}: {r['source']}"
+                                 for r in refs_used)
+                       if refs_used else "(no literature references matched)")
         note = (f"Mean own-baseline z across {len(values_by_analyte)} "
                 "acute-phase cytokines (IL-6, TNF, CRP) and urine "
                 "inflammation markers. Per-analyte z-scores are "
                 "winsorized at +/- 5 and analytes with preflight CV < 2% "
                 "are excluded for that astronaut, since 3 preflight "
                 "points yield unstable SD denominators for near-constant "
-                "analytes. Population z populates where the panel CSV "
-                "embeds a reference range. Mahalanobis on the joint "
-                "cytokine + urine panel is reported for timepoints where "
-                ">=2 analytes are observed.")
+                "analytes. Population z combines (a) the embedded "
+                "clinical reference ranges shipped in the CMP CSV and "
+                "(b) published healthy-adult Luminex reference values "
+                "for IL-6 / IL-10 / TNF / IFN-gamma / CRP. Mahalanobis on "
+                "the joint cytokine + urine panel is reported for "
+                "timepoints where >=2 analytes are observed.\n\n"
+                f"Literature references: {ref_summary}")
 
     return {
         "id": "inflammation",
