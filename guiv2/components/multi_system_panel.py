@@ -58,12 +58,15 @@ def render_multi_system_panel(view: dict, manifest: dict) -> None:
             x=timepoints, y=ys,
             mode="lines+markers",
             name=crew_names.get(crew_id, crew_id),
-            line=dict(color=color, width=2.5),
-            marker=dict(size=7, color=color,
-                        line=dict(color="white", width=1)),
+            line=dict(color=color, width=2.5, shape="spline",
+                      smoothing=0.6),
+            marker=dict(size=8, color=color,
+                        line=dict(color="white", width=1.5)),
             connectgaps=False,
             hovertemplate=(f"<b>{crew_names.get(crew_id, crew_id)}</b>"
-                           "<br>%{x}: %{y:.2f}<extra></extra>"),
+                           "<br>%{x}: %{y:.2f} (Mahalanobis)<extra></extra>"),
+            hoverlabel=dict(bgcolor=color, font=dict(color="white",
+                                                     size=12)),
         ))
 
     # phase separators

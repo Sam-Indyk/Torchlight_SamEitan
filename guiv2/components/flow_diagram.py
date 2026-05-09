@@ -193,7 +193,7 @@ def _build_svg(graph: dict) -> str:
         f'style="font-family:\'Segoe UI\', system-ui, sans-serif;">'
     )
 
-    # ---- defs: gradients + markers
+    # ---- defs + style
     parts.append(
         '<defs>'
         '<filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">'
@@ -203,7 +203,38 @@ def _build_svg(graph: dict) -> str:
         '</feComponentTransfer><feMerge>'
         '<feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>'
         '</filter>'
+        '<filter id="cardShadowHover" x="-15%" y="-15%" width="130%" height="130%">'
+        '<feGaussianBlur in="SourceAlpha" stdDeviation="4"/>'
+        '<feOffset dx="0" dy="4" result="off"/>'
+        '<feComponentTransfer><feFuncA type="linear" slope="0.30"/>'
+        '</feComponentTransfer><feMerge>'
+        '<feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>'
+        '</filter>'
         '</defs>'
+        '<style>'
+        '.flow-card { '
+        ' transition: transform 200ms cubic-bezier(0.4,0,0.2,1), '
+        '             filter 200ms ease; '
+        ' transform-box: fill-box; transform-origin: center; '
+        ' cursor: pointer; }'
+        '.flow-card:hover { transform: translateY(-3px) scale(1.03); '
+        '                   filter: url(#cardShadowHover); }'
+        '.flow-edge { '
+        ' transition: stroke 180ms ease, stroke-width 180ms ease, '
+        '             opacity 180ms ease; }'
+        '.flow-edge-group:hover .flow-edge { '
+        ' opacity: 1 !important; stroke-width: 8; }'
+        '.flow-edge-label { '
+        ' transition: transform 180ms ease, filter 180ms ease; '
+        ' transform-box: fill-box; transform-origin: center; '
+        ' cursor: pointer; }'
+        '.flow-edge-group:hover .flow-edge-label { '
+        ' transform: scale(1.18); '
+        ' filter: drop-shadow(0 2px 4px rgba(10,31,68,0.18)); }'
+        '.col-divider { '
+        ' transition: opacity 200ms ease; opacity: 0.65; }'
+        '.col-divider:hover { opacity: 1; }'
+        '</style>'
     )
 
     # ---- column headers
@@ -222,7 +253,8 @@ def _build_svg(graph: dict) -> str:
         )
         # subtle column divider
         parts.append(
-            f'<line x1="{cx + W // (2*len(LAYERS))}" y1="{HEADER_TOP + 40}" '
+            f'<line class="col-divider" '
+            f'x1="{cx + W // (2*len(LAYERS))}" y1="{HEADER_TOP + 40}" '
             f'x2="{cx + W // (2*len(LAYERS))}" y2="{H - 30}" '
             f'stroke="#e6ecf2" stroke-width="1" stroke-dasharray="3 4"/>'
         )
@@ -251,16 +283,20 @@ def _build_svg(graph: dict) -> str:
                    f"weight: {weight:.2f}\n"
                    f"evidence: {evidence}")
         parts.append(
-            f'<g><title>{_html.escape(tooltip)}</title>'
-            f'<path d="{path}" stroke="{edge_color}" stroke-width="{stroke_w}" '
+            f'<g class="flow-edge-group">'
+            f'<title>{_html.escape(tooltip)}</title>'
+            f'<path class="flow-edge" d="{path}" stroke="{edge_color}" '
+            f'stroke-width="{stroke_w}" '
             f'fill="none" stroke-linecap="round"/>'
             # weight label at the path midpoint
+            f'<g class="flow-edge-label">'
             f'<rect x="{midx - 18}" y="{(sy + ty) / 2 - 11}" '
             f'width="36" height="20" rx="4" fill="white" '
             f'stroke="{config.COLOR_ICE}" stroke-width="1"/>'
             f'<text x="{midx}" y="{(sy + ty) / 2 + 4}" '
             f'text-anchor="middle" font-size="11" font-weight="600" '
             f'fill="{config.COLOR_PRIMARY}">{weight:.2f}</text>'
+            f'</g>'
             f'</g>'
         )
 
@@ -283,7 +319,7 @@ def _build_svg(graph: dict) -> str:
 
         tooltip = f"{layer.upper()}\n{label}\nmagnitude: {mag_str}"
         parts.append(
-            f'<g><title>{_html.escape(tooltip)}</title>'
+            f'<g class="flow-card"><title>{_html.escape(tooltip)}</title>'
             # card body
             f'<rect x="{x}" y="{y}" width="{NODE_W}" height="{NODE_H}" '
             f'rx="10" fill="white" stroke="{layer_color}" stroke-width="2" '

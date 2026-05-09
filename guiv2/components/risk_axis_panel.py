@@ -93,18 +93,23 @@ def render_risk_axis_panel(view: dict, manifest: dict) -> None:
         color = config.CREW_COLORS.get(crew_id, "#444")
 
         # main line — Plotly draws gaps where y is None, which is what we want
-        # for unobservable timepoints.
+        # for unobservable timepoints. legendgroup keeps crew lines linked
+        # across the chart and the legend toggle.
         fig.add_trace(go.Scatter(
             x=timepoints,
             y=ys,
             mode="lines+markers",
             name=crew_names.get(crew_id, crew_id),
-            line=dict(color=color, width=2.5),
-            marker=dict(size=7, color=color,
-                        line=dict(color="white", width=1)),
+            legendgroup=crew_id,
+            line=dict(color=color, width=2.5, shape="spline", smoothing=0.6),
+            marker=dict(size=8, color=color,
+                        line=dict(color="white", width=1.5),
+                        symbol="circle"),
             connectgaps=False,
             hovertemplate=(f"<b>{crew_names.get(crew_id, crew_id)}</b>"
-                           "<br>%{x}: %{y:.2f}<extra></extra>"),
+                           "<br>%{x}: %{y:.2f} SD<extra></extra>"),
+            hoverlabel=dict(bgcolor=color, font=dict(color="white",
+                                                     size=12)),
         ))
 
         # CI band (only meaningful for the composite "scores" channel)

@@ -163,15 +163,17 @@ def _render_one_cascade(idx: int, c: dict) -> None:
             unsafe_allow_html=True,
         )
 
-        # hypothesized chain
-        st.markdown("**Hypothesized chain.**")
-        chain_parts = (
-            [f"`{c.get('stressor', '?')}`",
-             f"**root cause:** `{c.get('root_cause', '?')}`"]
-            + [f"`{n}`" for n in c.get("intermediate_nodes", [])]
-            + ["**terminal observations →**"]
+        # hypothesized chain — rendered as colored pill chips with
+        # arrows so the directionality of the cascade reads cleanly.
+        st.markdown("**Hypothesized chain**")
+        st.markdown(
+            _render_chain_pills(
+                stressor=c.get("stressor", "?"),
+                root_cause=c.get("root_cause", "?"),
+                intermediates=c.get("intermediate_nodes", []),
+            ),
+            unsafe_allow_html=True,
         )
-        st.markdown(" → ".join(chain_parts))
 
         # mechanism prose
         st.markdown(f"_{c.get('mechanism', '')}_")
@@ -200,3 +202,35 @@ def _render_one_cascade(idx: int, c: dict) -> None:
 
         # evidence
         st.markdown(f"**Evidence.** {c.get('evidence', '')}")
+
+
+def _render_chain_pills(*, stressor: str, root_cause: str,
+                         intermediates: list[str]) -> str:
+    """HTML for the cascade chain, rendered as colored pill chips with
+    arrow connectors. Uses inline styles so it works inside Streamlit's
+    markdown renderer."""
+    pill_styles = {
+        "stressor":   ("#0a1f44", "white"),         # navy = upstream stressor
+        "root":       ("#d4a052", "white"),         # gold = root cause
+        "interm":     ("#5fb1c4", "white"),         # ice = intermediate
+        "terminal":   ("rgba(95,177,196,0.18)", "#0a1f44"),
+    }
+    def pill(label: str, kind: str) -> str:
+        bg, fg = pill_styles[kind]
+        return (f'<span style="display:inline-block;padding:5px 11px;'
+                f'border-radius:14px;background:{bg};color:{fg};'
+                f'font-size:0.84rem;font-weight:600;'
+                f'letter-spacing:0.01em;margin:3px 0;'
+                f'box-shadow:0 1px 3px rgba(10,31,68,0.12);">'
+                f'{label}</span>')
+    arrow = ('<span style="color:#5a6675;font-size:1.1rem;'
+             'margin:0 8px;font-weight:600;">→</span>')
+    parts = [pill(stressor, "stressor"), arrow,
+             pill(root_cause, "root")]
+    for n in intermediates:
+        parts += [arrow, pill(n, "interm")]
+    parts += [arrow, pill("terminal observations", "terminal")]
+    return ('<div style="display:flex;flex-wrap:wrap;align-items:center;'
+            'gap:0;line-height:2;padding:6px 0 12px 0;">'
+            + "".join(parts)
+            + "</div>")

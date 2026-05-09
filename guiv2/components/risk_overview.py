@@ -69,14 +69,18 @@ def render_risk_overview(view: dict, manifest: dict) -> None:
                     x=timepoints, y=ys,
                     mode="lines+markers",
                     name=crew_names.get(crew_id, crew_id),
-                    line=dict(color=color, width=2),
-                    marker=dict(size=5, color=color),
+                    line=dict(color=color, width=2.2, shape="spline",
+                              smoothing=0.6),
+                    marker=dict(size=6, color=color,
+                                line=dict(color="white", width=1)),
                     legendgroup=crew_id,
                     showlegend=show_legend,
                     connectgaps=False,
                     hovertemplate=(f"<b>{crew_names.get(crew_id, crew_id)}"
                                    f" — {axis.get('label')}</b>"
-                                   "<br>%{x}: %{y:.2f}<extra></extra>"),
+                                   "<br>%{x}: %{y:.2f} SD<extra></extra>"),
+                    hoverlabel=dict(bgcolor=color,
+                                    font=dict(color="white", size=11)),
                 ),
                 row=r, col=c,
             )

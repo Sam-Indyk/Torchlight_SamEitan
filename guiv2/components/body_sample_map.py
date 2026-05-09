@@ -226,7 +226,50 @@ def _build_svg(site_effects: dict[str, dict]) -> str:
     <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
     </filter>
+    <filter id="markerGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.2"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
+  <style>
+    .site-group {{ cursor: pointer; }}
+    .site-circle {{
+      transition: transform 180ms cubic-bezier(0.4,0,0.2,1),
+                  filter 180ms cubic-bezier(0.4,0,0.2,1);
+      transform-box: fill-box;
+      transform-origin: center;
+    }}
+    .site-group:hover .site-circle {{
+      transform: scale(1.35);
+      filter: url(#markerGlow);
+    }}
+    .leader-line {{
+      transition: opacity 180ms ease, stroke-width 180ms ease;
+      opacity: 0.55;
+    }}
+    .site-group:hover .leader-line {{
+      opacity: 1;
+      stroke-width: 2.2;
+    }}
+    .label-card {{
+      transition: transform 180ms cubic-bezier(0.4,0,0.2,1),
+                  filter 180ms ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }}
+    .site-group:hover .label-card {{
+      transform: translateY(-2px);
+      filter: drop-shadow(0 4px 8px rgba(10,31,68,0.14));
+    }}
+    .systemic-diamond {{
+      transition: transform 180ms cubic-bezier(0.4,0,0.2,1);
+      transform-box: fill-box;
+      transform-origin: center;
+    }}
+    .systemic-group:hover .systemic-diamond {{
+      transform: scale(1.3);
+    }}
+  </style>
 
   <!-- body silhouette -->
   <g fill="url(#bodyGrad)" stroke="#5fb1c4" stroke-width="2.4"
@@ -347,14 +390,11 @@ def _marker_and_label(code: str, layout: dict, eff: dict) -> tuple[str, str]:
     frac_up = eff.get("frac_up", 0.5)
 
     cx, cy = layout["x"], layout["y"]
-    # label position: column at x=80 (left) or x=600 (right), y=label_y
     lx_box = 50 if layout["side"] == "L" else 600
     lx_text = lx_box + 10
     ly = layout["label_y"]
-
-    # leader line: from marker to inner side of label box
     line_to_x = lx_box + 100 if layout["side"] == "L" else lx_box
-    line_to_y = ly + 24  # mid-height of label box
+    line_to_y = ly + 24
 
     tooltip = (f"{code} – {layout['name']}\n"
                f"{layout['modality']}\n"
@@ -362,32 +402,25 @@ def _marker_and_label(code: str, layout: dict, eff: dict) -> tuple[str, str]:
                f"mean |log2FC|={mean_abs:.2f}\n"
                f"% trending up={100*frac_up:.0f}%")
 
-    # Direction word for the label
-    if n == 0:
-        direction = "no signal at 4-of-4 bar"
-    elif frac_up >= 0.6:
-        direction = "trending UP"
-    elif frac_up <= 0.4:
-        direction = "trending DOWN"
-    else:
-        direction = "mixed"
-
-    marker = (
-        f'<g><title>{_html.escape(tooltip)}</title>'
-        f'<line x1="{cx}" y1="{cy}" x2="{line_to_x}" y2="{line_to_y}" '
-        f'stroke="{color}" stroke-width="1.2" stroke-dasharray="3 3" '
-        f'opacity="0.55"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r + 2}" '
-        f'fill="rgba(255,255,255,0.85)" stroke="none"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{color}" '
-        f'stroke="{config.COLOR_PRIMARY}" stroke-width="1.4"/>'
-        f'</g>'
-    )
-
     sub_text = (f"n={n} · |log2FC|={mean_abs:.2f}"
                 if n else "no concordant signal")
-    label = (
-        f'<g><title>{_html.escape(tooltip)}</title>'
+
+    # Single group so CSS :hover cascades to leader line, marker circle,
+    # AND the label card together.
+    marker_block = (
+        f'<g class="site-group"><title>{_html.escape(tooltip)}</title>'
+        # leader line
+        f'<line class="leader-line" x1="{cx}" y1="{cy}" '
+        f'x2="{line_to_x}" y2="{line_to_y}" '
+        f'stroke="{color}" stroke-width="1.2" stroke-dasharray="3 3"/>'
+        # halo + marker dot
+        f'<circle cx="{cx}" cy="{cy}" r="{r + 2}" '
+        f'fill="rgba(255,255,255,0.85)" stroke="none"/>'
+        f'<circle class="site-circle" cx="{cx}" cy="{cy}" r="{r}" '
+        f'fill="{color}" stroke="{config.COLOR_PRIMARY}" '
+        f'stroke-width="1.4"/>'
+        # label card
+        f'<g class="label-card">'
         f'<rect x="{lx_box}" y="{ly}" width="100" height="48" rx="6" '
         f'fill="white" stroke="{color}" stroke-width="1.6"/>'
         f'<text x="{lx_text}" y="{ly + 17}" '
@@ -398,8 +431,10 @@ def _marker_and_label(code: str, layout: dict, eff: dict) -> tuple[str, str]:
         f'<text x="{lx_text}" y="{ly + 43}" font-size="10" '
         f'fill="{color}" font-weight="600">{sub_text}</text>'
         f'</g>'
+        f'</g>'
     )
-    return marker, label
+    # Returned as (marker_block, "") since we now emit as one group.
+    return marker_block, ""
 
 
 def _systemic_marker_and_label(s: dict) -> tuple[str, str]:
@@ -420,20 +455,18 @@ def _systemic_marker_and_label(s: dict) -> tuple[str, str]:
 
     color = config.COLOR_PRIMARY
 
-    marker = (
-        f'<g><title>{_html.escape(tooltip)}</title>'
-        f'<line x1="{cx}" y1="{cy}" x2="{line_to_x}" y2="{line_to_y}" '
-        f'stroke="{color}" stroke-width="1.0" stroke-dasharray="2 3" '
-        f'opacity="0.5"/>'
-        f'<path d="{diamond}" fill="{color}" stroke="white" '
-        f'stroke-width="1.4"/>'
-        f'</g>'
-    )
-
     short = s["name"]
     ds_short = " · ".join(d.split()[0] for d in s["datasets"])
-    label = (
-        f'<g><title>{_html.escape(tooltip)}</title>'
+
+    block = (
+        f'<g class="systemic-group"><title>{_html.escape(tooltip)}</title>'
+        f'<line class="leader-line" x1="{cx}" y1="{cy}" '
+        f'x2="{line_to_x}" y2="{line_to_y}" '
+        f'stroke="{color}" stroke-width="1.0" stroke-dasharray="2 3" '
+        f'opacity="0.5"/>'
+        f'<path class="systemic-diamond" d="{diamond}" '
+        f'fill="{color}" stroke="white" stroke-width="1.4"/>'
+        f'<g class="label-card">'
         f'<rect x="{lx_box}" y="{ly}" width="100" height="44" rx="6" '
         f'fill="#f3f7fa" stroke="{color}" stroke-width="1.4"/>'
         f'<text x="{lx_text}" y="{ly + 16}" font-size="11" '
@@ -442,8 +475,9 @@ def _systemic_marker_and_label(s: dict) -> tuple[str, str]:
         f'<text x="{lx_text}" y="{ly + 32}" font-size="9" '
         f'fill="#5a6675">{_html.escape(ds_short)}</text>'
         f'</g>'
+        f'</g>'
     )
-    return marker, label
+    return block, ""
 
 
 def _build_legend() -> str:
