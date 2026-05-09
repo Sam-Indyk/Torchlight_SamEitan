@@ -1177,7 +1177,107 @@ def build(mock_only: bool) -> dict:
         "metadata": metadata,
         "astronauts": astronauts,
         "axes": axes,
+        "multi_system_deviation": compute_multi_system_deviation(axes,
+                                                                  ALL_TPS),
         "flow_diagram": build_flow_diagram(),
+    }
+
+
+def compute_multi_system_deviation(axes_built: list[dict],
+                                   timepoints: list[str]) -> dict | None:
+    """For each (astronaut, timepoint), compute a single Mahalanobis-distance
+    scalar over the four axis composite scores. Captures multi-system
+    deviation: 'how unusual is this astronaut across all four Track 2 axes
+    at once, relative to the cohort's preflight baseline.'
+
+    Returns:
+      {
+        "per_astronaut": {
+          "C001": {"scores": [...len(timepoints)...],
+                   "observable_mask": [...]},
+          ...
+        },
+        "axis_order": [<axis_id>, ...],
+        "preflight_pool_n": int,
+        "method": "..."
+      }
+
+    Returns None if there isn't enough preflight data to estimate cov.
+    """
+    if not axes_built:
+        return None
+
+    # Cohort-level axes (mitochondrial: same value across all 4 crew) have
+    # zero between-astronaut variance and would make the covariance matrix
+    # singular. Exclude them from the multi-system Mahalanobis.
+    eligible_axes = [ax for ax in axes_built
+                     if not ax.get("is_cohort_level", False)]
+    if len(eligible_axes) < 2:
+        return None
+    axis_ids = [ax.get("id", f"ax_{i}") for i, ax in enumerate(eligible_axes)]
+    excluded = [ax.get("id") for ax in axes_built
+                if ax.get("is_cohort_level", False)]
+    n_ax = len(eligible_axes)
+
+    # build the (crew, tp) -> [score_per_axis] table over ELIGIBLE axes
+    table: dict[str, dict[str, list[float | None]]] = {c: {} for c in CREW}
+    for tp_idx, tp in enumerate(timepoints):
+        for crew in CREW:
+            vec: list[float | None] = []
+            for ax in eligible_axes:
+                scores = ax.get("trajectories", {}).get(crew, {}).get(
+                    "scores", [])
+                v = scores[tp_idx] if tp_idx < len(scores) else None
+                vec.append(v)
+            table[crew][tp] = vec
+
+    # preflight pool: rows = (crew, pre_tp) with all 4 axes finite
+    pool_rows: list[list[float]] = []
+    for crew in CREW:
+        for tp in PRE_TPS:
+            vec = table[crew][tp]
+            if all(v is not None and np.isfinite(v) for v in vec):
+                pool_rows.append([float(v) for v in vec])
+    if len(pool_rows) < 4:
+        return None
+    pool = np.asarray(pool_rows, dtype=float)
+
+    # mahalanobis distance from each (crew, tp) to the preflight pool
+    per_astro: dict[str, dict] = {}
+    for crew in CREW:
+        scores_traj: list[float | None] = []
+        observable: list[bool] = []
+        for tp in timepoints:
+            vec = table[crew][tp]
+            if any(v is None or not np.isfinite(v) for v in vec):
+                scores_traj.append(None)
+                observable.append(False)
+                continue
+            point = np.asarray(vec, dtype=float)
+            d = panel_mahalanobis(point, pool)
+            scores_traj.append(_round(d) if np.isfinite(d) else None)
+            observable.append(True)
+        per_astro[crew] = {"scores": scores_traj,
+                           "observable_mask": observable}
+
+    return {
+        "per_astronaut": per_astro,
+        "axis_order": axis_ids,
+        "axes_excluded": excluded,
+        "preflight_pool_n": int(pool.shape[0]),
+        "method": ("Mahalanobis distance from each (astronaut, timepoint) "
+                   "to the cohort preflight mean over a "
+                   f"{n_ax}-vector of axis composite scores "
+                   f"({', '.join(axis_ids)}). The covariance comes from "
+                   f"the preflight pool ({pool.shape[0]} rows = up to 4 "
+                   "crew x 3 preflight timepoints) with Ledoit-Wolf "
+                   "shrinkage toward the identity (lambda=0.30). A higher "
+                   "distance = the astronaut sits further outside the "
+                   "cohort's preflight joint distribution across the "
+                   "included axes simultaneously."
+                   + (f" Excluded (cohort-level, no inter-astronaut "
+                      f"variance): {', '.join(excluded)}." if excluded
+                      else "")),
     }
 
 

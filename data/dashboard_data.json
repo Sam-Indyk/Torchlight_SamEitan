@@ -1,7 +1,7 @@
 {
   "metadata": {
     "mission": "Inspiration4",
-    "generated_at": "2026-05-09T15:38:24+00:00",
+    "generated_at": "2026-05-09T15:49:05+00:00",
     "generator": "risk_profile_claude/build_risk_profile.py v0.1",
     "n_astronauts": 4,
     "timepoints": [
@@ -1961,6 +1961,124 @@
       "is_cohort_level": true
     }
   ],
+  "multi_system_deviation": {
+    "per_astronaut": {
+      "C001": {
+        "scores": [
+          0.952,
+          1.419,
+          2.247,
+          null,
+          null,
+          null,
+          12.927,
+          8.38,
+          5.344,
+          4.808
+        ],
+        "observable_mask": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "C002": {
+        "scores": [
+          1.541,
+          1.601,
+          1.55,
+          null,
+          null,
+          null,
+          16.513,
+          10.779,
+          6.856,
+          14.389
+        ],
+        "observable_mask": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "C003": {
+        "scores": [
+          1.255,
+          2.348,
+          1.179,
+          null,
+          null,
+          null,
+          17.262,
+          12.579,
+          10.66,
+          5.237
+        ],
+        "observable_mask": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "C004": {
+        "scores": [
+          1.288,
+          2.06,
+          1.014,
+          null,
+          null,
+          null,
+          21.574,
+          14.044,
+          10.411,
+          6.176
+        ],
+        "observable_mask": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    "axis_order": [
+      "immune",
+      "inflammation",
+      "ddr"
+    ],
+    "axes_excluded": [
+      "mitochondrial"
+    ],
+    "preflight_pool_n": 12,
+    "method": "Mahalanobis distance from each (astronaut, timepoint) to the cohort preflight mean over a 3-vector of axis composite scores (immune, inflammation, ddr). The covariance comes from the preflight pool (12 rows = up to 4 crew x 3 preflight timepoints) with Ledoit-Wolf shrinkage toward the identity (lambda=0.30). A higher distance = the astronaut sits further outside the cohort's preflight joint distribution across the included axes simultaneously. Excluded (cohort-level, no inter-astronaut variance): mitochondrial."
+  },
   "flow_diagram": {
     "per_astronaut": {
       "C001": {
