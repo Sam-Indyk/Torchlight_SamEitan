@@ -46,12 +46,22 @@ def main() -> None:
     manifest = data.load_manifest(config.MANIFEST_PATH)
     meta = manifest["metadata"]
 
-    st.title(config.PAGE_TITLE)
-    st.caption(
-        f"{config.PAGE_SUBTITLE} · {meta['mission']} · "
-        f"n = {len(meta['crew'])} crew · "
-        f"per-subject filter: {meta['filter_criteria']['per_subject_concordance']}, "
-        f"|log2FC| ≥ {meta['filter_criteria']['per_subject_log2fc_threshold']}"
+    # Compact top bar — the Mission Overview tab carries the visual hero.
+    st.markdown(
+        f"""
+        <div style="display:flex;align-items:baseline;justify-content:space-between;
+                    margin-bottom:12px;">
+          <div style="font-size:0.95rem;color:#5a6675;letter-spacing:0.04em;
+                      text-transform:uppercase;font-weight:600;">
+            {config.PAGE_SUBTITLE}
+          </div>
+          <div style="font-size:0.85rem;color:#5a6675;">
+            {meta['mission']} · n = {len(meta['crew'])} · filter: 4-of-4
+            concordance, |log2FC| ≥ {meta['filter_criteria']['per_subject_log2fc_threshold']}
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     render_honesty_banner(meta.get("honesty_notes", []))

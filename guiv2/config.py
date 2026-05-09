@@ -12,24 +12,44 @@ LAYOUT = "wide"
 # Path to the manifest, relative to repo root.
 MANIFEST_PATH = "guiv2/manifest.json"
 
-# --- color palette ----------------------------------------------------------
-# Keep accents readable on both light + dark Streamlit themes.
+# --- color palette: Mission navy + ice -------------------------------------
 
-COLOR_UP        = "#d94545"   # elevated relative to baseline
-COLOR_DOWN      = "#3471c4"   # suppressed relative to baseline
-COLOR_NEUTRAL   = "#9aa3ad"
-COLOR_ACCENT    = "#5fb1c4"
-COLOR_BG_BANNER = "#fff8e1"
-COLOR_TEXT_BANNER = "#5c4400"
+COLOR_PRIMARY    = "#0a1f44"   # deep mission navy (header, primary text)
+COLOR_PRIMARY_2  = "#1a3970"   # navy 2 (gradient, hover)
+COLOR_ICE        = "#5fb1c4"   # ice blue (accents, lines)
+COLOR_ICE_2      = "#9bd1de"   # ice blue light (subtle backgrounds)
+COLOR_GOLD       = "#d4a052"   # warm accent (highlights, ranking #1)
 
-# Per-astronaut crew colors used in the trajectory charts. Distinguishable
-# in monochrome and color-vision-deficient palettes.
+COLOR_UP         = "#d94545"   # elevated relative to baseline
+COLOR_DOWN       = "#3471c4"   # suppressed relative to baseline
+COLOR_NEUTRAL    = "#9aa3ad"
+COLOR_ACCENT     = COLOR_ICE
+COLOR_BG_BANNER  = "#f3f7fa"   # very light ice — banner background
+COLOR_TEXT_BANNER = COLOR_PRIMARY
+
+# Per-astronaut crew colors. Distinguishable in monochrome and color-vision-
+# deficient palettes; tuned to read against the navy/ice theme.
 CREW_COLORS = {
-    "C001": "#1f77b4",
-    "C002": "#d62728",
-    "C003": "#2ca02c",
-    "C004": "#9467bd",
+    "C001": "#1f77b4",   # blue
+    "C002": "#d62728",   # red
+    "C003": "#2ca02c",   # green
+    "C004": "#9467bd",   # purple
 }
+
+CREW_DISPLAY_LABEL = {  # short label used inside avatar circles
+    "C001": "C1",
+    "C002": "C2",
+    "C003": "C3",
+    "C004": "C4",
+}
+
+# Roles per OSDR pseudonymous IDs. Public Inspiration-4 mission documentation
+# describes 4 mission roles; OSDR doesn't tie them to specific subject IDs,
+# so we list the role set without claiming a specific C001<->role mapping.
+CREW_ROLES_NOTE = ("OSDR pseudonymizes Inspiration-4 crew as C001-C004. "
+                   "The mission roles were Mission Commander, Pilot, "
+                   "Medical Officer, and Mission Specialist; OSDR does not "
+                   "publish which subject ID corresponds to which role.")
 
 # CI band opacity (0-1).
 CI_BAND_ALPHA = 0.18

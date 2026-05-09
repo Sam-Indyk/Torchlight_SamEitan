@@ -22,6 +22,25 @@
   },
   "panels": [
     {
+      "id": "mission_overview",
+      "label": "Mission Overview",
+      "intro_md": "",
+      "views": [
+        {
+          "id": "hero",
+          "type": "mission_overview",
+          "title": "",
+          "json": "data/dashboard_data.json"
+        },
+        {
+          "id": "body_map",
+          "type": "body_sample_map",
+          "title": "Where each sample was collected",
+          "intro_md": ""
+        }
+      ]
+    },
+    {
       "id": "risk_profiles",
       "label": "Individualized Risk Profile",
       "intro_md": "**Track 2 deliverable.** Four axes — immune regulation, inflammation & oxidative stress, DNA damage response, mitochondrial function — each scored per astronaut, per timepoint, against own preflight baseline and against published population reference ranges where available. Trajectory charts show the full pre/in-flight/post arc; in-flight slots are masked when the underlying assay required ground-only collection.",
@@ -152,6 +171,18 @@
           "title": "Plasma proteomics (post vs pre, pooled)",
           "csv": "analysis/results/OSD-571_protein_pooled_DE.csv",
           "top_n": 25
+        }
+      ]
+    },
+    {
+      "id": "data_sources",
+      "label": "Data Sources & Provenance",
+      "intro_md": "Every dataset and external reference the dashboard pulls from. Internal: nine OSDR datasets ingested by `analysis/`. External: literature-derived population reference values and prior-cohort overlays. Calibrations are clearly flagged.",
+      "views": [
+        {
+          "id": "provenance",
+          "type": "data_provenance",
+          "title": "What's read where, and from whom"
         }
       ]
     }

@@ -1,3 +1,188 @@
-/* guiv2 — minimal Streamlit overrides. Keep this file small. */
-.stTabs [data-baseweb="tab"] { font-size: 1rem; }
-.stTabs [data-baseweb="tab"][aria-selected="true"] { font-weight: 600; }
+/* guiv2 - Mission navy + ice theme. */
+
+:root {
+  --navy:      #0a1f44;
+  --navy-2:    #1a3970;
+  --ice:       #5fb1c4;
+  --ice-2:     #9bd1de;
+  --ice-tint:  #f3f7fa;
+  --gold:      #d4a052;
+  --paper:     #ffffff;
+  --ink:       #14233e;
+  --muted:     #5a6675;
+}
+
+/* ---------- top-level layout ---------- */
+
+.stApp { background: linear-gradient(180deg, #ffffff 0%, var(--ice-tint) 100%); }
+
+.block-container { padding-top: 1.4rem; padding-bottom: 3rem; max-width: 1400px; }
+
+h1, h2, h3, h4 { color: var(--navy); letter-spacing: -0.01em; }
+
+/* main page title */
+.block-container > div > div > div > h1:first-of-type {
+  font-size: 1.7rem; font-weight: 700;
+  color: var(--navy);
+  border-bottom: 3px solid var(--ice);
+  padding-bottom: 0.3rem; margin-bottom: 0.4rem;
+}
+
+/* ---------- tabs ---------- */
+
+.stTabs [data-baseweb="tab-list"] {
+  gap: 4px;
+  border-bottom: 2px solid var(--ice-2);
+  background: transparent;
+}
+.stTabs [data-baseweb="tab"] {
+  font-size: 1rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  padding: 8px 16px 10px 16px;
+  margin-bottom: -2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.stTabs [data-baseweb="tab"]:hover { color: var(--navy); }
+.stTabs [data-baseweb="tab"][aria-selected="true"] {
+  font-weight: 600;
+  color: var(--navy);
+  border-bottom: 3px solid var(--ice);
+}
+
+/* ---------- mission hero ---------- */
+
+.mission-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: white;
+  padding: 32px 36px;
+  border-radius: 12px;
+  margin: 4px 0 22px 0;
+  box-shadow: 0 6px 22px rgba(10,31,68,0.18);
+  border-left: 5px solid var(--ice);
+}
+.mission-hero-title {
+  font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.mission-hero-sub {
+  font-size: 0.95rem; opacity: 0.85; margin-top: 6px;
+  font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase;
+}
+.mission-hero-tag {
+  font-size: 1.05rem; opacity: 0.95; margin-top: 14px;
+  font-style: italic; max-width: 800px;
+}
+
+/* ---------- crew cards ---------- */
+
+.crew-card {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 18px 12px 16px 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(10,31,68,0.07);
+  border: 1px solid #e6ecf2;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.crew-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(10,31,68,0.13);
+}
+.crew-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px auto;
+  font-size: 1.3rem; font-weight: 700; color: white;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.10);
+}
+.crew-name {
+  font-size: 1.15rem; font-weight: 700; color: var(--navy);
+  letter-spacing: 0.02em;
+}
+.crew-role {
+  font-size: 0.85rem; color: var(--muted); margin-top: 3px;
+}
+
+/* ---------- stat cards ---------- */
+
+.stat-card {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--ice);
+  box-shadow: 0 2px 6px rgba(10,31,68,0.05);
+  height: 100%;
+}
+.stat-big {
+  font-size: 1.6rem; font-weight: 700; color: var(--navy);
+  line-height: 1.1; letter-spacing: -0.01em;
+}
+.stat-label {
+  font-size: 0.82rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px;
+  font-weight: 600;
+}
+.stat-sub {
+  font-size: 0.78rem; color: var(--muted); margin-top: 6px; opacity: 0.9;
+}
+
+/* ---------- provenance cards ---------- */
+
+.provenance-card {
+  background: var(--paper);
+  border-radius: 9px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border: 1px solid #e6ecf2;
+  border-left: 4px solid var(--ice);
+  box-shadow: 0 1px 4px rgba(10,31,68,0.05);
+  height: calc(100% - 14px);
+}
+.prov-id {
+  font-size: 0.78rem; color: var(--ice);
+  font-weight: 700; letter-spacing: 0.08em;
+}
+.prov-name {
+  font-size: 1rem; color: var(--navy); font-weight: 600;
+  margin: 2px 0 8px 0;
+}
+.prov-row {
+  font-size: 0.85rem; color: var(--ink); margin-top: 4px;
+  line-height: 1.4;
+}
+.prov-row span {
+  font-weight: 600; color: var(--muted);
+  text-transform: uppercase; font-size: 0.72rem;
+  letter-spacing: 0.04em; margin-right: 4px;
+}
+
+/* ---------- streamlit native overrides ---------- */
+
+div[data-testid="stExpander"] {
+  border: 1px solid #e6ecf2; border-radius: 8px;
+  background: var(--paper);
+}
+div[data-testid="stExpander"] summary { color: var(--navy); font-weight: 600; }
+
+div[data-testid="stCaptionContainer"] { color: var(--muted); }
+
+hr { border-color: var(--ice-2); border-width: 1px; opacity: 0.6; }
+
+div[data-testid="stMarkdownContainer"] code {
+  background: var(--ice-tint);
+  color: var(--navy);
+  padding: 1px 5px; border-radius: 3px;
+  font-size: 0.92em;
+}
+
+/* successful "Action:" callouts in report cards */
+div[data-baseweb="notification"][kind="success"] {
+  background: var(--ice-tint) !important;
+  border-left: 4px solid var(--ice) !important;
+  color: var(--navy) !important;
+}
